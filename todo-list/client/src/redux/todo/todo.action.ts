@@ -1,7 +1,7 @@
 import axios from "axios"
 import { BACKEND_BASE_URL } from "../../env"
 import { TodoRequest } from "../../model/todo.model"
-import { CREATE_TODO_BEGIN, CREATE_TODO_FAILED, CREATE_TODO_SUCCESS, DELETE_TODO_BEGIN, FETCH_TODO_BEGIN, FETCH_TODO_FAILED, FETCH_TODO_SUCCESS, UPDATE_TODO_BEGIN, UPDATE_TODO_FALIED, UPDATE_TODO_SUCCESS } from "./todo.action.type"
+import { CREATE_TODO_BEGIN, CREATE_TODO_FAILED, CREATE_TODO_SUCCESS, DELETE_TODO_BEGIN, DELETE_TODO_FAILED, DELETE_TODO_SUCCESS, FETCH_TODO_BEGIN, FETCH_TODO_FAILED, FETCH_TODO_SUCCESS, UPDATE_TODO_BEGIN, UPDATE_TODO_FALIED, UPDATE_TODO_SUCCESS } from "./todo.action.type"
 
 export const createTodoBegin = () => {
     return {
@@ -26,9 +26,12 @@ export const createTodoAction = (todoReq?: TodoRequest) => {
     return (dispatch: any) => {
         dispatch(createTodoBegin())
         axios.post(`${BACKEND_BASE_URL}/api/todos`, todoReq).then(response => {
+            console.log("create todo: ",response.data)
+           setTimeout(() => {
             dispatch(createTodoSuccess(response.data))
+           }, 2000)
         }).catch(err => {
-            dispatch(createTodoSuccess(err))
+            dispatch(createTodoFailed(err))
         })
     }
 }
@@ -58,7 +61,9 @@ export const updateTodoAction = (todoId?: string, todoReq?: TodoRequest) => {
     return (dispatch: any) => {
         dispatch(updateTodoBegin())
         axios.put(`${BACKEND_BASE_URL}/api/todos/${todoId}`, todoReq).then(response => {
-            dispatch(updateTodoSuccess(response.data))
+            setTimeout(() => {
+                dispatch(updateTodoSuccess(response.data))
+            }, 2000)
         }).catch(err => {
             dispatch(updateTodoFailed(err))
         })
@@ -72,19 +77,18 @@ export const deleteToDoBegin = () => {
 }
 export const deleteToDoSuccess = (todoId: any) => {
     return {
-        type: DELETE_TODO_BEGIN,
+        type: DELETE_TODO_SUCCESS,
         payload: todoId
     }
 }
 export const deleteToDoFailed= (err: any) => {
     return {
-        type: DELETE_TODO_BEGIN,
+        type: DELETE_TODO_FAILED,
         payload: err
     }
 }
 export const deleteTodoAction = (todoId: string) => {
     return (dispatch: any) => {
-        dispatch(deleteToDoBegin())
         axios.delete(`${BACKEND_BASE_URL}/api/todos/${todoId}`).then(response => {
             dispatch(deleteToDoSuccess(todoId))
         }).catch(err => {
@@ -113,7 +117,10 @@ export const fetchTodoAction = () => {
     return (dispatch: any) => {
         dispatch(fetchTodoBegin())
         axios.get(`${BACKEND_BASE_URL}/api/todos`).then(response => {
-            dispatch(fetchTodoSuccess(response.data))
+            setTimeout(() => {
+                dispatch(fetchTodoSuccess(response.data))
+            }, 2000)
+            
         }).catch(err => {
             dispatch(fetchTodoFailed(err))
         })

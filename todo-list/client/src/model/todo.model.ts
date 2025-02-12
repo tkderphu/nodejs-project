@@ -3,7 +3,7 @@ export interface TodoRequest {
     description?: string
 }
 export interface TodoResponse {
-    id?: string,
+    _id?: string,
     name?: string,
     description?: string
 }

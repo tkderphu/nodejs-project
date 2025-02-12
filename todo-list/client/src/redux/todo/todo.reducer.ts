@@ -1,3 +1,4 @@
+import store from "../store"
 import { CREATE_TODO_BEGIN, CREATE_TODO_FAILED, CREATE_TODO_SUCCESS, DELETE_TODO_BEGIN, DELETE_TODO_FAILED, DELETE_TODO_SUCCESS, FETCH_TODO_BEGIN, FETCH_TODO_FAILED, FETCH_TODO_SUCCESS, UPDATE_TODO_BEGIN, UPDATE_TODO_FALIED, UPDATE_TODO_SUCCESS } from "./todo.action.type"
 
 const fetchState: any = {
@@ -27,6 +28,15 @@ export const fetchTodoReducer = (state = fetchState, action: any) => {
                 hasError: true,
                 loading: false
             }
+        case DELETE_TODO_SUCCESS:
+            const todoId = action.payload
+            return {
+                todos: state.todos.filter((state: any) => state._id != todoId),
+                error: "",
+                hasError: false,
+                loading: false
+            }
+        default: return state
     }
 }
 const createState: any = {
@@ -56,6 +66,7 @@ export const createTodoReducer = (state = createState, action: any) => {
                 hasError: true,
                 loading: false
             }
+        default: return state
     }
 }
 const updateState: any = {
@@ -85,10 +96,10 @@ export const updateTodoReducer = (state = updateState, action: any) => {
                 hasError: true,
                 loading: false
             }
+        default: return state
     }
 }
 const deleteState: any = {
-    todoIdIsDeleted: '',
     error: "",
     hasError: false,
     loading: false
@@ -100,13 +111,6 @@ export const deleteTodoReducer = (state = deleteState, action: any) => {
                 ...state,
                 loading: true
             }
-        case DELETE_TODO_SUCCESS:
-            return {
-                todoIdIsDeleted: action.payload,
-                error: "",
-                hasError: false,
-                loading: false
-            }
         case DELETE_TODO_FAILED:
             return {
                 todoIdIsDeleted: '',
@@ -114,5 +118,6 @@ export const deleteTodoReducer = (state = deleteState, action: any) => {
                 hasError: true,
                 loading: false
             }
+        default: return state
     }
 }
