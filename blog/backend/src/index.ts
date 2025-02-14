@@ -1,7 +1,7 @@
-import db from "./db/connect/mongo";
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import express from 'express'
 import dotenv from 'dotenv'
+import db from './db/mongo'
 dotenv.config()
 
 const app = express()
@@ -28,8 +28,22 @@ app.get("/user/validateToken/:token", (req, res) => {
 
 })
 
+async function query() {
+  const userCollections = db.collection("users")
+
+const res = await userCollections.find({}).toArray();
+
+console.log(res)
+console.log("run after query");
+
+}
+query()
+
 app.listen(PORT, () => {
   console.log("Server is listening at PORT: " + PORT)
 })
+
+
+
 
 
