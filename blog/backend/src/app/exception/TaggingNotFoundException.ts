@@ -1,0 +1,4 @@
+
+class TaggingNotFoundException extends Error {
+
+}

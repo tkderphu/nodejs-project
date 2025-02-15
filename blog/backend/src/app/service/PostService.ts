@@ -5,7 +5,7 @@ class PostService {
     private postRepo = postRepository
 
     createPost(postRequest: any) {
-        
+        return this.postRepo.save(postRequest)
     }
 
 }

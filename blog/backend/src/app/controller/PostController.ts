@@ -5,11 +5,14 @@ import PostService from "../service/PostService";
 class PostController {
     private postService = PostService
 
-    createPost(req: Request, res: Response) {
+    async createPost(req: Request, res: Response) {
         const body = req.body;
-        this.postService.createPost(body);
-
-        res.status(200).send("Tạo thành công")
+        const result = await this.postService.createPost(body);
+        if(!result) {
+            res.status(400).send('Error')
+        } else {
+            
+        }
     }
 
     getListPort(req: Request, res: Response) {

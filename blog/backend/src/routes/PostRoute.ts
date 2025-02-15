@@ -1,19 +1,21 @@
 import { Router } from "express";
 import PostController from "../app/controller/PostController";
-const router = Router()
+const postRouter = Router()
 
-router.get('/api/posts', PostController.getListPort)
-router.get('/api/posts/user/:userId', PostController.getListPortByUserId)
-router.get('/api/posts/:postId/like', PostController.likePost)
-router.get('/api/posts/:postId/unlike', PostController.unlikePost)
-router.get('/api/posts/count/user/:userId', PostController.countPostWasCreatedByUserId)
-router.get('/api/posts/search', PostController.searchPostByKeyword)
-router.get('/api/posts/tagging/:taggingId', PostController.getListPostByTaggingId)
-router.get('/api/posts/disabled/comment', PostController.disabledComment)
-router.get('/api/posts/enabled/comment', PostController.enableComment)
-router.get('/api/posts/disabled', PostController.disabledPost)
-router.get('/api/posts/enabled', PostController.enabledPost)
+postRouter.get('/api/posts', PostController.getListPort)
+postRouter.get('/api/posts/user/:userId', PostController.getListPortByUserId)
+postRouter.get('/api/posts/:postId/like', PostController.likePost)
+postRouter.get('/api/posts/:postId/unlike', PostController.unlikePost)
+postRouter.get('/api/posts/count/user/:userId', PostController.countPostWasCreatedByUserId)
+postRouter.get('/api/posts/search', PostController.searchPostByKeyword)
+postRouter.get('/api/posts/tagging/:taggingId', PostController.getListPostByTaggingId)
+postRouter.get('/api/posts/disabled/comment', PostController.disabledComment)
+postRouter.get('/api/posts/enabled/comment', PostController.enableComment)
+postRouter.get('/api/posts/disabled', PostController.disabledPost)
+postRouter.get('/api/posts/enabled', PostController.enabledPost)
 
-router.put('/api/posts', PostController.updatePost)
-router.post('/api/posts', PostController.createPost)
-router.delete('/api/posts/:postId', PostController.deletePost)
+postRouter.put('/api/posts', PostController.updatePost)
+postRouter.post('/api/posts', PostController.createPost)
+postRouter.delete('/api/posts/:postId', PostController.deletePost)
+
+export default postRouter
