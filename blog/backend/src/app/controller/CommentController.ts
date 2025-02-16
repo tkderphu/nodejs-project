@@ -17,12 +17,14 @@ class CommentController {
 
     async getAllCommentByPostId(req: Request, res: Response) {
         const postId = req.params['postId']
-        const listPost = await this.commentService.getAllCommentByPostId(postId)
-        if(!listPost) {
 
-        } else {
-            res.status(200).send(listPost)
-        }
+        res.send("Hello postId: " + postId)
+        // const listPost = await this.commentService.getAllCommentByPostId(postId)
+        // if(!listPost) {
+
+        // } else {
+        //     res.status(200).send(listPost)
+        // }
     }
 
     async removeCommentById(req: Request, res: Response) {
