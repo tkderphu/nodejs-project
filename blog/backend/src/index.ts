@@ -1,23 +1,44 @@
 import jwt, { JwtPayload } from 'jsonwebtoken'
-import express from 'express'
+import express, { Response } from 'express'
 import dotenv from 'dotenv'
 import db from './db/mongo'
-import commentRouter from './routes/CommentRoute'
-import postRouter from './routes/PostRoute'
-import taggingRouter from './routes/TaggingRoute'
-import MailService from './app/service/MailService'
-import { ForgetPasswordTemplate } from './app/framework/template/ForgetPassword'
-import { random6Digit } from './app/framework/utils/RandomUtils'
+import UsernameOrPasswordNotMatchException from './app/exception/UsernameOrPasswordNotMatchException'
+import TokenInvalidException from './app/exception/TokenInvalidException'
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
 
 app.use(express.json())
-app.use(commentRouter)
-app.use(postRouter)
-app.use(taggingRouter)
+// app.use(commentRouter)
+// app.use(postRouter)
+// app.use(taggingRouter)
 
+app.get("/users",  (req, res, next) => {
+    const userCollections = db.collection('users')
+    getUsers(userCollections).then(response => {
+      return response
+    }).catch(err => {
+      next(err)
+    })
+  })
+
+async function getUsers(userCollections: any) {
+  const users = await userCollections.find({}).toArray()
+  if(users.length == 2) {
+    throw new TokenInvalidException("hehe")
+  }
+  return users
+}
+
+// Centralized error handling middleware
+function errorHandler(err: UsernameOrPasswordNotMatchException, req:any, res: Response, next:any) {
+  console.error(err.stack);
+  res.status( 403).json({ error: err.message });
+
+}
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   // const secretKey = `Let's Rock`; // Using this as a secret key

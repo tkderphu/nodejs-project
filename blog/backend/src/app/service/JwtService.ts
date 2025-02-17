@@ -7,9 +7,9 @@ const jwtSecretKey = process.env.JWT_SECRET_KEY || ''
 interface Payload {
     expiredTime: number,
     userId: string,
-    roles?: string[],
-    userFullName?: string
-    refreshToken?: string
+    roles: string[],
+    userFullName: string
+    refreshToken: string
 }
 
 class JwtService {
