@@ -1,5 +1,5 @@
 
-import {decode, sign, verify} from 'jsonwebtoken'
+import { decode, sign, verify } from 'jsonwebtoken'
 import TokenInvalidException from '../exception/TokenInvalidException'
 import TokenIsExpiredException from '../exception/TokenIsExpiredException'
 const jwtSecretKey = process.env.JWT_SECRET_KEY || ''
@@ -30,25 +30,31 @@ class JwtService {
     }
 
     tokenIsExpired(token: string) {
-        const result : any =  this.getPayload(token)
-        if(result) {
-            return result.expiredTime > new Date().getTime()
+        try {
+            const result: any = this.getPayload(token)
+            if (result) {
+                return result.expiredTime > new Date().getTime()
+            }
+        } catch (err) {
+
+            return true
         }
-        throw new TokenIsExpiredException(`Token: ${token} is expired`)
     }
 
 
     getUserId(token: string) {
-        const {userId}: any = this.getPayload(token)
+        const { userId }: any = this.getPayload(token)
         return userId
     }
 
-    getPayload(token: string): Payload {
-        const result : any =  verify(token, jwtSecretKey)
-        if(result) {
+    getPayload(token: string): any {
+        try {
+            const result: any = verify(token, jwtSecretKey)
             return result
         }
-        throw new TokenInvalidException(`Token: ${token} is invalid`)
+        catch (err) {
+            throw new TokenInvalidException(`Token: ${token} invalid`)
+        }
     }
 
     private generateToken(tokenTimeAlive: number, rest: object) {
@@ -57,10 +63,10 @@ class JwtService {
             ...rest
         }
         const token = sign(data, jwtSecretKey)
-        
+
         return token
     }
-    
-    
+
+
 }
 export default new JwtService()

@@ -11,5 +11,5 @@ client.connect().then(c => {
 }).catch(err => {
     console.log(err)
 }) 
-let db = client.db("test")
+let db = client.db("blogs")
 export default db

@@ -1,68 +1,64 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
+import { PostUpdateLike } from "../dataobject/model/post";
 import PostService from "../service/PostService";
 
 
 class PostController {
-    private postService = PostService
 
-    async createPost(req: Request, res: Response) {
+    createPost(req: Request, res: Response, next: NextFunction) {
         const body = req.body;
-        const result = await this.postService.createPost(body);
-        if(!result) {
-            res.status(400).send('Error')
-        } else {
-            
-        }
+        PostService.save(body).then(result => {
+            res.status(200).send(res)
+        }).catch(err => next(err))
     }
 
-    getListPort(req: Request, res: Response) {
 
+    getListPost(req: Request, res: Response, next: NextFunction) {
+        const request = req.body
+        PostService.findAllByCondition(request).then(result => {
+            res.status(200).send(result)
+        }).catch(err => next(err))
     }
 
-    updatePost(req: Request, res: Response) {
+
+    updatePost(req: Request, res: Response, next: NextFunction) {
         
     }
 
-    getListPortByUserId(req: Request, res: Response) {
-
+  
+    updatelikePost(req: Request, res: Response, next: NextFunction) {
+        const body: PostUpdateLike = req.body
+        PostService.updatelikePost(body.postId, body.userLikeId, (body.up ? 1 : -1)).then(result => {
+            res.send(200);
+        }).catch(err => next(err))
     }
 
-    likePost(req: Request, res: Response) {
 
+
+    deletePost(req: Request, res: Response, next: NextFunction) {
+        const postId = req.params["postId"];
+        PostService.deletePost(postId)
     }
 
-    unlikePost(req: Request, res: Response) {
-        const postId = req.params['postId']
-    }
-
-    deletePost(req: Request, res: Response) {
-
-    }
-
-    disabledComment(req: Request, res: Response) {
-
-    }
-
-    getListPostByTaggingId(req: Request, res: Response) {
-
-    }
-    
-    searchPostByKeyword(req: Request, res: Response) {
+    disabledComment(req: Request, res: Response, next: NextFunction) {
 
     }
 
 
-    disabledPost(req: Request, res: Response) {
+
+    disabledPost(req: Request, res: Response, next: NextFunction) {
 
     }
 
-    countPostWasCreatedByUserId(req: Request, res: Response) {
+    countPostWasCreatedByUserId(req: Request, res: Response, next: NextFunction) {
+        
+    }
+
+    enableComment(req: Request, res: Response, next: NextFunction) {
 
     }
-    enableComment(req: Request, res: Response) {
 
-    }
-    enabledPost(req: Request, res: Response) {
+    enabledPost(req: Request, res: Response, next: NextFunction) {
 
     }
     

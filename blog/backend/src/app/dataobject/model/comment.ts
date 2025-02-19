@@ -1,3 +1,6 @@
 export interface Comment {
-    _id: string
+    userId: string
+    content: string
+    postId: string
+    replyCommentId: string
 }

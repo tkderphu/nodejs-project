@@ -7,8 +7,7 @@ class CommentRepository {
 
     save(comment: Comment) {
         return this.commentCollection.insertOne({
-            ...comment,
-            _id: new ObjectId(comment._id)
+            ...comment
         })
     }
     findAllByPostId(postId: string) {

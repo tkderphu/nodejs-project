@@ -13,5 +13,8 @@ class CommentService {
     removeCommentById(commentId: string) {
         return this.commentRepo.deleteById(commentId)
     }
+    removeAllByPostId() {
+        
+    }
 }
 export default new CommentService()

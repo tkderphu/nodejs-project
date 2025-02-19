@@ -1,17 +1,27 @@
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
+import SecurityContextHolder from "../common/SecurityContextHolder"
 import CommentService from "../service/CommentService"
 
 
 class CommentController {
-    private commentService = CommentService
 
-    async createComment(req: Request, res: Response) {
-        const body = req.body
-        const result = await this.commentService.createComment(body)
-        if(!result) {
 
-        } else {
-            res.status(200).send('Ok')
+    async createComment(req: any, res: Response, next: NextFunction) {
+        try {
+            setTimeout(() => {
+                console.log('user id received: ', SecurityContextHolder.getUserLogginedId())
+            }, 5000)
+            // const body = req.body
+            // const result = await CommentService.createComment(body)
+            // if (!result) {
+
+            // } else {
+            //     res.status(200).send('Ok')
+            // }
+            res.send(SecurityContextHolder.getUserLogginedId())
+
+        } catch (err) {
+            next(err)
         }
     }
 
@@ -29,9 +39,9 @@ class CommentController {
 
     async removeCommentById(req: Request, res: Response) {
         const commentId = req.params['id']
-        const result = await this.commentService.removeCommentById(commentId)
+        const result = await CommentService.removeCommentById(commentId)
 
-        if(!result) {
+        if (!result) {
 
         } else {
             res.status(200).send("ok")
