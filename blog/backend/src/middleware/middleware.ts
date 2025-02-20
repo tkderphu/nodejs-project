@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import accessTokenRepository from "../app/dataobject/repository/access.token.repository";
 import TokenInvalidException from "../app/exception/TokenInvalidException";
 import JwtService from "../app/service/JwtService";
-import SecurityContextHolder from "../app/common/SecurityContextHolder";
+import SecurityContextHolder from "../app/framework/common/SecurityContextHolder";
+import TokenService from "../app/service/TokenService";
 
 
 export const authMiddleWare = async (req: any, res: Response, next: NextFunction) => {
@@ -15,7 +15,7 @@ export const authMiddleWare = async (req: any, res: Response, next: NextFunction
     }
     else {
         try {
-            const whetherTokenIsExists = await accessTokenRepository.findByToken(accessToken)
+            const whetherTokenIsExists = await TokenService.findAccessToken(accessToken)
             if (!whetherTokenIsExists) {
                 res.send(401).send("Invalid token")
             }

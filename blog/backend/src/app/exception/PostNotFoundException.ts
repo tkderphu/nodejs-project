@@ -4,3 +4,4 @@ class PostNotFoundException  extends Error{
         super(message)
     }
 }
+export default PostNotFoundException

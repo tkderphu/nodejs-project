@@ -1,7 +1,6 @@
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import express, { Response } from 'express'
 import dotenv from 'dotenv'
-import db from './db/mongo'
 import UsernameOrPasswordNotMatchException from './app/exception/UsernameOrPasswordNotMatchException'
 import TokenInvalidException from './app/exception/TokenInvalidException'
 import { handlerExceptionMiddleWare } from './middleware/middleware'

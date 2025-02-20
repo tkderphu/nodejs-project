@@ -1,10 +1,10 @@
-import { PageParam } from "../../common/common"
+import { PageParam } from "../framework/common/common"
 
 export interface Post {
     _id?: string
     content?: string
     thumbnail?: string
-    taggingId?: string
+    taggingIds?: string[]
     numShareToSocial?: number
     userPostId?: string
     disabledComment?: boolean
@@ -26,6 +26,10 @@ export interface PostPageRequest extends PageParam {
     startDate?: any
     endDate?: any,
     sort?: any
+}
+
+interface Sort {
+
 }
 
 export interface PostUpdateLike {

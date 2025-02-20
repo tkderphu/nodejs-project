@@ -3,54 +3,38 @@ import AuthenService from "../service/AuthenService";
 
 class AuthController {
 
-    async login(req: Request, res: Response, next: NextFunction) {
-        try {
-            const result = await AuthenService.login(req.body)
+     login(req: Request, res: Response, next: NextFunction) {
+        AuthenService.login(req.body).then(result => {
             res.status(200).send(result)
-        } catch (err) {
-            next(err)
-        }
+        }).catch(err => next(err))
     }
 
-    async register(req: Request, res: Response, next: NextFunction) {
-        try {
-            const result = await AuthenService.register(req.body)
+     register(req: Request, res: Response, next: NextFunction) {
+        AuthenService.register(req.body).then(result => {
             res.status(200).send(result)
-        } catch(err ) {
-            next(err)
-        }
+        }).catch(err => next(err))
 
     }
 
-    async refreshToken(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { accessToken, refreshToken } = req.body
-            const result = await AuthenService.refreshToken(accessToken, refreshToken)
+     refreshToken(req: Request, res: Response, next: NextFunction) {
+        const { accessToken, refreshToken } = req.body
+        AuthenService.refreshToken(accessToken, refreshToken).then(result => {
             res.status(200).send(result)
-    
-        } catch(err) {
-            next(err)
-        }
+        }).catch(err => next(err))
     }
 
-    async forgetPassword(req: Request, res: Response, next: NextFunction) {
-        try {
-            const email: any = req.query.email
-            await AuthenService.forgetPassword(email)
+     forgetPassword(req: Request, res: Response, next: NextFunction) {
+        const email: any = req.query.email
+        AuthenService.forgetPassword(email).then(result => {
             res.status(200).send("We have sent to your email with code for reset password, please check and paste it at here.")
-        } catch (err) {
-            next(err)
-        }
+        }).catch(err => next(err))
     }
 
-    async logout(req: Request, res: Response, next: NextFunction) {
-        try {
-            const accessToken: any = req.query.accessToken
-            const result = await AuthenService.logout(accessToken)
+     logout(req: Request, res: Response, next: NextFunction) {
+        const accessToken: any = req.query.accessToken
+        AuthenService.logout(accessToken).then(result => {
             res.status(200).send(result)
-        } catch (err) {
-            next(err)
-        }
+        }).catch(err => next(err))
     }
 }
 

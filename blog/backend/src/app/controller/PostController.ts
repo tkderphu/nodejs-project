@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { PostUpdateLike } from "../dataobject/model/post";
+import { PostUpdateLike } from "../model/post";
 import PostService from "../service/PostService";
 
 
@@ -8,7 +8,7 @@ class PostController {
     createPost(req: Request, res: Response, next: NextFunction) {
         const body = req.body;
         PostService.save(body).then(result => {
-            res.status(200).send(res)
+            res.status(200).send(result)
         }).catch(err => next(err))
     }
 

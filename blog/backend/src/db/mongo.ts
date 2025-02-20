@@ -1,15 +1,39 @@
-import { MongoClient} from "mongodb";
+import { MongoClient } from "mongodb";
 import dotenv from 'dotenv'
 dotenv.config()
 
+
+
+
 const URL_MONGODB: string = process.env.URL_MONGODB || ""
-console.log(URL_MONGODB)
+
+
 let client: MongoClient = new MongoClient("mongodb://localhost:27017")
 
-client.connect().then(c => {
-    console.log("ok")
-}).catch(err => {
-    console.log(err)
-}) 
+if (process.env.NODE_ENV !== 'test') {
+
+    client.connect().then(c => {
+        console.log("ok")
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
 let db = client.db("blogs")
-export default db
+
+const UserRepository = db.collection('users')
+const PostRepository = db.collection('post')
+const TaggingRepository = db.collection('tagging')
+const RefreshTokenRepository = db.collection('refreshToken')
+const CommentRepository = db.collection("comment")
+const AccessTokenRepository = db.collection('accessToken')
+
+
+export {
+    UserRepository,
+    PostRepository,
+    TaggingRepository,
+    RefreshTokenRepository,
+    CommentRepository,
+    AccessTokenRepository
+}

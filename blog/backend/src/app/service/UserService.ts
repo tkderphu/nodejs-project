@@ -1,20 +1,26 @@
 import { ObjectId } from "mongodb"
-import db from "../../../db/mongo"
+import { UserRepository } from "../../db/mongo"
 import { User, UserProfile } from "../model/user"
 
 
-class UserRepository {
-    private userCollections = db.collection('users')
+class UserService {
 
-    save(user: User) {
-        return this.userCollections.insertOne(user)
+    create(user: User) {
+        return UserRepository.insertOne(user)
     }
 
-    findById(userId: string) {
-        return this.userCollections.findOne({
-            _id: new ObjectId(userId)
+    findById(id: string) {
+        return UserRepository.findOne({
+            _id: new ObjectId(id)
         })
     }
+
+    findByEmail(email: string) {
+        return UserRepository.findOne({
+            email: email
+        })
+    }
+
 
     updatePasswordById(userId: string, password: string) {
         return this.updateById(userId, {password})
@@ -24,14 +30,8 @@ class UserRepository {
         return this.updateById(userId, profile)
     }
 
-    findByEmail(email: string) {
-        return this.userCollections.findOne({
-            email: email
-        })
-    }
-
     private updateById(userId: string, data: object) {
-        return this.userCollections.updateOne({
+        return UserRepository.updateOne({
             _id: new ObjectId(userId)
         }, {
             $set: {
@@ -41,5 +41,7 @@ class UserRepository {
     }
 
 
+    
+
 }
-export default new UserRepository()
+export default new UserService

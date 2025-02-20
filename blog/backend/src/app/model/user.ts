@@ -8,6 +8,10 @@ export interface UserBase {
     dateOfBirth?: any
     gender?: 'MALE' | 'FEMALE',
     role?: 'USER' | 'ADMIN',
+    school?: string
+    work?: string
+    introduction?: string,
+    createdDate?: any
 }
 
 export interface UserResponse extends UserBase {

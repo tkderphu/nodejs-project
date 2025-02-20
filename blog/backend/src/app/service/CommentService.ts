@@ -1,17 +1,24 @@
-import { Comment } from "../dataobject/model/comment"
-import commentRepository from "../dataobject/repository/comment.repository"
+import { ObjectId } from "mongodb"
+import { CommentRepository } from "../../db/mongo"
+import { Comment } from "../model/comment"
 
 class CommentService {
-    private commentRepo = commentRepository
+
+    
+    
     createComment(req: any) {
         const comment: Comment = {...req}
-        return this.commentRepo.save(comment)
+        return CommentRepository.insertOne(comment)
     }
     getAllCommentByPostId(postId: string) {
-        return this.commentRepo.findAllByPostId(postId)
+        return CommentRepository.find({
+            postId: postId
+        }).toArray()
     }
     removeCommentById(commentId: string) {
-        return this.commentRepo.deleteById(commentId)
+        return CommentRepository.deleteOne({
+            _id: new ObjectId(commentId)
+        })
     }
     removeAllByPostId() {
         

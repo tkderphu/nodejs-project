@@ -1,28 +1,37 @@
-import { AuthLogin, AuthLoginResp, AuthRegister } from "../dataobject/model/auth";
-import userRepository from "../dataobject/repository/user.repository";
+import { AuthLogin, AuthLoginResp, AuthRegister } from "../model/auth";
 import { compare, genSalt, hash } from 'bcrypt'
-import { User } from "../dataobject/model/user";
+import { User } from "../model/user";
 import UsernameOrPasswordNotMatchException from "../exception/UsernameOrPasswordNotMatchException";
 import { random6Digit } from "../framework/utils/RandomUtils";
 import MailService from "./MailService";
 import { ForgetPasswordTemplate } from "../framework/template/ForgetPassword";
 import JwtService from "./JwtService";
-import refreshTokenRepository from "../dataobject/repository/refresh.token.repository";
-import accessTokenRepository from "../dataobject/repository/access.token.repository";
+import TokenIsExpiredException from "../exception/TokenIsExpiredException";
+import UsernameExistsException from "../exception/UsernameExistsException";
+import UserService from "./UserService";
+import TokenService from "./TokenService";
 class AuthenService {
 
+
     async register(authRegister: AuthRegister) {
+        const userDoc = await UserService.findByEmail(authRegister.email);
+
+        if(userDoc) {
+            throw new UsernameExistsException(`email: ${authRegister.email} exists`)
+        }
+
         const password = await this.hashPassword(authRegister.password)
+
         const user : User  = {
             ...authRegister,
             password: password
         }
-        const result = await userRepository.save(user)
+        const result = await UserService.create(user)
 
         return result
     }
     async login(authLogin: AuthLogin) {
-        const user = await userRepository.findByEmail(authLogin.email)
+        const user = await UserService.findByEmail(authLogin.email)
         
         if(!user) {
             throw new UsernameOrPasswordNotMatchException("Your username invalid, please check it again.")
@@ -34,12 +43,12 @@ class AuthenService {
         const refreshToken = JwtService.generateRefreshToken(user._id.toString())
         const accessToken = JwtService.generateAccessToken(refreshToken, user._id.toString(), user.roles, user.fullName)
 
-        refreshTokenRepository.save({
+        TokenService.saveRefreshToken({
             token: refreshToken,
             userId: user._id.toString()
         })
 
-        accessTokenRepository.save({
+        TokenService.saveAccessToken({
             refreshToken: refreshToken,
             token: accessToken
         })
@@ -56,15 +65,15 @@ class AuthenService {
 
     }   
     async logout(acToken: string) {
-        const accessToken = await accessTokenRepository.findByToken(acToken)
+        const accessToken = await TokenService.findAccessToken(acToken)
         if(accessToken) {
-            accessTokenRepository.removeAllByRefreshToken(accessToken.refreshToken)
-            refreshTokenRepository.removeByToken(accessToken.refreshToken)
+            TokenService.removeAllAccessTokenByRefreshToken(accessToken.refreshToken)
+            TokenService.removeRefreshToken(accessToken.refreshToken)
         }
         return "Logout successfully"
     }
     async forgetPassword(email: string) {
-        const user = await userRepository.findByEmail(email)
+        const user = await UserService.findByEmail(email)
         if(!user) {
             throw new UsernameOrPasswordNotMatchException("Your username invalid, please check it again.")
         }
@@ -73,12 +82,17 @@ class AuthenService {
     }
 
     async refreshToken(accessToken: string, refToken: string) {
-        await accessTokenRepository.removeAllByRefreshToken(refToken)
+        await TokenService.removeAllAccessTokenByRefreshToken(refToken)
+        
+        if(JwtService.tokenIsExpired(refToken)) {
+            await TokenService.removeRefreshToken(refToken)
+            throw new TokenIsExpiredException("Refresh token is expired")
+        }
         const paylaod = JwtService.getPayload(accessToken)
-
+        
         const newAccessToken = JwtService.generateAccessToken(refToken, paylaod.userId, paylaod.roles, paylaod.userFullName)
 
-        accessTokenRepository.save({
+        TokenService.saveAccessToken({
             refreshToken: refToken,
             token: newAccessToken
         })
@@ -95,7 +109,7 @@ class AuthenService {
     }
     
 
-    private async hashPassword(userPassword: string) {
+    public async hashPassword(userPassword: string) {
         const saltRound = 10
         const salt = await genSalt(saltRound)
         const hashPassword = await hash(userPassword, salt)

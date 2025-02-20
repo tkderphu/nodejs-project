@@ -1,5 +1,5 @@
 import db from "../../db/mongo"
-import { Like } from "../dataobject/model/like"
+import { Like } from "../model/like"
 
 
 class LikeService {

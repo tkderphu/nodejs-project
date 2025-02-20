@@ -1,7 +1,7 @@
 import { Filter, ObjectId } from "mongodb"
 import db from "../../db/mongo"
-import { PageResult } from "../common/common"
-import { PostPageRequest, PostResponse } from "../dataobject/model/post"
+import { PageResult } from "../framework/common/common"
+import { PostPageRequest, PostResponse } from "../model/post"
 import CommentService from "./CommentService"
 import LikeService from "./LikeService"
 

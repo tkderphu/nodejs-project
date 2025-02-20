@@ -5,3 +5,5 @@ class TaggingNotFoundException extends Error {
         super(message)
     }
 }
+
+export default TaggingNotFoundException

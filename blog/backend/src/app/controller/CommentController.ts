@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express"
-import SecurityContextHolder from "../common/SecurityContextHolder"
+import SecurityContextHolder from "../framework/common/SecurityContextHolder"
 import CommentService from "../service/CommentService"
 
 
