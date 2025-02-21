@@ -1,17 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class SecurityContextHolder {
-    private static userId: string =  ""
-    private static roles: string[] = []
-    static setAuthentication(userLogginedId: string, userRoles: string[]) {
-        SecurityContextHolder.userId = userLogginedId
-        SecurityContextHolder.roles = userRoles
+    static setAuthentication(userLogginedId, userRoles) {
+        SecurityContextHolder.userId = userLogginedId;
+        SecurityContextHolder.roles = userRoles;
     }
-
-    static getUserLogginedId() {
-        return SecurityContextHolder.userId
+    static getUserLoggined(req) {
+        return {
+            userId: req.userId,
+            roles: req.roles
+        };
     }
 }
-export default SecurityContextHolder
-
+SecurityContextHolder.userId = "";
+SecurityContextHolder.roles = [];
+exports.default = SecurityContextHolder;
 // export const threadLocals: any = {
 //     current: {},
 //     set: (key: any, val: any) => {

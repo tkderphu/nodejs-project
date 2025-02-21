@@ -1,12 +1,11 @@
-import db from "../../db/mongo"
+import { LikeRepository } from "../../db/mongo"
 import { Like } from "../model/like"
 
 
 class LikeService {
-    private likeCollections = db.collection("like")
-
+  
     createLike(like: Like) {
-        return this.likeCollections.insertOne({
+        return LikeRepository.insertOne({
             ...like
         })
     }
@@ -17,6 +16,7 @@ class LikeService {
     deleteLikeComment(commentId: string, userId: string) {
         return this.deleteLike({commentId: commentId, userLikeId: userId})
     }
+   
     deleteAllLikePost(postId: string, userId: string) {
 
     }
@@ -26,13 +26,13 @@ class LikeService {
     }
 
     private deleteLike(obj: any) {
-        return this.likeCollections.deleteOne({
+        return LikeRepository.deleteOne({
             ...obj
         })
     }
 
     async isUserLikePost(postId: string, userId: string) {
-        const result = await this.likeCollections.find({
+        const result = await LikeRepository.find({
             postId: postId,
             userLikeId: userId
         })
@@ -46,7 +46,7 @@ class LikeService {
     }
 
     async isUserLikeComment(commentId: string, userId: string) {
-        const result = await this.likeCollections.find({
+        const result = await LikeRepository.find({
             commentId: commentId,
             userLikeId: userId
         })

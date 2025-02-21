@@ -20,8 +20,10 @@ class CommentService {
             _id: new ObjectId(commentId)
         })
     }
-    removeAllByPostId() {
-        
+    removeAllByPostId(postId: string) {
+        return CommentRepository.deleteMany({
+            postId: postId
+        })
     }
 }
 export default new CommentService()

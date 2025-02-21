@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import TokenInvalidException from "../app/exception/TokenInvalidException";
 import JwtService from "../app/service/JwtService";
-import SecurityContextHolder from "../app/framework/common/SecurityContextHolder";
 import TokenService from "../app/service/TokenService";
 
 
@@ -20,7 +19,8 @@ export const authMiddleWare = async (req: any, res: Response, next: NextFunction
                 res.send(401).send("Invalid token")
             }
             const payload = JwtService.getPayload(accessToken)
-            SecurityContextHolder.setAuthentication(payload.userId, payload.roles)
+            req.userId = payload.userId
+            req.roles = payload.roles
             next()
         } catch (err) {
             res.status(401).send("Unauthorized")

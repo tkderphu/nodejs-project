@@ -1,7 +1,8 @@
+import { ObjectId } from "mongodb"
 import { PageParam } from "../framework/common/common"
 
 export interface Post {
-    _id?: string
+    
     content?: string
     thumbnail?: string
     taggingIds?: string[]
@@ -14,7 +15,12 @@ export interface Post {
     like?: number
 }
 
+export interface PostDocument extends Post {
+    _id: ObjectId
+}
+
 export interface PostResponse extends Post {
+    _id: string
     userFullName?: string,
     userAvatar?: string
 }

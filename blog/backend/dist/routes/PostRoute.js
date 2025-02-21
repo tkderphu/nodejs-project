@@ -1,9 +1,11 @@
-import { Router } from "express";
-import PostController from "../app/controller/PostController";
-const postRouter = Router()
-
-
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const PostController_1 = __importDefault(require("../app/controller/PostController"));
+const postRouter = (0, express_1.Router)();
 /**
  * @swagger
  * /api/posts/like:
@@ -33,19 +35,9 @@ const postRouter = Router()
  *      500:
  *        description: Server Error
  */
-postRouter.put('/api/posts/like', PostController.updatelikePost)
-
-
-
-postRouter.put('/api/posts', PostController.updatePost)
-
-
-
-
-postRouter.post('/api/posts', PostController.createPost)
-
-
-
+postRouter.put('/api/posts/like', PostController_1.default.updatelikePost);
+postRouter.put('/api/posts', PostController_1.default.updatePost);
+postRouter.post('/api/posts', PostController_1.default.createPost);
 /**
  * @swagger
  * /api/posts/{postId}:
@@ -65,10 +57,7 @@ postRouter.post('/api/posts', PostController.createPost)
  *      500:
  *        description: Server Error
  */
-postRouter.delete('/api/posts/:postId', PostController.deletePost)
-
-
-
+postRouter.delete('/api/posts/:postId', PostController_1.default.deletePost);
 /**
  * @swagger
  * /api/posts/query:
@@ -91,27 +80,27 @@ postRouter.delete('/api/posts/:postId', PostController.deletePost)
  *              limit:
  *                type: integer
  *                description: Number item is displayed in 1 page
- *              keyword: 
+ *              keyword:
  *                 type: string
  *                 description: Keyword for search post(optional)
- *              taggingId: 
+ *              taggingId:
  *                 type: string
  *                 description: Tag of post(optional)
- *              userPostId: 
+ *              userPostId:
  *                 type: string
  *                 description: User created post(optional)
- *              startDate: 
+ *              startDate:
  *                 type: string
  *                 description: search from date(startDate and endDate accomplish together)(optional)
- *              endDate: 
+ *              endDate:
  *                 type: string
  *                 description: search from date(startDate and endDate accomplish together)(optional)
- *              sort: 
+ *              sort:
  *                 type: object
  *                 description: sort by field(1_asc, -1_desc)(optional)
  *                 default:
  *                    view: -1
- *                    like: 1          
+ *                    like: 1
  *     responses:
  *      200:
  *        description: List post.
@@ -123,10 +112,10 @@ postRouter.delete('/api/posts/:postId', PostController.deletePost)
  *                  currentPage:
  *                      type: integer
  *                      example: 1
- *                  totalPage: 
+ *                  totalPage:
  *                      type: integer
  *                      example: 1
- *                  list: 
+ *                  list:
  *                      type: array
  *                      items:
  *                         type: object
@@ -157,6 +146,5 @@ postRouter.delete('/api/posts/:postId', PostController.deletePost)
  *      500:
  *        description: Server Error
  */
-postRouter.get('/api/posts/query', PostController.getListPost)
-
-export default postRouter
+postRouter.get('/api/posts/query', PostController_1.default.getListPost);
+exports.default = postRouter;

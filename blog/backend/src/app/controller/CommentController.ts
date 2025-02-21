@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express"
-import SecurityContextHolder from "../framework/common/SecurityContextHolder"
 import CommentService from "../service/CommentService"
 
 
@@ -8,17 +7,7 @@ class CommentController {
 
     async createComment(req: any, res: Response, next: NextFunction) {
         try {
-            setTimeout(() => {
-                console.log('user id received: ', SecurityContextHolder.getUserLogginedId())
-            }, 5000)
-            // const body = req.body
-            // const result = await CommentService.createComment(body)
-            // if (!result) {
-
-            // } else {
-            //     res.status(200).send('Ok')
-            // }
-            res.send(SecurityContextHolder.getUserLogginedId())
+            
 
         } catch (err) {
             next(err)

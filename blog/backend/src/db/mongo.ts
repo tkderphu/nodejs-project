@@ -21,13 +21,13 @@ if (process.env.NODE_ENV !== 'test') {
 
 let db = client.db("blogs")
 
-const UserRepository = db.collection('users')
+const UserRepository = db.collection('user')
 const PostRepository = db.collection('post')
 const TaggingRepository = db.collection('tagging')
 const RefreshTokenRepository = db.collection('refreshToken')
 const CommentRepository = db.collection("comment")
 const AccessTokenRepository = db.collection('accessToken')
-
+const LikeRepository = db.collection('like')
 
 export {
     UserRepository,
@@ -35,5 +35,6 @@ export {
     TaggingRepository,
     RefreshTokenRepository,
     CommentRepository,
-    AccessTokenRepository
+    AccessTokenRepository,
+    LikeRepository
 }
