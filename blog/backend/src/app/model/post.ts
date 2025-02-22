@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb"
-import { PageParam } from "../framework/common/common"
+import { PageParam } from "../framework/common/page"
 
 export interface Post {
     

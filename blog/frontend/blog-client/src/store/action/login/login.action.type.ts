@@ -1,6 +1,0 @@
-export const LOGIN_BEGIN = ""
-export const LOGIN_SUCCESS = ""
-export const LOGIN_FAILED = ""
-export const REGISTER_SUCCESS = ""
-export const REGISTER_FAILED = ""
-export const REDIRECT = ""

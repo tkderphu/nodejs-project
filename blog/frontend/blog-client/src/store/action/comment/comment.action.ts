@@ -29,11 +29,14 @@ export const createCommentAction = () => {
     return (dispatch: any) => {
         dispatch(createCommentBegin())
         commentService.createComment(body).then(response => {
-            if(response.data.error) {
-                dispatch(createCommentFailed())
+            dispatch(createCommentSuccess(response.data))
+            dispatch(fetchAllCommentAction(body.postId))
+        }).catch(err => {
+            if(err.status === 401) {
+                localStorage.clear()
+                dispatch(createCommentFailed(err, "Your token is expired, please login", '', 401))
             } else {
-                dispatch(createCommentSuccess(response.data))
-                dispatch(fetchAllCommentAction(body.postId))
+
             }
         })
     }

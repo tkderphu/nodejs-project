@@ -5,19 +5,19 @@ import UsernameOrPasswordNotMatchException from './app/exception/UsernameOrPassw
 import TokenInvalidException from './app/exception/TokenInvalidException'
 import { handlerExceptionMiddleWare } from './middleware/middleware'
 
-import router from './routes/Test'
 import { setupSwagger } from './swagger/SwaggerDocs'
 import authRouter from './routes/AuthRoute'
+import commentRouter from './routes/CommentRoute'
+import postRouter from './routes/PostRoute'
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
 
 app.use(express.json())
-app.use(router)
 app.use(authRouter)
-// app.use(commentRouter)
-// app.use(postRouter)
+app.use(commentRouter)
+app.use(postRouter)
 // app.use(taggingRouter)
 
 

@@ -1,0 +1,11 @@
+export const AUTH_LOGIN_BEGIN = ""
+export const AUTH_LOGIN_SUCCESS = ""
+export const AUTH_LOGIN_FAILED = ""
+export const AUTH_REGISTER_BEGIN = ""
+export const AUTH_REGISTER_SUCCESS = ""
+export const AUTH_REGISTER_FAILED = ""
+export const AUTH_FORGET_PASSWORD_BEGIN = ""
+export const AUTH_FORGET_PASSWORD_SUCCESS = ""
+export const AUTH_FORGET_PASSWORD_FAILED = ""
+export const AUTH_REDIRECT = ""
+

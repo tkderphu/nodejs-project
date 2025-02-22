@@ -1,40 +1,46 @@
 import { NextFunction, Request, Response } from "express"
+import { getUserLoggined } from "../framework/common/auth"
+import { CommentRespVO } from "../model/comment"
 import CommentService from "../service/CommentService"
 
 
 class CommentController {
 
 
-    async createComment(req: any, res: Response, next: NextFunction) {
-        try {
-            
-
-        } catch (err) {
+    createComment(req: any, res: Response, next: NextFunction) {
+        const body = req.body
+        CommentService.createComment(body).then(response => {
+            const commentResp: CommentRespVO = {
+                ...body,
+                id: response.insertedId
+            }
+            res.status(200).send(commentResp)
+        }).catch(err => {
             next(err)
-        }
+        })
     }
 
-    async getAllCommentByPostId(req: Request, res: Response) {
-        const postId = req.params['postId']
-
-        res.send("Hello postId: " + postId)
-        // const listPost = await this.commentService.getAllCommentByPostId(postId)
-        // if(!listPost) {
-
-        // } else {
-        //     res.status(200).send(listPost)
-        // }
+    getAllCommentByPostId(req: Request, res: Response, next: NextFunction) {
+        const body = req.body
+        CommentService.getPageCommentByPostId(body).then(response => {
+            const resp = response.map(comment => {
+                return {
+                    ...comment,
+                    id: comment._id.toString()
+                }
+            })
+            res.send(resp)
+        }).catch(err => next(err))
     }
 
-    async removeCommentById(req: Request, res: Response) {
+    removeCommentById(req: Request, res: Response, next: NextFunction) {
         const commentId = req.params['id']
-        const result = await CommentService.removeCommentById(commentId)
-
-        if (!result) {
-
-        } else {
-            res.status(200).send("ok")
-        }
+        CommentService.removeCommentById(commentId, getUserLoggined(req).userId)
+            .then(() => {
+                res.status(200)
+            }).catch(err => {
+                next(err)
+            })
     }
 
 

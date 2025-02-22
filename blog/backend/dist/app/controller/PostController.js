@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const common_1 = require("../framework/common/common");
+const auth_1 = require("../framework/common/auth");
 const PostService_1 = __importDefault(require("../service/PostService"));
 class PostController {
     createPost(req, res, next) {
@@ -35,7 +35,7 @@ class PostController {
     }
     deletePost(req, res, next) {
         const postId = req.params["postId"];
-        PostService_1.default.deletePost(postId, (0, common_1.getUserLoggined)(req).userId)
+        PostService_1.default.deletePost(postId, (0, auth_1.getUserLoggined)(req).userId)
             .then(() => {
             res.send(200);
         }).catch(err => {

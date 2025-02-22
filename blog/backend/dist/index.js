@@ -6,17 +6,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const middleware_1 = require("./middleware/middleware");
-const Test_1 = __importDefault(require("./routes/Test"));
 const SwaggerDocs_1 = require("./swagger/SwaggerDocs");
 const AuthRoute_1 = __importDefault(require("./routes/AuthRoute"));
+const CommentRoute_1 = __importDefault(require("./routes/CommentRoute"));
+const PostRoute_1 = __importDefault(require("./routes/PostRoute"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
 app.use(express_1.default.json());
-app.use(Test_1.default);
 app.use(AuthRoute_1.default);
-// app.use(commentRouter)
-// app.use(postRouter)
+app.use(CommentRoute_1.default);
+app.use(PostRoute_1.default);
 // app.use(taggingRouter)
 app.use(middleware_1.handlerExceptionMiddleWare);
 (0, SwaggerDocs_1.setupSwagger)(app);

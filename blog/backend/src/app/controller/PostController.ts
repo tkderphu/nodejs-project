@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express";
-import { getUserLoggined } from "../framework/common/common";
+import { getUserLoggined } from "../framework/common/auth";
 import { PostUpdateLike } from "../model/post";
 import PostService from "../service/PostService";
 
