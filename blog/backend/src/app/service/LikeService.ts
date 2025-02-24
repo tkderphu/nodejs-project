@@ -25,6 +25,15 @@ class LikeService {
         
     }
 
+    async countLikeByPost(postId: string) {
+
+    }
+
+    async countLikeByComment(commentId: string) {
+        
+    }
+
+
     private deleteLike(obj: any) {
         return LikeRepository.deleteOne({
             ...obj

@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb";
 import dotenv from 'dotenv'
+import { ACCESS_TOKEN_DOCUMENT, BOOK_MARK_DOCUMENT, COMMENT_DOCUMENT, LIKE_DOCUMENT, POST_DOCUMENT, REFRESH_TOKEN_DOCUMENT, TAGGING_DOCUMENT, USER_DOCUMENT } from "./document";
 dotenv.config()
 
 
@@ -21,14 +22,14 @@ if (process.env.NODE_ENV !== 'test') {
 
 let db = client.db("blogs")
 
-const UserRepository = db.collection('user')
-const PostRepository = db.collection('post')
-const TaggingRepository = db.collection('tagging')
-const RefreshTokenRepository = db.collection('refreshToken')
-const CommentRepository = db.collection("comment")
-const AccessTokenRepository = db.collection('accessToken')
-const LikeRepository = db.collection('like')
-
+const UserRepository = db.collection(USER_DOCUMENT)
+const PostRepository = db.collection(POST_DOCUMENT)
+const TaggingRepository = db.collection(TAGGING_DOCUMENT)
+const RefreshTokenRepository = db.collection(REFRESH_TOKEN_DOCUMENT)
+const CommentRepository = db.collection(COMMENT_DOCUMENT)
+const AccessTokenRepository = db.collection(ACCESS_TOKEN_DOCUMENT)
+const LikeRepository = db.collection(LIKE_DOCUMENT)
+const BookMarkRepository = db.collection(BOOK_MARK_DOCUMENT)
 export {
     UserRepository,
     PostRepository,
@@ -36,5 +37,6 @@ export {
     RefreshTokenRepository,
     CommentRepository,
     AccessTokenRepository,
-    LikeRepository
+    LikeRepository,
+    BookMarkRepository
 }

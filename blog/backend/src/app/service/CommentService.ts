@@ -27,8 +27,14 @@ class CommentService {
         })
         return true;
     }
-    removeAllByPostId(postId: string) {
+    async removeAllByPostId(postId: string) {
         return CommentRepository.deleteMany({
+            postId: postId
+        })
+    }
+
+    async countByPost(postId: string) {
+        return CommentRepository.countDocuments({
             postId: postId
         })
     }

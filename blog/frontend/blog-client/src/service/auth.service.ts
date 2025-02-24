@@ -1,6 +1,7 @@
 import axios from "axios"
-
-const URL = process.env.BASE_API_URL
+// import dotenv from 'dotenv'
+// dotenv.config()
+const URL = "process.env.BASE_API_URL"
 class AuthService {
     login(req: any) {
         return axios.post(`${URL}/auth/login`, req)

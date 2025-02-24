@@ -159,4 +159,103 @@ postRouter.delete('/api/posts/:postId', PostController.deletePost)
  */
 postRouter.get('/api/posts/query', PostController.getListPost)
 
+
+
+
+
+/**
+ * @swagger
+ * /api/posts/{postId}:
+ *  get:
+ *     tags: [post]
+ *     summary: Delete post
+ *     parameters:
+ *       - in: path
+ *         name: postId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Post id
+ *     responses:
+ *      200:
+ *        description: Ok
+ *      500:
+ *        description: Server Error
+ */
+postRouter.delete('/api/posts/:postId', PostController.deletePost)
+
+
+
+/**
+ * @swagger
+ * /api/posts/bookmark:
+ *  get:
+ *     tags: [post]
+ *     summary: Get all post from bookmark of user
+ *     parameters:
+ *       - in: query
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: User Id
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: current Page
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: num item in a page
+ *     responses:
+ *      200:
+ *        description: List post.
+ *        content:
+ *          application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                  currentPage:
+ *                      type: integer
+ *                      example: 1
+ *                  totalPage: 
+ *                      type: integer
+ *                      example: 1
+ *                  list: 
+ *                      type: array
+ *                      items:
+ *                         type: object
+ *                         properties:
+ *                             userFullName:
+ *                                type: string
+ *                             userAvatar:
+ *                                type: string
+ *                             _id:
+ *                                type: string
+ *                             thumbnail:
+ *                                type: string
+ *                             taggingIds:
+ *                                type: array
+ *                                items:
+ *                                   type: string
+ *                                   default: 302534
+ *                             numShareToSocial:
+ *                                type: integer
+ *                             userPostId:
+ *                                type: string
+ *                             createdDate:
+ *                                type: string
+ *                             view:
+ *                                type: integer
+ *                             like:
+ *                                type: integer
+ *      500:
+ *        description: Server Error
+ */
+postRouter.get('/api/posts/bookmark', PostController.getAllPostByUserBookMark)
+
 export default postRouter

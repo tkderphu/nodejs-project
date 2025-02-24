@@ -22,11 +22,11 @@ export const authLoginFailed = (err: any) => {
     }
 }
 
-export const authLoginAction = (req: any) => {
+export const authLoginAction = (email: string, password: string) => {
     (dispatch: any) => {
         dispatch(authLoginBegin())
-        authService.login(req).then(result => {
-            dispatch(authLoginAction(result))
+        authService.login({email, password}).then(result => {
+            dispatch(authLoginSuccess(result))
         }).catch(err => {
             dispatch(authLoginFailed(err))
         })

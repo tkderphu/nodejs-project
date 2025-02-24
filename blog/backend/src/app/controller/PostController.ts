@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express";
 import { getUserLoggined } from "../framework/common/auth";
-import { PostUpdateLike } from "../model/post";
+import { PostPageUserBookMarkRequest, PostUpdateLike } from "../model/post";
 import PostService from "../service/PostService";
 
 
@@ -32,6 +32,12 @@ class PostController {
         })
     }
 
+    getAllPostByUserBookMark(req: any, res: Response, next: NextFunction) {
+        const request: PostPageUserBookMarkRequest = req.query
+        PostService.findAllByUserBookMark(request).then(resp => {
+            res.status(200).send(resp)
+        }).catch(err => next(err))
+    }
   
     updatelikePost(req: any, res: Response, next: NextFunction) {
         const body: PostUpdateLike = req.body

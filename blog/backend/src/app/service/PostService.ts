@@ -1,5 +1,5 @@
 import { Filter, ObjectId } from "mongodb"
-import { PostDocument, PostPageRequest, PostResponse } from "../model/post"
+import { PostDocument, PostPageRequest, PostPageUserBookMarkRequest, PostResponse } from "../model/post"
 import CommentService from "./CommentService"
 import LikeService from "./LikeService"
 import { PostRepository } from "../../db/mongo"
@@ -28,6 +28,11 @@ class PostService {
         return PostRepository.findOne({
             _id: new ObjectId(postId)
         })
+    }
+
+
+    async findAllByUserBookMark(postPageReq: PostPageUserBookMarkRequest) {
+        
     }
 
     async findAllByCondition(req: PostPageRequest) {

@@ -1,0 +1,8 @@
+@media (min-width: 992px) {
+    .sticky-sidebar {
+        position: sticky;
+        top: 10px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}

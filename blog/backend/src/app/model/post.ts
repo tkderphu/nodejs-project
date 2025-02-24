@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb"
 import { PageParam } from "../framework/common/page"
 
 export interface Post {
-    
+    title?: string
     content?: string
     thumbnail?: string
     taggingIds?: string[]
@@ -32,6 +32,10 @@ export interface PostPageRequest extends PageParam {
     startDate?: any
     endDate?: any,
     sort?: any
+}
+
+export interface PostPageUserBookMarkRequest extends PageParam {
+    userId: string
 }
 
 interface Sort {
