@@ -1,8 +1,10 @@
 
 import { decode, sign, verify } from 'jsonwebtoken'
 import TokenInvalidException from '../exception/TokenInvalidException'
+import dotenv from 'dotenv'
+dotenv.config()
 import TokenIsExpiredException from '../exception/TokenIsExpiredException'
-const jwtSecretKey = process.env.JWT_SECRET_KEY || ''
+const jwtSecretKey = process.env.JWT_SECRET_KEY || 'what de hell'
 
 interface Payload {
     expiredTime: number,
@@ -32,11 +34,12 @@ class JwtService {
     tokenIsExpired(token: string) {
         try {
             const result: any = this.getPayload(token)
-            if (result) {
-                return result.expiredTime > new Date().getTime()
-            }
+            console.log(result)
+            const ck = result.expiredTime < new Date().getTime()
+            console.log(ck)
+            return ck
         } catch (err) {
-
+            console.log("vl")
             return true
         }
     }
@@ -59,9 +62,10 @@ class JwtService {
 
     private generateToken(tokenTimeAlive: number, rest: object) {
         const data = {
-            expiredTime: new Date().getTime() + tokenTimeAlive,
+            expiredTime: (new Date().getTime() + tokenTimeAlive),
             ...rest
         }
+        console.log("secret key: ", jwtSecretKey)
         const token = sign(data, jwtSecretKey)
 
         return token

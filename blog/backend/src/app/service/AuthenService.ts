@@ -22,16 +22,20 @@ class AuthenService {
 
         const password = await this.hashPassword(authRegister.password)
 
+        authRegister.createdDate = new Date()
+        authRegister.role = 'USER'
+
         const user : User  = {
             ...authRegister,
             password: password
         }
+
         const result = await UserService.create(user)
 
         return result
     }
     async login(authLogin: AuthLogin) {
-        const user = await UserService.findByEmail(authLogin.email)
+        const user: any = await UserService.findByEmail(authLogin.email)
         
         if(!user) {
             throw new UsernameOrPasswordNotMatchException("Your username invalid, please check it again.")
@@ -40,6 +44,9 @@ class AuthenService {
         if(!isWhetherPasswordMatch) {
             throw new UsernameOrPasswordNotMatchException("Your password invalid, please check it again.")
         }
+        
+        await TokenService.removeAllTokenByUser(user._id.toString())
+       
         const refreshToken = JwtService.generateRefreshToken(user._id.toString())
         const accessToken = JwtService.generateAccessToken(refreshToken, user._id.toString(), user.roles, user.fullName)
 
@@ -50,7 +57,8 @@ class AuthenService {
 
         TokenService.saveAccessToken({
             refreshToken: refreshToken,
-            token: accessToken
+            token: accessToken,
+            userId: user._id.toString()
         })
 
         const authResp: AuthLoginResp = {
@@ -58,9 +66,9 @@ class AuthenService {
             accessToken: accessToken,
             refreshToken: refreshToken,
             expiredAt: JwtService.getPayload(accessToken).expiredTime,
-            fullName: user.fullName
+            userFullName: user.fullName
         }
-
+    
         return authResp
 
     }   
@@ -94,7 +102,8 @@ class AuthenService {
 
         TokenService.saveAccessToken({
             refreshToken: refToken,
-            token: newAccessToken
+            token: newAccessToken,
+            userId: paylaod.userId
         })
 
         const authResp: AuthLoginResp = {
@@ -102,7 +111,7 @@ class AuthenService {
             accessToken: newAccessToken,
             refreshToken: refToken,
             expiredAt: JwtService.getPayload(newAccessToken).expiredTime,
-            fullName: paylaod.userFullName
+            userFullName: paylaod.userFullName
         }
 
         return authResp

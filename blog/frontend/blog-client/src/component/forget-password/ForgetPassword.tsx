@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState } from 'react'
-import { authForgetPasswordAction } from "../../store/action/auth/auth.action"
+import { authForgetPasswordAction } from "../../redux/store/action/auth/auth.action"
+
 function ForgetPassword() {
 
 

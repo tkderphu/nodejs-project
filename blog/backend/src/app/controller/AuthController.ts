@@ -4,6 +4,8 @@ import AuthenService from "../service/AuthenService";
 class AuthController {
 
      login(req: Request, res: Response, next: NextFunction) {
+        console.log("login-------------");
+        
         AuthenService.login(req.body).then(result => {
             res.status(200).send(result)
         }).catch(err => next(err))

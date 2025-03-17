@@ -148,6 +148,4 @@ commentRouter.post('/api/comments/post', CommentController.getAllCommentByPostId
 commentRouter.delete('/api/comments/:id', authMiddleWare, CommentController.removeCommentById)
 
 
-commentRouter.use(handlerExceptionMiddleWare)
-
 export default commentRouter

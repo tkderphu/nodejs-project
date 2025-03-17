@@ -7,9 +7,11 @@ import TokenService from "../app/service/TokenService";
 export const authMiddleWare = async (req: any, res: Response, next: NextFunction) => {
     const accessToken = req.headers['authorization']?.substring(7) || ""
     if (!accessToken) {
+        console.log("loz")
         res.status(401).send("Access Denied")
     }
     else if (JwtService.tokenIsExpired(accessToken)) {
+        console.log("loz2")
         res.status(401).send("Unauthorized")
     }
     else {
@@ -22,7 +24,8 @@ export const authMiddleWare = async (req: any, res: Response, next: NextFunction
             req.userId = payload.userId
             req.roles = payload.roles
             next()
-        } catch (err) {
+        } catch (err: any) {
+            console.log("cai loz gi the")
             res.status(401).send("Unauthorized")
         }
     }
@@ -31,5 +34,6 @@ export const authMiddleWare = async (req: any, res: Response, next: NextFunction
 
 export const handlerExceptionMiddleWare = (err: any, req: Request, res: Response, next: NextFunction) => {
     console.error(err.stack);
-    res.status(err.status).json({ error: err.message });
+    console.log("vllllllllllllll-")
+    res.status(err.status || 500).json({ error: err.message });
 }

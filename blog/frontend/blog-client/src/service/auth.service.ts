@@ -1,22 +1,23 @@
-import axios from "axios"
+
+import api from "../interceptor/AxiosInterceptor"
 // import dotenv from 'dotenv'
 // dotenv.config()
 const URL = "process.env.BASE_API_URL"
 class AuthService {
     login(req: any) {
-        return axios.post(`${URL}/auth/login`, req)
+        return api.post('/auth/login', req)
     }
     register(req: any) {
-        return axios.post(`${URL}/auth/register`, req)
+        return api.post(`/auth/register`, req)
     }
     refreshToken(req: any) {
-        return axios.post(`${URL}/auth/refresh-token`, req)
+        return api.post(`/auth/refresh-token`, req)
     }
     logout(accessToken: string) {
-        return axios.get(`${URL}/auth/logout?accessToken=${accessToken}`)
+        return api.get(`/auth/logout?accessToken=${accessToken}`)
     }
     forgetPassword(email: string) {
-        return axios.get(`${URL}/auth/forget-password?email=${email}`)
+        return api.get(`/auth/forget-password?email=${email}`)
     }
 }
 export default new AuthService()

@@ -1,0 +1,13 @@
+/* Custom width for the notification dropdown */
+.dropdown-menu.notifications {
+    width: 350px;
+    /* Adjust width as needed */
+}
+
+/* Ensure text does not overflow */
+.dropdown-menu.notifications a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}

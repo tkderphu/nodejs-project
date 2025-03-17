@@ -4,7 +4,6 @@ export interface User extends UserBase{
 }
 
 export interface UserBase {
-    fullName?: string
     dateOfBirth?: any
     gender?: 'MALE' | 'FEMALE',
     role?: 'USER' | 'ADMIN',
@@ -20,4 +19,9 @@ export interface UserResponse extends UserBase {
 
 export interface UserProfile extends UserBase{
 
+}
+export interface UserResponseSimple {
+    fullName?: string
+    thumbnail?: string
+    id: string
 }

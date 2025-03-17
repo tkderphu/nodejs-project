@@ -4,11 +4,14 @@ export interface AuthLogin {
     password: string
 }
 
-export interface AuthRegister extends User{
-    
+export interface AuthRegister extends UserBase{
+    email: string,
+    fullName: string,
+    password: string
 }
 
-export interface AuthLoginResp extends UserBase{
+export interface AuthLoginResp {
+    userFullName: string
     userId: string
     accessToken: string
     refreshToken: string

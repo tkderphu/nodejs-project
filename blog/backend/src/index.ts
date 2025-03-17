@@ -9,15 +9,28 @@ import { setupSwagger } from './swagger/SwaggerDocs'
 import authRouter from './routes/AuthRoute'
 import commentRouter from './routes/CommentRoute'
 import postRouter from './routes/PostRoute'
+import bookMarkRouter from './routes/BookMarkRoute'
+import cors from 'cors'
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
 
+const corsOptions = {
+  origin: ['http://localhost:5173', "http://localhost:5173/"], // Allow specific frontend URLs
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: ["Content-Type", "Authorization"], // Allow Authorization header
+  credentials: true, // Allow cookies if needed
+};
+
+
+
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(authRouter)
 app.use(commentRouter)
 app.use(postRouter)
+app.use(bookMarkRouter)
 // app.use(taggingRouter)
 
 

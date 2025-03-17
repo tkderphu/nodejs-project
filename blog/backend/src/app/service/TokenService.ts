@@ -17,6 +17,14 @@ class TokenService {
         })
     }
 
+    async removeAllTokenByUser(userId: string) {
+        await RefreshTokenRepository.deleteMany({
+            "userId": userId
+        })
+        await AccessTokenRepository.deleteMany({
+            "userId": userId
+        })
+    }
 
     saveAccessToken(accessToken: AccessToken) {
         return AccessTokenRepository.insertOne(accessToken)

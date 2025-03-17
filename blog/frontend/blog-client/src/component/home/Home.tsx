@@ -3,19 +3,18 @@ import "./Home.css"
 function Home() {
     return (
         <>
-           
+
             <div className="container-fluid bg-dark text-white text-center py-4">
-                <h2>VIBLO AWARDS 2024</h2>
-                <h4>LEARNER OF THE YEAR 2024</h4>
+            <button className="btn btn-secondary"><a className="nav-link" href="/create-post">VIẾT BÀI</a></button>
+                
             </div>
 
 
             <div className="container mt-3">
                 <ul className="nav nav-tabs">
                     <li className="nav-item"><a className="nav-link active" href="#">MỚI NHẤT</a></li>
-                    <li className="nav-item"><a className="nav-link" href="#">EDITORS' CHOICE</a></li>
-                    <li className="nav-item"><a className="nav-link" href="#">TRENDING</a></li>
-                    <li className="nav-item"><a className="nav-link" href="#">VIDEOS</a></li>
+                    <li className="nav-item"><a className="nav-link" href="#">ĐANG THEO DÕI</a></li>
+                    <li className="nav-item"><a className="nav-link" href="#">BOOKMARK CỦA TÔI</a></li>
                 </ul>
             </div>
 
@@ -29,9 +28,9 @@ function Home() {
                                     <h5 className="card-title">Khảo sát Viblo: Nhu cầu phát triển sự nghiệp IT toàn cầu</h5>
                                     <p className="card-text text-muted">Viblo Announcer - 2 phút đọc</p>
                                     <p className="text-muted">
-                                        <button style={{border: 'none', backgroundColor:'white'}} data-toggle="tooltip" data-placement="top" title="Số lượng người xem">👁️ 10</button>
-                                     <span>💬 0</span> 
-                                     <span>🔖 0</span></p>
+                                        <button style={{ border: 'none', backgroundColor: 'white' }}  data-toggle="tooltip" data-placement="top" title="Số lượng người xem">👁️ 10</button>
+                                        <span className="mx-5">💬 0</span>
+                                        <span>🔖 0</span></p>
                                 </div>
                             </div>
                         </div>

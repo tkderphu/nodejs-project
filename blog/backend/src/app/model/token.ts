@@ -4,6 +4,7 @@ export interface RefreshToken {
 }
 
 export interface AccessToken {
+    userId: string
     token: string,
     refreshToken: string
 }

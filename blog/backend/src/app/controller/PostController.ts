@@ -1,18 +1,21 @@
-import { NextFunction, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { getUserLoggined } from "../framework/common/auth";
-import { PostPageUserBookMarkRequest, PostUpdateLike } from "../model/post";
+import { BookMarkReq } from "../model/bookmark";
+import { PostCreateRequest, PostPageUserBookMarkRequest, PostUpdateLike } from "../model/post";
 import PostService from "../service/PostService";
 
 
 class PostController {
 
     createPost(req: any, res: Response, next: NextFunction) {
-        const body = req.body;
+        const body: PostCreateRequest = req.body;
+        body.userPostId = getUserLoggined(req).userId
         PostService.save(body).then(result => {
             res.status(200).send(result)
         }).catch(err => next(err))
     }
 
+    
 
     getListPost(req: any, res: Response, next: NextFunction) {
         const any = req.body

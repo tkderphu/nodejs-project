@@ -1,13 +1,15 @@
-import { ObjectId } from "mongodb";
+
 
 
 export interface BookMark {
     id: string
-    postId: string
+    entityType: string
+    entityId: string
     userId: string
 }
 
 export interface BookMarkReq {
-    postId: string
+    entityType: string
     userId: string
+    entityId: string
 }

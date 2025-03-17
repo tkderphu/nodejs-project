@@ -1,5 +1,6 @@
 import { Router } from "express";
 import PostController from "../app/controller/PostController";
+import { authMiddleWare } from "../middleware/middleware";
 const postRouter = Router()
 
 
@@ -42,7 +43,7 @@ postRouter.put('/api/posts', PostController.updatePost)
 
 
 
-postRouter.post('/api/posts', PostController.createPost)
+postRouter.post('/api/posts',authMiddleWare, PostController.createPost)
 
 
 

@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.profile-header img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+.edit-btn {
+    margin-left: auto;
+}
+.stats-box {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+.stats-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+.content-box {
+    text-align: center;
+    font-size: 18px;
+    color: gray;
+    margin-top: 20px;
+}
