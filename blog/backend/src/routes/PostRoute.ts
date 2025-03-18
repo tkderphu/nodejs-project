@@ -5,36 +5,6 @@ const postRouter = Router()
 
 
 
-/**
- * @swagger
- * /api/posts/like:
- *   put:
- *     tags: [post]
- *     summary: Update like post
- *     requestBody:
- *      required: true
- *      content:
- *        application/json:
- *           schema:
- *            type: object
- *            required:
- *              - postId
- *              - userLikeId
- *              - up
- *            properties:
- *              postId:
- *                type: string
- *              userLikeId:
- *                type: string
- *              up:
- *                type: boolean
- *     responses:
- *      200:
- *        description: Success
- *      500:
- *        description: Server Error
- */
-postRouter.put('/api/posts/like', PostController.updatelikePost)
 
 
 
@@ -257,6 +227,6 @@ postRouter.delete('/api/posts/:postId', PostController.deletePost)
  *      500:
  *        description: Server Error
  */
-postRouter.get('/api/posts/bookmark', PostController.getAllPostByUserBookMark)
+// postRouter.get('/api/posts/bookmark', PostController.getAllPostByUserBookMark)
 
 export default postRouter

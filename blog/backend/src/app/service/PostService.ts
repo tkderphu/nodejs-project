@@ -1,5 +1,5 @@
 import { Filter, ObjectId } from "mongodb"
-import { PostCreateRequest, PostPageRequest, PostPageUserBookMarkRequest, PostResponseSimple, PostUpdateRequest } from "../model/post"
+import { Post, PostBase, PostPageRequest, PostPageUserBookMarkRequest, PostUpdateReq } from "../model/post"
 import CommentService from "./CommentService"
 import LikeService from "./LikeService"
 import { BookMarkRepository, PostRepository } from "../../db/mongo"
@@ -10,18 +10,30 @@ import TaggingService from "./TaggingService"
 class PostService {
 
 
-    save(post: PostCreateRequest) {
-        post.createdDate = new Date()
-        post.modifiedDate = new Date()
-        TaggingService.saveAll(post.taggingIds)
-        return PostRepository.insertOne({
-            ...post
-        })
+    async save(userId: string, postReq: PostUpdateReq) {
+        
+        const post: PostBase  = {
+            comment: 0,
+            like: 0,
+            view: 0,
+            timestamps: {
+                createdAt: new Date(),
+                updatedAt: new Date()
+            },
+            userId: userId,
+            content: postReq.content,
+            description: postReq.description,
+            displayUrl: postReq.displayUrl,
+            title: postReq.title,
+            taggings: (await TaggingService.save(postReq.taggingIds))
+        }
+
+        return PostRepository.insertOne(post)
     }
 
-    update(id: string, post: PostUpdateRequest) {
+    update(postId: string, post: PostUpdateReq) {
         return PostRepository.updateOne({
-            _id: new ObjectId(id)
+            _id: new ObjectId(postId)
         }, {
             $set: {
                 ...post
@@ -153,14 +165,14 @@ class PostService {
     }
 
     async deletePost(postId: string, userId: string) {
-        // let post = ((await this.findById(postId)) as PostDocument)
-        // if (post) {
-        //     if (post.userPostId !== userId) {
-        //         throw new AccessDeniedException("You can't perform this action")
-        //     }
-        //     LikeService.deleteAllLikePost(postId, userId)
-        //     CommentService.removeAllByPostId(postId)
-        // }
+        let post = ((await this.findById(postId)) as Post)
+        if (post) {
+            if (post.userId !== userId) {
+                throw new AccessDeniedException("You can't perform this action")
+            }
+            LikeService.deleteAllLikePost(postId, userId)
+            CommentService.removeAllByPostId(postId)
+        }
     }
 
 

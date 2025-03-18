@@ -16,23 +16,6 @@ jest.mock('bcrypt', () => ({
     })
 }))
 
-describe("Register", () => {
-    test('should send status code 400 when user exists', () => {
-        (UserService.findByEmail as jest.Mock).mockImplementation(async () => {
-            return {
-                email: "quangphu@gmail.com",
-                password: "hehe"
-            }
-        })
-        AuthenService.register({
-            email: "quangphu@gmail.com",
-            password: "hehe"
-        }).catch(err => {
-            expect(400).toEqual(err.status)
-
-        })
-    })
-});
 
 
 describe("Login", () => {

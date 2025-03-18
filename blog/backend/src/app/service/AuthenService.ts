@@ -10,6 +10,7 @@ import TokenIsExpiredException from "../exception/TokenIsExpiredException";
 import UsernameExistsException from "../exception/UsernameExistsException";
 import UserService from "./UserService";
 import TokenService from "./TokenService";
+import { hashPassword } from "../framework/common/auth";
 class AuthenService {
 
 
@@ -20,17 +21,13 @@ class AuthenService {
             throw new UsernameExistsException(`email: ${authRegister.email} exists`)
         }
 
-        const password = await this.hashPassword(authRegister.password)
+        const password = await hashPassword(authRegister.password)
 
-        authRegister.createdDate = new Date()
-        authRegister.role = 'USER'
 
-        const user : User  = {
+        const result = await UserService.create({
             ...authRegister,
             password: password
-        }
-
-        const result = await UserService.create(user)
+        })
 
         return result
     }
@@ -117,14 +114,6 @@ class AuthenService {
         return authResp
     }
     
-
-    public async hashPassword(userPassword: string) {
-        const saltRound = 10
-        const salt = await genSalt(saltRound)
-        const hashPassword = await hash(userPassword, salt)
-       
-        return hashPassword
-    }
 
 
 }

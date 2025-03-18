@@ -1,41 +1,54 @@
 import { ObjectId } from "mongodb"
 import { PageParam } from "../framework/common/page"
-import { UserResponseSimple } from "./user"
+import { Tagging } from "./tagging"
+import {UserSimple } from "./user"
 
+export interface Post extends PostBase{
+    _id: ObjectId
+}
 
-export interface PostResponseSimple {
-    id: string
-    user: UserResponseSimple,
-    title: string
-    taggingId: string[],
+export interface PostBase {
+    userId?: string
+    title?: string
     view: number
-    like: number
+    like: number,
     comment: number,
-    createdDate: any,
-    modifiedDate: any
+    content?: string
+    displayUrl?: string
+    description?: string
+    taggings: Tagging[]
+    timestamps: {
+        createdAt: Date,
+        updatedAt: Date
+    }
 }
 
-export interface PostResponseDetail extends PostResponseSimple{
+
+export interface PostUpdateReq {
+    title?: string
+    description?: string
     content: string
+    taggingIds: Tagging[],
+    displayUrl?: string
 }
 
 
-export class PostCreateRequest {
-    title: string = ''
-    content: string = ''
-    taggingIds: string[] = []
-    view: number = 0
-    userPostId: string = ''
-    createdDate: any = new Date()
-    modifiedDate: any = new Date()
+export interface PostSimpleResp {
+    id?: ObjectId,
+    description?: string
+    title?: string,
+    user: UserSimple,
+    displayUrl?: string
+    taggings: Tagging[],
+    view: number,
+    comment: number
+    like: number
 }
 
-export class PostUpdateRequest {
-    title: string = ''
-    content: string = ''
-    taggingIds: string[] = []
-    modifiedDate: any = new Date()
+export interface PostResponseDetail extends PostSimpleResp{
+    content?: string
 }
+
 
 
 export interface PostPageRequest extends PageParam {

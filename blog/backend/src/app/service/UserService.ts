@@ -1,6 +1,8 @@
 import { ObjectId } from "mongodb"
 import { UserRepository } from "../../db/mongo"
-import { User, UserProfile } from "../model/user"
+import UsernameOrPasswordNotMatchException from "../exception/UsernameOrPasswordNotMatchException"
+import { compareHash, hashPassword, } from "../framework/common/auth"
+import { User, UserSimple } from "../model/user"
 
 
 class UserService {
@@ -22,13 +24,29 @@ class UserService {
     }
 
 
-    updatePasswordById(userId: string, password: string) {
-        return this.updateById(userId, {password})
+    async updatePassword(userId: string, oldPassword: string, newPassword: string) {
+        const user: any = await this.findById(userId)
+        const isEqual = await compareHash(oldPassword, user.password)
+        if(isEqual) {
+            const newHashPassword = await hashPassword(newPassword)
+            await this.updateById(userId, {password: newHashPassword})
+        }
+        throw new UsernameOrPasswordNotMatchException("Your old password invalid");
     }
 
-    updateProfileById(userId: string, profile: UserProfile) {
+    updateProfileById(userId: string, profile: {fullName: string, bio: string}) {
         return this.updateById(userId, profile)
     }
+
+    async getProfile(userId: string): Promise<UserSimple> {
+        const user = await this.findById(userId)
+        if(user) {
+            return {...user};
+        }
+        throw new UsernameOrPasswordNotMatchException("not found user");
+    }
+
+
 
     private updateById(userId: string, data: object) {
         return UserRepository.updateOne({

@@ -1,16 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import { getUserLoggined } from "../framework/common/auth";
 import { BookMarkReq } from "../model/bookmark";
-import { PostCreateRequest, PostPageUserBookMarkRequest, PostUpdateLike } from "../model/post";
+import {PostPageUserBookMarkRequest, PostUpdateLike, PostUpdateReq } from "../model/post";
 import PostService from "../service/PostService";
 
 
 class PostController {
 
     createPost(req: any, res: Response, next: NextFunction) {
-        const body: PostCreateRequest = req.body;
-        body.userPostId = getUserLoggined(req).userId
-        PostService.save(body).then(result => {
+        const body: PostUpdateReq = req.body;
+        PostService.save(getUserLoggined(req).userId, body).then(result => {
             res.status(200).send(result)
         }).catch(err => next(err))
     }
@@ -33,20 +32,6 @@ class PostController {
         }).catch(err => {
             next(err)
         })
-    }
-
-    getAllPostByUserBookMark(req: any, res: Response, next: NextFunction) {
-        const request: PostPageUserBookMarkRequest = req.query
-        PostService.findAllByUserBookMark(request).then(resp => {
-            res.status(200).send(resp)
-        }).catch(err => next(err))
-    }
-  
-    updatelikePost(req: any, res: Response, next: NextFunction) {
-        const body: PostUpdateLike = req.body
-        PostService.updatelikePost(body.postId, body.userLikeId, (body.up ? 1 : -1)).then(result => {
-            res.send(200);
-        }).catch((err: any) => next(err))
     }
 
 

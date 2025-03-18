@@ -6,4 +6,4 @@ export const COMMENT_DOCUMENT = 'comment'
 export const ACCESS_TOKEN_DOCUMENT = 'accessToken'
 export const LIKE_DOCUMENT = 'like'
 export const BOOK_MARK_DOCUMENT = 'bookmark'
-
+export const FOLLOW_DOCUMENT = "follow"

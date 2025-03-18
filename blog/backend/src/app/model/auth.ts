@@ -1,13 +1,13 @@
-import {User, UserBase} from './user'
+
 export interface AuthLogin {
     email: string
     password: string
 }
 
-export interface AuthRegister extends UserBase{
+export interface AuthRegister{
     email: string,
     fullName: string,
-    password: string
+    password: string,
 }
 
 export interface AuthLoginResp {
