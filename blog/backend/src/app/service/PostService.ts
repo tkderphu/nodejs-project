@@ -7,6 +7,7 @@ import AccessDeniedException from "../exception/AccessDeniedException"
 import { PageResult } from "../framework/common/page"
 import { POST_DOCUMENT, USER_DOCUMENT } from "../../db/document"
 import TaggingService from "./TaggingService"
+import PostNotFoundException from "../exception/PostNotFoundException"
 class PostService {
 
 
@@ -41,10 +42,13 @@ class PostService {
         })
     }
 
-    findById(postId: string) {
-        return PostRepository.findOne({
+    async findById(postId: string) {
+        const result = await  PostRepository.findOne({
             _id: new ObjectId(postId)
         })
+        if(result) return result
+
+        throw new PostNotFoundException("post not found")
     }
 
 

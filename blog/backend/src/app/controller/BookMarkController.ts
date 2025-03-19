@@ -6,23 +6,47 @@ import BookMarkService from "../service/BookMarkService"
 
 class BookMarkController {
     bookmark(req: Request, res: Response, next: NextFunction) {
-        const bookmarkRequest: BookMarkReq = {
-            entityId: req.params['entityId'],
-            userId: getUserLoggined(req).userId,
-            entityType: req.params['entityType'] || 'POST'
+        const {objectId, type} = req.body
+        const bookmarkReq: BookMarkReq = {
+            objectId: objectId,
+            type: type || 'POSTS',
         }
-        BookMarkService.save(bookmarkRequest).then(result => {
-            res.status(200).send(result)
-        }).catch(err => next(err));
+
+        BookMarkService.save(getUserLoggined(req).userId ,bookmarkReq).then(resp => {
+            res.status(200).send("ok")
+        }).catch(err => {
+            next(err)
+        })
     }
+
     getAllBookmarkByUser(req: Request, res: Response, next: NextFunction) {
-        const userId = req.params['userId']
-        const entityType = req.params['entityType']
-        BookMarkService.findBookmarkByUser(entityType, userId).then(result => {
+        const {userId, type} = req.params
+        const {sortBy} = req.query
+        //@ts-ignore
+        BookMarkService.findBookmark(userId, type, sortBy).then(result => {
             res.status(200).send(result)
         }).catch(err => next(err))
     }
 
+    removeBookmark(req: Request, res: Response, next: NextFunction) {
+        const {bookmarkId} = req.params
+        BookMarkService.remove(getUserLoggined(req).userId, bookmarkId).then(resp => {
+            res.status(200).send("ok")
+        }).catch(err => {
+            next(err)
+        })
+    }
+
+    isCurrentUserBookmarkedThisObject(req: Request, res: Response, next: any) {
+        const {type, objectId} = req.params
+        //@ts-ignore
+        BookMarkService.isObjectBookmarked(getUserLoggined(req).userId, type, objectId).then(resp => {
+            res.status(200).send("ok")
+        }).catch(err => {
+            next(err)
+        })
+
+    }
 
 
 }
