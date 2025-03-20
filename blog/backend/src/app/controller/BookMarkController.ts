@@ -23,7 +23,7 @@ class BookMarkController {
         const {userId, type} = req.params
         const {sortBy} = req.query
         //@ts-ignore
-        BookMarkService.findBookmark(userId, type, sortBy).then(result => {
+        BookMarkService.findAllBookmark(userId, type, sortBy).then(result => {
             res.status(200).send(result)
         }).catch(err => next(err))
     }

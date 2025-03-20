@@ -5,16 +5,16 @@ function Home() {
         <>
 
             <div className="container-fluid bg-dark text-white text-center py-4">
-            <button className="btn btn-secondary"><a className="nav-link" href="/create-post">VIẾT BÀI</a></button>
+            <button className="btn btn-secondary"><a className="nav-link" href="/create-post">Add new post</a></button>
                 
             </div>
 
 
             <div className="container mt-3">
                 <ul className="nav nav-tabs">
-                    <li className="nav-item"><a className="nav-link active" href="#">MỚI NHẤT</a></li>
-                    <li className="nav-item"><a className="nav-link" href="#">ĐANG THEO DÕI</a></li>
-                    <li className="nav-item"><a className="nav-link" href="#">BOOKMARK CỦA TÔI</a></li>
+                    <li className="nav-item"><a className="nav-link active" href="#">Posts</a></li>
+                    <li className="nav-item"><a className="nav-link" href="#">Followings</a></li>
+                    <li className="nav-item"><a className="nav-link" href="#">My bookmarked</a></li>
                 </ul>
             </div>
 
@@ -88,20 +88,8 @@ function Home() {
                     </div>
 
                     <div className="col-md-4 sticky-sidebar">
-                        <h5 className="text-primary">Câu Hỏi Mới Nhất</h5>
-                        <ul className="list-group">
-                            <li className="list-group-item">
-                                <strong>Phúc Nguyễn Minh Thiên:</strong> AI hỗ trợ duyệt dự án trên website?<br />
-                                <span className="text-muted">👁️ 114 💬 0 ⭐ 1</span>
-                            </li>
-                            <li className="list-group-item">
-                                <strong>Lê Thanh:</strong> Làm sao hiện menu Group cho khách?<br />
-                                <span className="text-muted">👁️ 45 💬 0 ⭐ 1</span>
-                            </li>
-                        </ul>
-
-
-                        <h5 className="text-primary mt-4">Tác Giả Hàng Đầu</h5>
+            
+                        <h5 className="text-primary ">Top authors</h5>
                         <ul className="list-group">
                             <li className="list-group-item d-flex align-items-center">
                                 <img src="top_author1.jpg" alt="Top Author" className="rounded-circle me-3" width="40" />

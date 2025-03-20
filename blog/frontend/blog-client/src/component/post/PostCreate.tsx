@@ -4,6 +4,9 @@ import "jodit";
 // import "jodit/build/jodit.min.css";
 import JoditEditor from "jodit-react";
 import postService from "../../service/post.service";
+import { useDispatch, useSelector } from "react-redux";
+import { stat } from "fs";
+import { createPostAction } from "../../redux/store/action/post/post.action";
 
 const copyStringToClipboard = function (str: any) {
     var el: any = document.createElement("textarea");
@@ -138,9 +141,9 @@ const editorConfig = {
     askBeforePasteFromWord: true,
     //defaultActionOnPaste: "insert_clear_html",
     buttons: buttons,
-    uploader: {
-        insertImageAsBase64URI: true
-    },
+    // uploader: {
+    //     insertImageAsBase64URI: true
+    // },
     // width: 800,
     height: 700
 };
@@ -148,31 +151,64 @@ const editorConfig = {
 function PostCreate() {
     const [title, setTile] = useState('')
     const [content, setContent] = useState('');
-    const [taggingIds, setTaggingIds] = useState([])
+    const [displayUrl, setDisplayUrl] = useState('')
+    const [taggingName, setTaggingName] = useState('')
+    const [description, setDescription] = useState('')
+    const dispatch = useDispatch()
+    const {loading, hasError, message, status} = useSelector((state: any) => {
+        return state.createPost
+    })
 
     const publishPost = () => {
-        const request: any = {
-            title: title,
-            content: content,
-            taggingIds: taggingIds,
-            view: 0,
-            createdDate: new Date(),
-            modifiedDate: new Date()
+        const taggings = taggingName.split(",").map((tagging) => {
+            return tagging.trim().toLowerCase()
+        })
+        if(taggings.length >= 3) {
+            const request: any = {
+                title: title,
+                content: content,
+                taggingNames: taggings,
+                displayUrl: displayUrl,
+                description: description
+            }
+            //@ts-ignore
+            dispatch(createPostAction(request))
+            console.log(request)
+        } else {
+            alert("At least 3 tagging")
         }
-        postService.createPost(request)
+        
     }
 
 
     return (
         <div className="mt-3">
             <div className="form-group mb-3">
-                <label htmlFor="exampleInputEmail1">Tiêu đề</label>
+                <label htmlFor="exampleInputEmail1">Title</label>
                 <input type="text" className="form-control" onChange={(e) => {
                     setTile(e.target.value)
-                }} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+                }} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Title of post" />
+            </div>
+            <div className="form-group mb-3">
+                <label htmlFor="exampleInputEmail1">Description</label>
+                <input type="text" className="form-control" onChange={(e) => {
+                    setDescription(e.target.value)
+                }} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Description about post" />
+            </div>
+            <div className="form-group mb-3">
+                <label htmlFor="exampleInputEmail1">Display url</label>
+                <input type="text" className="form-control" onChange={(e) => {
+                    setDisplayUrl(e.target.value)
+                }} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Url image" />
+            </div>
+            <div className="form-group mb-3">
+                <label htmlFor="exampleInputEmail1">Tagging name(each tagging seperate by comma)</label>
+                <input type="text" className="form-control" onChange={(e) => {
+                    setTaggingName(e.target.value)
+                }} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="java, spring, jwt, websocket" />
             </div>
             <div>
-                <label>Nội dung</label>
+                <label>Content</label>
                 <JoditEditor
                     value={content}
                     //@ts-ignore
@@ -180,9 +216,13 @@ function PostCreate() {
                     onChange={value => setContent(value)}
                 />
             </div>
-            <button className="btn btn-primary w-100 mt-3" onClick={() => {
+            {hasError && <div className="alert alert-danger mt-3" role="alert">
+                   {message}
+                </div>}
+             {loading && <div className="d-flex justify-content-center align-items-center mt-3"><div className="spinner-border mx-3" role="status"/> <span>Please wait</span></div>}
+            {!loading && <button className="btn btn-primary w-100 mt-3" onClick={() => {
                 publishPost()
-            }}>Đăng bài</button>
+            }}>Đăng bài</button>}
         </div>
     );
 }

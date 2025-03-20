@@ -36,7 +36,6 @@ postRouter.post('/api/posts',authMiddleWare, PostController.createPost)
  *      500:
  *        description: Server Error
  */
-postRouter.delete('/api/posts/:postId', PostController.deletePost)
 
 
 
@@ -153,7 +152,6 @@ postRouter.get('/api/posts/query', PostController.getListPost)
  *      500:
  *        description: Server Error
  */
-postRouter.delete('/api/posts/:postId', PostController.deletePost)
 
 
 

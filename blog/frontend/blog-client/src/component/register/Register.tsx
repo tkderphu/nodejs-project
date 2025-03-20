@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 import {useState} from 'react'
 import {useDispatch} from 'react-redux'
-import { authRegisterAction } from "../../store/action/auth/auth.action"
 function Register() {
 
     const [fullName, setFullName] = useState('')

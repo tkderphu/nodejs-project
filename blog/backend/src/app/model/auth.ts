@@ -1,3 +1,4 @@
+import { UserSimple } from "./user"
 
 export interface AuthLogin {
     email: string
@@ -11,8 +12,7 @@ export interface AuthRegister{
 }
 
 export interface AuthLoginResp {
-    userFullName: string
-    userId: string
+    user: UserSimple
     accessToken: string
     refreshToken: string
     expiredAt: number

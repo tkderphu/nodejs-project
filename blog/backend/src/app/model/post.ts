@@ -30,7 +30,7 @@ export interface PostUpdateReq {
     title?: string
     description?: string
     content: string
-    taggingIds: Tagging[],
+    taggingNames: string[],
     displayUrl?: string
 }
 

@@ -1,10 +1,12 @@
+import { UserSimple } from "./user"
+
 export interface RefreshToken {
-    userId: string
+    user: UserSimple
     token: string
 }
 
 export interface AccessToken {
-    userId: string
+    user: UserSimple
     token: string,
     refreshToken: string
 }

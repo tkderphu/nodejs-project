@@ -1,6 +1,5 @@
 import { AuthLogin, AuthLoginResp, AuthRegister } from "../model/auth";
 import { compare, genSalt, hash } from 'bcrypt'
-import { User } from "../model/user";
 import UsernameOrPasswordNotMatchException from "../exception/UsernameOrPasswordNotMatchException";
 import { random6Digit } from "../framework/utils/RandomUtils";
 import MailService from "./MailService";
@@ -49,21 +48,33 @@ class AuthenService {
 
         TokenService.saveRefreshToken({
             token: refreshToken,
-            userId: user._id.toString()
+            user: {
+               _id: user._id,
+               fullName: user.fullName,
+               image_url: user.image_url
+            }
         })
 
         TokenService.saveAccessToken({
             refreshToken: refreshToken,
             token: accessToken,
-            userId: user._id.toString()
+            user: {
+               _id: user._id,
+               fullName: user.fullName,
+               image_url: user.image_url
+            }
         })
 
         const authResp: AuthLoginResp = {
-            userId: user._id.toString(),
+            user: {
+               _id: user._id,
+               fullName: user.fullName,
+               image_url: user.image_url
+            },
             accessToken: accessToken,
             refreshToken: refreshToken,
             expiredAt: JwtService.getPayload(accessToken).expiredTime,
-            userFullName: user.fullName
+
         }
     
         return authResp
@@ -100,15 +111,15 @@ class AuthenService {
         TokenService.saveAccessToken({
             refreshToken: refToken,
             token: newAccessToken,
-            userId: paylaod.userId
+            user: paylaod.user
         })
 
         const authResp: AuthLoginResp = {
-            userId: paylaod.userId,
+            user: paylaod.user,
             accessToken: newAccessToken,
             refreshToken: refToken,
             expiredAt: JwtService.getPayload(newAccessToken).expiredTime,
-            userFullName: paylaod.userFullName
+    
         }
 
         return authResp

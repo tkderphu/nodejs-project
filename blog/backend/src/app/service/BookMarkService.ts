@@ -42,7 +42,7 @@ class BookMarkService {
     }
 
 
-    async findBookmark(userId: string, type: "POSTS" | "SERIES", sortBy: "Published date" | "Bookmarked at" = 'Published date') {
+    async findAllBookmark(userId: string, type: "POSTS" | "SERIES", sortBy: "Published date" | "Bookmarked at" = 'Published date') {
         let sort  = {}
         if(sortBy === 'Published date') {
             //@ts-ignore

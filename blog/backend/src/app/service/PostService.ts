@@ -26,7 +26,7 @@ class PostService {
             description: postReq.description,
             displayUrl: postReq.displayUrl,
             title: postReq.title,
-            taggings: (await TaggingService.save(postReq.taggingIds))
+            taggings: (await TaggingService.save(postReq.taggingNames))
         }
 
         return PostRepository.insertOne(post)
@@ -167,20 +167,6 @@ class PostService {
             }
         })
     }
-
-    async deletePost(postId: string, userId: string) {
-        let post = ((await this.findById(postId)) as Post)
-        if (post) {
-            if (post.userId !== userId) {
-                throw new AccessDeniedException("You can't perform this action")
-            }
-            LikeService.deleteAllLikePost(postId, userId)
-            CommentService.removeAllByPostId(postId)
-        }
-    }
-
-
-
 
 }
 

@@ -1,24 +1,25 @@
-import { ObjectId } from "mongodb"
 import { TaggingRepository } from "../../db/mongo"
-import { Tagging } from "../model/tagging"
 
 class TaggingService {
 
-    async save(tagging: Tagging[]) {
+    async save(taggingNames: string[]) {
         const result = []
-        for(let x of tagging) {
-            let tagging = await this.findByName(x.name)
+        console.log("taggings: ", taggingNames)
+        for(let i = 0; i < taggingNames.length; i++) {
+            let x = taggingNames[i]
+            let tagging = await this.findByName(x)
             if(!tagging) {
                 const insertVal = await TaggingRepository.insertOne({
-                    name: x.name
+                    name: x
                 })
                 tagging = {
                     _id: insertVal.insertedId,
-                    name: x.name
+                    name: x
                 }
             }
             result.push(tagging)
         }
+        console.log('tagging: ', result)
         return result
         
     }

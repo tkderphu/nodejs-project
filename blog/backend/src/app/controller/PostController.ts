@@ -33,21 +33,6 @@ class PostController {
             next(err)
         })
     }
-
-
-
-    deletePost(req: any, res: Response, next: NextFunction) {
-        const postId = req.params["postId"];
-        PostService.deletePost(postId, getUserLoggined(req).userId)
-        .then(() => {
-            res.send(200)
-        }).catch(err => {
-            next(err)
-        })
-    }
-
-
-    
 }
 
 export default new PostController()

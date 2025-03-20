@@ -1,6 +1,7 @@
-export const CREATE_POST_BEGIN = ""
-export const CREATE_POST_SUCCESS = ""
-export const CREATE_POST_FAILED = ""
+export const CREATE_POST_BEGIN = "CREATE_POST_BEGIN"
+export const CREATE_POST_SUCCESS = "CREATE_POST_SUCCESS"
+export const CREATE_POST_FAILED = "CREATE_POST_FAILED"
+
 export const REMOVE_POST_BEGIN = ""
 export const REMOVE_POST_SUCCESS = ""
 export const REMOVE_POST_FAILED = ""

@@ -1,26 +1,27 @@
-import { CREATE_POST_BEGIN } from "./post.action.type"
+import postService from "../../../../service/post.service"
+import { CREATE_POST_BEGIN, CREATE_POST_FAILED, CREATE_POST_SUCCESS } from "./post.action.type"
 
-const createPostBegin = () => {
-    return {
-        type: CREATE_POST_BEGIN
+export const createPostAction = (req: { title: string; description: string; content: string; taggingNames: string[]; displayUrl: string; }) => {
+    return (dispatch: any) => {
+        dispatch({
+            type: CREATE_POST_BEGIN
+        })
+        setTimeout(() => {
+            postService.createPost(req).then(response => {
+                dispatch({
+                    type: CREATE_POST_SUCCESS
+                })
+            }).catch(err => {
+                dispatch({
+                    type: CREATE_POST_FAILED,
+                    payload: {
+                        message: err.message,
+                        status: err.status
+                    }
+                })
+            })
+        }, 3000)
     }
-}
-
-const createPostSuccess = (response: any) => {
-    return {
-        type: CREATE_POST_BEGIN,
-        payload: response
-    }
-}
-
-const createPostFailed = (error: any, message: any, path: any, status: any) => {
-    return {
-        type: CREATE_POST_BEGIN,
-        error, message, path, status
-    }
-}
-const createPostAction = () => {
-
 }
 
 /**

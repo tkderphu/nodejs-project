@@ -8,9 +8,9 @@ export interface PageParam {
     page: number
     limit: number
 }
-export const totalPage = (pageParam: PageParam, list: Array<any>) => {
-    return Math.ceil(list.length / pageParam.limit)
+export const totalPage = (limit: number, list: Array<any>) => {
+    return Math.ceil(list.length / limit)
 }
-export const startFrom = (pageParam: PageParam) => {
-    return (pageParam.page - 1) * pageParam.limit
+export const startFrom = (page: number, limit: number) => {
+    return (page - 1) * limit
 }
