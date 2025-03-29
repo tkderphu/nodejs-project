@@ -1,10 +1,10 @@
 
-import { getRefreshToken, getToken } from "../../service/AuthenLoginResponse"
+import { getRefreshToken, getToken, getUserLoggined } from "../../service/AuthenLoginResponse"
 import "./Header.css"
 function Header() {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light px-4">
-            <a className="navbar-brand" href="#">VIBLO</a>
+            <a className="navbar-brand" href="/">VIBLO</a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span className="navbar-toggler-icon"></span>
             </button>
@@ -45,7 +45,7 @@ function Header() {
                 {getToken() && (<div className="dropdown">
                     <button className="btn btn-outline-secondary dropdown-toggle" type="button" id="userDropdown"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <i className="bi bi-person-circle"></i> User
+                        <i className="bi bi-person-circle"></i> {getUserLoggined()?.fullName}
                     </button>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li><a className="dropdown-item" href="#">Profile</a></li>

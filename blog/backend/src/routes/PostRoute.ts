@@ -10,8 +10,7 @@ const postRouter = Router()
 
 postRouter.put('/api/posts', PostController.updatePost)
 
-
-
+postRouter.patch("/api/posts", PostController.getListPost)
 
 postRouter.post('/api/posts',authMiddleWare, PostController.createPost)
 

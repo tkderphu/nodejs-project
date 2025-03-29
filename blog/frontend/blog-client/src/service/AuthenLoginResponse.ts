@@ -9,8 +9,8 @@ export const getRefreshToken = () => {
     return jwt.refreshToken
 }
 
-export const getUserLoggined = () => {
-    return jwt.userId;
+export const getUserLoggined = (): {_id: string, fullName: string} => {
+    return jwt.user || {};
 }
 
 export const storeToken = (payload: any) => {

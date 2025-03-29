@@ -9,9 +9,9 @@ export const REMOVE_POST_FAILED = ""
 /**
  * GET ALL POST
  */
-export const FETCH_ALL_POST_BEGIN = ""
-export const FETCH_ALL_POST_SUCCESS = ""
-export const FETCH_ALL_POST_FAILED = ""
+export const FETCH_ALL_POST_BEGIN = "FETCH_ALL_POST_BEGIN"
+export const FETCH_ALL_POST_SUCCESS = "FETCH_ALL_POST_SUCCESS"
+export const FETCH_ALL_POST_FAILED = "FETCH_ALL_POST_FAILED"
 
 /**
  * GET ALL POST BY WHO CREATED

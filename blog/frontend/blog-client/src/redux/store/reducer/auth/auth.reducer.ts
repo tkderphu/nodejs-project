@@ -61,7 +61,7 @@ export const authRegisterReducer = (state = authRegisterState, action: any) => {
                 hasError: true,
                 loading: false,
                 status: action.payload.status,
-                message: action.payload.message
+                message: action.payload.response.data.error
             }
         }
         default: return state

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { getUserLoggined } from "../framework/common/auth";
 import { BookMarkReq } from "../model/bookmark";
-import {PostPageUserBookMarkRequest, PostUpdateLike, PostUpdateReq } from "../model/post";
+import { PostPageUserBookMarkRequest, PostUpdateLike, PostUpdateReq } from "../model/post";
 import PostService from "../service/PostService";
 
 
@@ -14,15 +14,26 @@ class PostController {
         }).catch(err => next(err))
     }
 
-    
+
 
     getListPost(req: any, res: Response, next: NextFunction) {
-        const any = req.body
-        PostService.findAllByCondition(any).then(result => {
-            res.status(200).send(result)
-        }).catch(err => next(err))
-    }
+        const page = Number.parseInt(req.query.page) || 1
+        const limit = Number.parseInt(req.query.limit) || 20
+        const { taggingNames, timeStamps, keyword, userId } = req.body
 
+        console.log("request: ", req.body)
+        //@ts-ignore
+        PostService.findAll({
+            keyword: keyword,
+            taggingNames: taggingNames,
+            timestamp: timeStamps,
+            userId: userId
+        }, page, limit).then(resp => {
+            res.status(200).send(resp)
+        }).catch(err => {
+            next(err)
+        })
+    }
 
     updatePost(req: any, res: Response, next: NextFunction) {
         const postId = req.params['postId']

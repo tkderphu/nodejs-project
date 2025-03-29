@@ -57,6 +57,15 @@ class BookMarkService {
         }).sort(sort).toArray()
     }
 
+    async countBookmark(objectId: string, type: "POSTS" | "SERIES") {
+        const result = await BookMarkRepository.countDocuments({
+            type: type,
+            "object._id": objectId
+        })
+        if(result) return result
+        return 0;
+    }
+
 
     async isObjectBookmarked(userId: string, type: "POSTS" | "SERIES", objectId: string) {
         const result = await BookMarkRepository.findOne({

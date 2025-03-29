@@ -8,6 +8,8 @@ import { PageResult } from "../framework/common/page"
 import { POST_DOCUMENT, USER_DOCUMENT } from "../../db/document"
 import TaggingService from "./TaggingService"
 import PostNotFoundException from "../exception/PostNotFoundException"
+import UserService from "./UserService"
+import BookMarkService from "./BookMarkService"
 class PostService {
 
 
@@ -52,101 +54,64 @@ class PostService {
     }
 
 
-    async findAllByUserBookMark(postPageReq: PostPageUserBookMarkRequest) {
-        const posts = await BookMarkRepository.aggregate([
-            {
-                $match: {
-                    "userId": {
-                        $eq: postPageReq.userId
-                    }
-                }
-            },
-            {
-                $lookup: {
-                    from: POST_DOCUMENT,
-                    localField: "postId",
-                    foreignField: "_id",
-                    as: "posts"
-                }
-            },
-            {
-                $unwind: "$posts"
-            },
-            {
-                $projection: {
-                    _id: 0,
-                    posts: 1
-                }
-            },
-            {
-                $lookup: {
-                    from: USER_DOCUMENT,
-                    localField: "userPostId",
-                    foreignField: "_id",
-                    as: "user"
-                }
-            },
-            {
-                $unwind: "$user"
-            }
-        ]).toArray()
-
-        return posts
-        // const arr = posts.map(post => {
-        //     const postSimple: PostResponseSimple = {
-        //         ...post,
-        //         id: post.
-        //     }
-        // })
-
-    }
-
-    async findAllByCondition(req: PostPageRequest) {
-        // const filter: any = {}
-        // if (req.taggingId) {
-        //     filter.taggingId = req.taggingId
-        // }
-        // if (req.startDate && req.endDate) {
-        //     filter.createdDate.$gte = new Date(req.startDate)
-        //     filter.createdDate.$lte = new Date(req.endDate)
-        // }
-        // if (req.userPostId) {
-        //     filter.userPostId = req.userPostId
-        // }
-        // if (req.keyword) {
-        //     filter.$text.$search = req.keyword
-        // }
-
-        // const countDocuments = await PostRepository.countDocuments(filter)
-
-        // const totalPage = Math.ceil(countDocuments / req.limit)
-        // const skip = (req.page - 1) * req.limit
-
-        // let result = PostRepository
-        //     .find(filter)
-        //     .skip(skip)
-        //     .limit(req.limit)
-        // if (req.sort) {
-        //     result = result.sort(req.sort)
-        // }
-
-        // let list: any = (await result.toArray())
-
-
-        // const pageResult: PageResult<PostResponse> = {
-        //     currentPage: req.page,
-        //     list: list,
-        //     totalPage: totalPage
-        // }
-
-        // return pageResult
-
-    }
-
     countPostIsCreatedByUserId(userId: string) {
         return PostRepository.countDocuments({
             userPostId: userId
         })
+    }
+
+    async findAll(req: {taggingNames?: string[], timestamp?: {startDate: any, endDate: any}, userId?: string, keyword?: string},
+        page: number, limit: number) {
+        let filter: any = {}
+        if (req.taggingNames) {
+            filter = {
+                ...filter,
+                "taggings.name": {
+                    $in: req.taggingNames
+                }
+            }
+        }
+        if (req.timestamp) {
+            filter.timestamps = {
+                "createdDate.$gte": new Date(req.timestamp.startDate)
+            }
+            filter.timestamps =  {
+                "createdDate.$lte": new Date(req.timestamp.endDate)
+            }
+        }
+        if (req.userId) {
+            filter.userId = req.userId
+        }
+        if (req.keyword) {
+            filter.$text.$search = req.keyword
+        }
+
+        const countDocuments = await PostRepository.countDocuments(filter)
+
+        const totalPage = Math.ceil(countDocuments / limit)
+        const skip = (page - 1) * limit
+
+        let result = PostRepository
+            .find(filter)
+            .skip(skip)
+            .sort({'timestamps.createdAt': -1})
+            .limit(limit)
+
+        let posts: any = (await result.toArray())
+
+        for(let i = 0; i < posts?.length; i++) {
+            posts[i].user = await UserService.findById(posts[i].userId)
+            posts[i].bookmark = await BookMarkService.countBookmark(posts[i]._id.toString(), 'POSTS')
+        }
+
+        
+        const pageResult: PageResult<Post> = {
+            currentPage: page,
+            list: posts,
+            totalPage: totalPage
+        }
+
+        return pageResult
     }
 
 

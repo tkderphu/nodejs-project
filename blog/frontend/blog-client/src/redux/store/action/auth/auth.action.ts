@@ -64,6 +64,7 @@ export const authRegisterAction = (req: any) => {
         dispatch(authLoginBegin())
         authService.register(req).then(res => {
             dispatch(authLoginSuccess(res))
+            location.href='/login'
         }).catch(err => {
             dispatch(authRegisterFailed(err))
         })

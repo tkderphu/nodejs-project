@@ -1,6 +1,7 @@
 
 export interface Notification {
-
+    content: string,
+    type: "COMMENT" | "POST"
 }
 
 

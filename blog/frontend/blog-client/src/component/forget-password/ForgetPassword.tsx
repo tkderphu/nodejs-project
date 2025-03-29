@@ -25,9 +25,9 @@ function ForgetPassword() {
         <div className="d-flex align-items-center justify-content-center" style={{ height: "100vh", backgroundColor: "#f8f9fa" }}>
             <div className="card p-4 shadow" style={{ width: "350px" }}>
                 <h3 className="text-center mb-3">Quên mật khẩu</h3>
-                <div className="alert alert-danger" role="alert">
+                {/* <div className="alert alert-danger" role="alert">
                     This is a danger alert—check it out!
-                </div>
+                </div> */}
                 <form>
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">Email</label>
