@@ -21,7 +21,7 @@ function Layout() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register/>} />
           <Route path="/forgot-password" element={<ForgetPassword/> }/>
-          <Route path="/profile" element={<Profile/>}></Route>
+          <Route path="/profile/:id" element={<Profile/>}></Route>
           <Route path='/create-post' element={<PostCreate/>}></Route>
           <Route path="/posts/:id/:name" element={<PostDetail/>}></Route>
         </Routes>

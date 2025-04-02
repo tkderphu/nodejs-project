@@ -19,15 +19,17 @@ export interface UserBase {
     password?: string
     image_url?: string
     bio?: string
-    lastVisit?: any,
-    followedTags?: Tagging[],
-    followedAuthors?: UserSimple[],
-    followers?: UserSimple[],
     role?: 'ADMIN' | 'USER'
 }
 
 
 
-export interface UserResponse extends UserBase {
-    _id: string
+export interface UserProfile extends UserBase {
+    _id: ObjectId,
+    followTags?: number,
+    followings?: number,
+    followers?: number,
+    posts?: number,
+    bookmark?: number,
+    comments?: number
 }

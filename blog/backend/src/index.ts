@@ -11,6 +11,8 @@ import commentRouter from './routes/CommentRoute'
 import postRouter from './routes/PostRoute'
 import bookMarkRouter from './routes/BookMarkRoute'
 import cors from 'cors'
+import followRoute from './routes/FollowRoute'
+import userRouter from './routes/UserRoute'
 dotenv.config()
 
 const app = express()
@@ -31,6 +33,8 @@ app.use(authRouter)
 app.use(commentRouter)
 app.use(postRouter)
 app.use(bookMarkRouter)
+app.use(followRoute)
+app.use(userRouter)
 // app.use(taggingRouter)
 
 

@@ -140,13 +140,15 @@ function Home() {
                                             <span className="text-muted">{post.description}</span>
                                             <p className="card-text text-muted">Tác giả:
                                                 <a className="link-offset-2 mt-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacit"
-                                                    href={"#"} onClick={() => {
-                                                        setFilter((prev) => ({
-                                                            ...prev,
-                                                            userId: post.user?._id,
-                                                            userFullName: post.user?.fullName
-                                                        }))
-                                                    }}>{post.user?.fullName}</a></p>
+                                                    href={`/profile/${post.user?._id}`} 
+                                                    // onClick={() => {
+                                                    //     setFilter((prev) => ({
+                                                    //         ...prev,
+                                                    //         userId: post.user?._id,
+                                                    //         userFullName: post.user?.fullName
+                                                    //     }))
+                                                    // }}
+                                                    >{post.user?.fullName}</a></p>
                                             <div className="d-flex flex-wrap mb-3">
                                                 {post.taggings?.map(tag => {
                                                     return (

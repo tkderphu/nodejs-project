@@ -2,7 +2,10 @@ import { ObjectId } from "mongodb"
 import { UserRepository } from "../../db/mongo"
 import UsernameOrPasswordNotMatchException from "../exception/UsernameOrPasswordNotMatchException"
 import { compareHash, hashPassword, } from "../framework/common/auth"
-import { User, UserSimple } from "../model/user"
+import { User, UserProfile, UserSimple } from "../model/user"
+import BookMarkService from "./BookMarkService"
+import FollowService from "./FollowService"
+import PostService from "./PostService"
 
 
 class UserService {
@@ -38,10 +41,19 @@ class UserService {
         return this.updateById(userId, profile)
     }
 
-    async getProfile(userId: string): Promise<UserSimple> {
+    async getProfile(userId: string) {
         const user = await this.findById(userId)
         if(user) {
-            return {...user};
+            const profile : UserProfile = {
+                ...user,
+                followTags: await FollowService.countFollowings(user._id.toString(), "TAG"),
+                followings: await FollowService.countFollowings(user._id.toString(), "USER"),
+                followers:  await FollowService.countFollowers(user._id.toString(), "USER"),
+                posts: await PostService.countPostIsCreatedByUserId(user._id.toString()),
+                bookmark: 0,
+                comments: 0
+            }
+            return profile;
         }
         throw new UsernameOrPasswordNotMatchException("not found user");
     }

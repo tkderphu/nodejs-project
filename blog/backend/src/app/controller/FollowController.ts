@@ -37,7 +37,7 @@ class FollowController {
         })
     }
 
-    getFollowed(req: Request, res: Response, next: any) {
+    getFollowings(req: Request, res: Response, next: any) {
         const {userId, type} = req.params
         //@ts-ignore
         FollowService.getListFollowed(userId, type).then(resp => {
@@ -47,11 +47,21 @@ class FollowController {
         })
     }
 
-    getFollower(req: Request, res: Response, next: any) {
+    getFollowers(req: Request, res: Response, next: any) {
         const {followObjectId, type} = req.params
 
         //@ts-ignore
         FollowService.getListFollower(followObjectId, type).then(resp => {
+            res.status(200).send(resp)
+        }).catch(err => {
+            next(err)
+        })
+    }
+
+    checkFollowedObject(req: Request, res: Response, next: any) {
+        const {followObjectId, type} = req.params
+        //@ts-ignore
+        FollowService.checkWhetherFollowed(getUserLoggined(req).userId, followObjectId, type).then(resp => {
             res.status(200).send(resp)
         }).catch(err => {
             next(err)

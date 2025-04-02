@@ -1,10 +1,10 @@
 import { ObjectId } from "mongodb"
-import { Tag } from "swagger-jsdoc"
+import { Tagging } from "./tagging"
 import { UserSimple } from "./user"
 
 export interface FollowBase {
     user: UserSimple,
-    followObject: UserSimple | Tag
+    followObject: UserSimple | Tagging
     type: 'TAG' | 'USER'
 }
 
