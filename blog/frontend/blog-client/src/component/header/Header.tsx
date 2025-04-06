@@ -48,7 +48,7 @@ function Header() {
                         <i className="bi bi-person-circle"></i> {getUserLoggined()?.fullName}
                     </button>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a className="dropdown-item" href="#">Profile</a></li>
+                        <li><a className="dropdown-item" href={`/profile/${getUserLoggined()._id}`}>Thông tin cá nhân</a></li>
                         <li><a className="dropdown-item" href="#">Settings</a></li>
                         <li>
                             <hr className="dropdown-divider" />

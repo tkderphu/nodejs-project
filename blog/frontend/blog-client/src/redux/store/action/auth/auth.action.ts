@@ -33,7 +33,7 @@ export const authLoginAction = (email: string, password: string) => {
             dispatch(authLoginSuccess(result))
             location.href = '/'
         }).catch(err => {
-            console.log("failed")
+            console.log("failed: ", err)
             dispatch(authLoginFailed(err))
         })
     } 

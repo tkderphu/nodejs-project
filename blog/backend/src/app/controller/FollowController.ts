@@ -9,36 +9,36 @@ class FollowController {
     async follow(req: Request, res: Response, next: any) {
         try {
             const user = await UserService.getProfile(getUserLoggined(req).userId)
-            const body: FollowBase = req.body
-            
-            if(body.type == 'TAG') {
-                body.followObject = {}
+            const {followObjectId, type} = req.params
+            let followObject = {}
+            if (type == 'TAG') {
+                followObject = {}
             } else {
-                body.followObject = user
+                followObject = await UserService.getProfile(followObjectId)
             }
 
-            await FollowService.follow(body)
+            await FollowService.follow(user, followObject, type)
 
-            res.status(200).send("ok")
+            res.status(200).send("follow successfully")
 
-        } catch(err) {
+        } catch (err) {
             next(err)
         }
     }
 
     async unfollow(req: Request, res: Response, next: any) {
-        const {followObjectId, type} = req.params
+        const { followObjectId, type } = req.params
         //@ts-ignore
         FollowService.unfollow(getUserLoggined(req).userId, followObjectId, type)
-        .then(resp => {
-            res.status(200).send("ok")
-        }).catch(err => {
-            next(err)
-        })
+            .then(resp => {
+                res.status(200).send("ok")
+            }).catch(err => {
+                next(err)
+            })
     }
 
     getFollowings(req: Request, res: Response, next: any) {
-        const {userId, type} = req.params
+        const { userId, type } = req.params
         //@ts-ignore
         FollowService.getListFollowed(userId, type).then(resp => {
             res.status(200).send(resp)
@@ -48,7 +48,7 @@ class FollowController {
     }
 
     getFollowers(req: Request, res: Response, next: any) {
-        const {followObjectId, type} = req.params
+        const { followObjectId, type } = req.params
 
         //@ts-ignore
         FollowService.getListFollower(followObjectId, type).then(resp => {
@@ -59,14 +59,17 @@ class FollowController {
     }
 
     checkFollowedObject(req: Request, res: Response, next: any) {
-        const {followObjectId, type} = req.params
-        //@ts-ignore
-        FollowService.checkWhetherFollowed(getUserLoggined(req).userId, followObjectId, type).then(resp => {
-            res.status(200).send(resp)
-        }).catch(err => {
-            next(err)
-        })
-
+        const { followObjectId, type } = req.params
+        console.log("check followed: ")
+        if (!getUserLoggined(req).userId) res.status(200).send(false)
+        else {
+            //@ts-ignore
+            FollowService.checkWhetherFollowed(getUserLoggined(req).userId, followObjectId, type).then(resp => {
+                res.status(200).send(resp)
+            }).catch(err => {
+                next(err)
+            })
+        }
     }
 
 }

@@ -2,8 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import TokenInvalidException from "../app/exception/TokenInvalidException";
 import JwtService from "../app/service/JwtService";
 import TokenService from "../app/service/TokenService";
-
-
+import multer from 'multer';
 export const authMiddleWare = async (req: any, res: Response, next: NextFunction) => {
     const accessToken = req.headers['authorization']?.substring(7) || ""
     if (!accessToken) {
@@ -37,3 +36,8 @@ export const handlerExceptionMiddleWare = (err: any, req: Request, res: Response
     console.log("vllllllllllllll-")
     res.status(err.status || 500).json({ error: err.message });
 }
+
+
+export const parseFileMiddleWare =  multer({ 
+    storage: multer.memoryStorage()
+ });

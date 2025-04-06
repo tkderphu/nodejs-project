@@ -5,8 +5,11 @@ import { FollowBase } from "../model/follow";
 class FollowService {
 
 
-     follow(follow: FollowBase) {
-        return FollowRepository.insertOne({...follow})
+     follow(user: any, followObject: any, type: any) {
+        const followOb: FollowBase = {
+            user, followObject, type
+        }
+        return FollowRepository.insertOne(followOb)
     }
 
      unfollow(userId: string, followObjectId: string, type: "USER" | "TAG") {
@@ -24,11 +27,12 @@ class FollowService {
         }).toArray()
     }
 
-    getListFollower(followObjectId: string, type: "USER" | "TAG") {
-        return FollowRepository.find({
+    async getListFollower(followObjectId: string, type: "USER" | "TAG") {
+        const result =  FollowRepository.find({
             "followObject._id": new ObjectId(followObjectId),
             "type": type
         }).toArray()
+        return result;
     }
     async checkWhetherFollowed(userId: string, followObjectId: string, type: "USER" | "TAG") {
         const result = await  FollowRepository.findOne({

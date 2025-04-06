@@ -1,16 +1,16 @@
 
 import api from "../interceptor/AxiosInterceptor"
 
-const URL = `/follows`
+const URL = `follows`
 class FollowService {
-    followUser(userId: string) {
-        return api.post(`/${URL}/${userId}`)
+    follow(followObjectId: string, type: "USER" | "TAG") {
+        return api.post(`/${URL}/${followObjectId}/${type}`)
     }
-    unfollowUser(userId: string) {
-        return api.delete(`/${URL}/${userId}`)
+    unfollowObject(followObjectId: string, type: "USER" | "TAG") {
+        return api.delete(`/${URL}/${followObjectId}/${type}`)
     }
-    checkCurrentUserFollowedUserId(userId: string) {
-        return api.get(`/${URL}/check/${userId}`)
+    checkFollowedObject(followObjectId: string, type: "USER" | "TAG") {
+        return api.get(`/${URL}/check/${followObjectId}/${type}`)
     }
     getListFollowers(userId: string) {
         return api.get(`${URL}/${userId}/followers`)

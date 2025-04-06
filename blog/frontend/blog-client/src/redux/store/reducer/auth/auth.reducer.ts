@@ -27,7 +27,7 @@ export const authLoginReducer = (state = authLoginState, action: any) => {
             return {
                 loading: false,
                 status: action.payload.status,
-                message: action.payload.message,
+                message: action.payload.response.data.error,
                 hasError: true
             }
         }

@@ -49,6 +49,8 @@ api.interceptors.response.use(
                     storeToken(response.data)
                     originalRequest.headers.Authorization = `Bearer ${getToken()}`;
                     return api(originalRequest)
+                }).catch(err => {
+                    location.href = '/login'
                 })
             }
 

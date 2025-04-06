@@ -10,11 +10,12 @@ import TaggingService from "./TaggingService"
 import PostNotFoundException from "../exception/PostNotFoundException"
 import UserService from "./UserService"
 import BookMarkService from "./BookMarkService"
+import NotificationService from "./NotificationService"
 class PostService {
 
 
     async save(userId: string, postReq: PostUpdateReq) {
-        
+        const userSimple: any = await UserService.findById(userId)
         const post: PostBase  = {
             comment: 0,
             like: 0,
@@ -30,8 +31,12 @@ class PostService {
             title: postReq.title,
             taggings: (await TaggingService.save(postReq.taggingNames))
         }
-
-        return PostRepository.insertOne(post)
+        const resp = await PostRepository.insertOne(post)
+        //notification 
+        //@ts-ignore
+        NotificationService.sendNotify(resp.insertedId.toString(),post.title, 
+            userSimple?._id.toString(), userSimple.fullName, post.timestamps.createdAt)
+        return 
     }
 
     update(postId: string, post: PostUpdateReq) {
