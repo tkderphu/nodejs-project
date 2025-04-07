@@ -12,5 +12,26 @@ class NotificationController {
             next(err)
         })
     }
+    getUnreadMessage(req: Request, res: Response, next: any) {
+        NotificationService.countUnreadNotifyMessage(getUserLoggined(req).userId)
+        .then(result => {
+            res.status(200).json(result)
+        }).catch(err => next(err))
+    }
+    readMessage(req: Request, res: Response, next: any) {
+        const {id} = req.params
+        NotificationService.readNotifyMessage(
+            id, getUserLoggined(req).userId
+        ).then(resp => {
+            res.status(200).send("ok")
+        }).catch(err => next(err))
+    }
+    readAllMessage(req: Request, res: Response, next: any) {
+        NotificationService.readAllNotifyMessage(getUserLoggined(req).userId)
+        .then(resp => {
+            res.status(200).send("ok")
+        }).catch(err => next(err))
+    }
+    
 }
-export default new NotificationController
+export default new NotificationController()

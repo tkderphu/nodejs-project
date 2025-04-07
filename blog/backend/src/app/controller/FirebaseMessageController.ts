@@ -11,16 +11,7 @@ class FirebaseMessageController {
             next(err)
         })
     }
-    getFMToken(req: Request, res: Response, next: any) {
-        FirebaseService.getFMToken(getUserLoggined(req).userId)
-        .then(resp => {
-            res.status(200).send(resp)
-        }).catch(err => {
-            next(err)
-        })
-    }
 
-    
 
 }
 export default new FirebaseMessageController()

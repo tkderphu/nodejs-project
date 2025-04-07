@@ -12,10 +12,7 @@ function App() {
   const [fmToken, setFmToken] = useState<string>()
 
   useEffect(() => {
-    console.log("-------toke fm=-=----")
     getFcmToken(getUserLoggined()._id).then(token => {
-        console.log("0----")
-        console.log("token: ", token)
         firebaseListenerForMessages()
         setFmToken(token)
     })

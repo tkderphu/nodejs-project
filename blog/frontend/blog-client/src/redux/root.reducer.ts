@@ -2,6 +2,7 @@ import {combineReducers} from 'redux'
 import { authForgetPasswordReducer, authLoginReducer, authRegisterReducer } from '../redux/store/reducer/auth/auth.reducer'
 import { createCommentReducer } from './store/reducer/comment/comment.reducer'
 import { checkFollowedUserReducer, fetchFollowersReducer, fetchFollowingsReducer, followUserReducer, unfollowUserReducer } from './store/reducer/follow/follow.reducer'
+import { countUnreadNotifyMessageReducer, fetchAllNotifyMessageReducer } from './store/reducer/notifyMessage/notify.message.reducer'
 import { createPostReducer, fetchAllPostReducer } from './store/reducer/post/post.reducer'
 import { fetchProfileReducer } from './store/reducer/profile/profile.reducer'
 const rootReducer = combineReducers({
@@ -16,7 +17,9 @@ const rootReducer = combineReducers({
     checkFollowedUser: checkFollowedUserReducer,
     fetchFollowers: fetchFollowersReducer,
     fetchFollowings: fetchFollowingsReducer,
-    fetchProfile: fetchProfileReducer
+    fetchProfile: fetchProfileReducer,
+    countUnreadNotifyMessage: countUnreadNotifyMessageReducer,
+    fetchAllNotifyMessage: fetchAllNotifyMessageReducer
 
 })
 
