@@ -11,5 +11,8 @@ class PostService {
         console.log("req: ", req)
         return api.patch(`/posts?page=${page}&limit=${limit}`, req)
     }
+    fetchPost(id: string) {
+        return api.get(`/posts/${id}`)
+    }
 }
 export default new PostService()

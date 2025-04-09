@@ -2,9 +2,11 @@ import {combineReducers} from 'redux'
 import { authForgetPasswordReducer, authLoginReducer, authRegisterReducer } from '../redux/store/reducer/auth/auth.reducer'
 import { createCommentReducer } from './store/reducer/comment/comment.reducer'
 import { checkFollowedUserReducer, fetchFollowersReducer, fetchFollowingsReducer, followUserReducer, unfollowUserReducer } from './store/reducer/follow/follow.reducer'
+import { fetchGalleriesReducer } from './store/reducer/gallery/gallery.reducer'
 import { countUnreadNotifyMessageReducer, fetchAllNotifyMessageReducer } from './store/reducer/notifyMessage/notify.message.reducer'
-import { createPostReducer, fetchAllPostReducer } from './store/reducer/post/post.reducer'
+import { createPostReducer, fetchAllPostReducer, fetchPostReducer } from './store/reducer/post/post.reducer'
 import { fetchProfileReducer } from './store/reducer/profile/profile.reducer'
+import { uploadReducer } from './store/reducer/upload/upload.reducer'
 const rootReducer = combineReducers({
     createComment: createCommentReducer,
     authForgetPassword: authForgetPasswordReducer,
@@ -19,8 +21,10 @@ const rootReducer = combineReducers({
     fetchFollowings: fetchFollowingsReducer,
     fetchProfile: fetchProfileReducer,
     countUnreadNotifyMessage: countUnreadNotifyMessageReducer,
-    fetchAllNotifyMessage: fetchAllNotifyMessageReducer
-
+    fetchAllNotifyMessage: fetchAllNotifyMessageReducer,
+    fetchPost: fetchPostReducer,
+    fetchGalleries: fetchGalleriesReducer,
+    upload: uploadReducer
 })
 
 export default rootReducer

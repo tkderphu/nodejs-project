@@ -14,6 +14,7 @@ import userRouter from './routes/UserRoute'
 import fireBaseRouter from './routes/FirebaseRoute'
 import uploadRouter from './routes/UploadRoute'
 import notificationRouter from './routes/NotificationRoute'
+import galleryRouter from './routes/GalleryRoute'
 
 dotenv.config()
 
@@ -40,6 +41,7 @@ app.use(userRouter)
 app.use(fireBaseRouter)
 app.use(uploadRouter)
 app.use(notificationRouter)
+app.use(galleryRouter)
 // app.use(taggingRouter)
 
 

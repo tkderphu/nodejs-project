@@ -1,5 +1,5 @@
 import { Filter, ObjectId } from "mongodb"
-import { Post, PostBase, PostPageRequest, PostPageUserBookMarkRequest, PostUpdateReq } from "../model/post"
+import { Post, PostBase, PostPageRequest, PostPageUserBookMarkRequest, PostResponseDetail, PostUpdateReq } from "../model/post"
 import CommentService from "./CommentService"
 import LikeService from "./LikeService"
 import { BookMarkRepository, PostRepository } from "../../db/mongo"
@@ -47,6 +47,13 @@ class PostService {
                 ...post
             }
         })
+    }
+
+    async getPostDetail(postId: string)  {
+        const post: any  = await this.findById(postId)
+        post.user = await UserService.findById(post.userId)
+        post.bookmark = await BookMarkService.countBookmark(post._id.toString(), 'POSTS')
+        return post
     }
 
     async findById(postId: string) {

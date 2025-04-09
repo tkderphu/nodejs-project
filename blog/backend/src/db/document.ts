@@ -9,3 +9,4 @@ export const BOOK_MARK_DOCUMENT = 'bookmark'
 export const FOLLOW_DOCUMENT = "follow"
 export const NOTIFY_MESSAGE_DOCUMENT = "notifyMessage"
 export const FIREBASE_MESSAGE_TOKEN_DOCUMENT = "firebaseMessageToken"
+export const GALLERY_DOCUMENT = "gallery"

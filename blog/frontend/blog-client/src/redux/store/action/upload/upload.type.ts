@@ -1,0 +1,3 @@
+export const UPLOAD_BEGIN = "UPLOAD_BEGIN"
+export const UPLOAD_SUCCESS = "UPLOAD_SUCCESS"
+export const UPLOAD_FAILED = "UPLOAD_FAILED"

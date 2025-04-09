@@ -35,6 +35,15 @@ class PostController {
         })
     }
 
+    getPostDetail(req: any, res: any, next: any) {
+        const {id} = req.params
+        PostService.getPostDetail(id).then(resp => {
+            res.status(200).send(resp)
+        }).catch(err => {
+            next(err)
+        })
+    }
+
     updatePost(req: any, res: Response, next: NextFunction) {
         const postId = req.params['postId']
         const body = req.body

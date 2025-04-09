@@ -1,6 +1,6 @@
 
 
-const jwt: any = JSON.parse(localStorage.getItem('jwt') || "")
+const jwt: any = JSON.parse(localStorage.getItem('jwt') || "{}")
 
 export const getToken = () => {
     return jwt.accessToken
