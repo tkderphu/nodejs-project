@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { Post } from "../../model/Post"
+import { checkBookmarkedAction, popPostFromBookmarkedAction, pushPostToBookmarkedAction } from "../../redux/store/action/bookmark/bookmark.action"
 import { fetchAllPostAction, fetchPostAction } from "../../redux/store/action/post/post.action"
 import AlertConponent from "../common/AlertComponent"
 import Modal from "../common/Modal"
@@ -20,10 +21,16 @@ function PostDetail() {
         return state.fetchPost
     })
     const dispatch = useDispatch()
-    // const memoizedGallery = useMemo(() => <Gallery />, []);
-
+    const bookmarkState: {
+        status: boolean,
+        loading: boolean
+    } = useSelector((state: any) => {
+        return state.checkBookmarked
+    })
+    console.log("status bookarmked: ", bookmarkState)
     useEffect(() => {
-        
+        //@ts-ignore
+        dispatch(checkBookmarkedAction(id, "POST"))
         //@ts-ignore
         dispatch(fetchPostAction(id))
     }, [])
@@ -38,7 +45,21 @@ function PostDetail() {
                 <div className="row">
                     <div >
                         <div className="card mt-3 mb-3">
-                            <PostSimple post={postState.post} />
+                            <PostSimple post={postState.post} bookmark={
+                                {title: (bookmarkState.status ? "Hủy bookmark" : "Bookmark"),
+                                    show: true,
+                                fn: () => {
+                                    if(bookmarkState.status) {
+                                        console.log("delete")
+                                        //@ts-ignore
+                                        dispatch(popPostFromBookmarkedAction(id, "POST"))
+                                    } else {
+                                        console.log('save')
+                                        //@ts-ignore
+                                        dispatch(pushPostToBookmarkedAction(id, 'POST'))
+                                    }
+                                }}
+                            } />
                         </div>
 
 

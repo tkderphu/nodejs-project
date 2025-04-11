@@ -1,14 +1,18 @@
 import { Post } from "../../model/Post"
 
-function PostSimple(props: { post: Post }) {
+function PostSimple(props: { post: Post, bookmark?: {
+    show: boolean,
+    fn: any,
+    title: "Bookmark" | "Hủy bookmark"
+} }) {
     return (
         <>
-            <a className="card-body d-flex link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacit"
-                href={`/posts/${props.post?._id}/${props.post?.title}`} >
-                <div className="d-flex flex-column">
+            <div className="d-flex justify-content-between align-items-center  card-body d-flex link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacit"
+                 >
+                <a className="d-flex flex-column" href={`/posts/${props.post?._id}/${props.post?.title}`}>
                     <img src={props.post?.displayUrl} alt="Post Image" className="img-fluid rounded me-3" width={"250px"} height="200px" />
                     <span>{props.post?.timestamps?.createdAt}</span>
-                </div>
+                </a>
                 <div>
                     <h5 className="card-title">{props.post?.title}</h5>
                     <span className="text-muted">{props.post?.description}</span>
@@ -53,7 +57,12 @@ function PostSimple(props: { post: Post }) {
                         <span>🔖 0</span>
                     </p>
                 </div>
-            </a>
+                <div>
+                    {props.bookmark?.show && <button className="btn btn-primary" onClick={() => {
+                        props.bookmark?.fn()
+                    }}>{props.bookmark.title}</button>}
+                </div>
+            </div>
         </>
     )
 }

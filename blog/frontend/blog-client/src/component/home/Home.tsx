@@ -1,13 +1,18 @@
 
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { Link } from "react-router-dom"
+import { Post } from "../../model/Post"
 import { fetchAllPostAction } from "../../redux/store/action/post/post.action"
+import { getUserLoggined } from "../../service/AuthenLoginResponse"
 import { PageResult } from "../common/model"
 import PostSimple from "../post/PostSimple"
 import AuthorComponent from "../profile/Author"
 import Author from "../profile/Author"
 import "./Home.css"
-function Home() {
+function Home(props: {
+    activeTab?: "POST" | "SERIES" | "FOLLOWING" | "BOOKMARK"
+} = { activeTab: "POST" }) {
     const postResp: {
         pageResult: PageResult<Post>,
         hasError: boolean,
@@ -44,15 +49,17 @@ function Home() {
         <>
 
             <div className="container-fluid bg-dark text-white text-center py-4">
-                <button className="btn btn-secondary"><a className="nav-link" href="/create-post">Add new post</a></button>
+                <button className="btn btn-secondary mx-3"><a className="nav-link" href="/create-post">Viết bài</a></button>
+                <button className="btn btn-secondary mx-3"><a className="nav-link" href="/series/create">Tạo series</a></button>
 
             </div>
 
             <div className="container mt-3">
                 <ul className="nav nav-tabs">
-                    <li className="nav-item"><a className="nav-link active" href="#">Posts</a></li>
-                    <li className="nav-item"><a className="nav-link" href="#">Followings</a></li>
-                    <li className="nav-item"><a className="nav-link" href="#">My bookmarked</a></li>
+                    <li className="nav-item"><Link className={props.activeTab == 'POST' ? "nav-link active" : "nav-item"} to="/">Bài viết</Link></li>
+                    {!getUserLoggined() ? "" : <li className={props.activeTab == 'FOLLOWING' ? "nav-link active" : "nav-item"}><Link className="nav-link" to={`/followings/${getUserLoggined()._id}`}>Người đang theo dõi</Link></li>}
+                    {!getUserLoggined() ? "" : <li className={props.activeTab == 'BOOKMARK' ? "nav-link active" : "nav-item"}><Link className="nav-link" to={"/bookmarks/" + getUserLoggined()._id}>Bookmark của tôi</Link></li>}
+                    {!getUserLoggined() ? "" : <li className={props.activeTab == 'BOOKMARK' ? "nav-link active" : "nav-item"}><Link className="nav-link" to={"/bookmarks/" + getUserLoggined()._id}>Series</Link></li>}
                 </ul>
             </div>
 
@@ -62,8 +69,8 @@ function Home() {
                         <div className="d-flex align-items-center ">
                             <h3>Date</h3>
                             <div className="mx-3">
-                                <div className="mb-3"><span>Start</span>: <input type={'date'}/> </div>
-                               <div className="mb-3"> <span>End</span>: <input type={'date'}/></div>
+                                <div className="mb-3"><span>Start</span>: <input type={'date'} /> </div>
+                                <div className="mb-3"> <span>End</span>: <input type={'date'} /></div>
                             </div>
                         </div>
                         <div className="d-flex">
@@ -103,14 +110,14 @@ function Home() {
                                     <h3>Author</h3>
                                     <div className="mx-5">
                                         <AuthorComponent />
-    
+
                                     </div>
                                     <button onClick={() => {
-                                            setFilter((prev) => ({
-                                                ...prev,
-                                                userId: undefined
-                                            }))
-                                        }}>X</button>
+                                        setFilter((prev) => ({
+                                            ...prev,
+                                            userId: undefined
+                                        }))
+                                    }}>X</button>
                                 </div>
                                 {/* <div className="d-flex flex-wrap">
                                     <div className="mx-3 mb-3">
@@ -129,7 +136,7 @@ function Home() {
                         {postResp?.pageResult?.list?.map(post => {
                             return (
                                 <div className="card mb-3">
-                                    <PostSimple post = {post}  />
+                                    <PostSimple post={post} />
                                 </div>
                             )
                         })}

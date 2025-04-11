@@ -1,7 +1,7 @@
 import { GalleryRepository } from "../../db/mongo"
 
 class GalleryService {
-    async save(userId: string, imageUrl: string) {
+    async save(userId: string, imageUrl: any) {
         const result = await  GalleryRepository.insertOne({
             userId: userId,
             imageUrl: imageUrl

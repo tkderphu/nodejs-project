@@ -4,7 +4,9 @@ import { authMiddleWare, handlerExceptionMiddleWare } from "../middleware/middle
 
 const bookMarkRouter = Router()
 
-bookMarkRouter.post('/api/bookmarks/:entityType/:entityId', authMiddleWare, BookMarkController.bookmark)
-bookMarkRouter.get('/api/bookmarks/:entityType/:userId', BookMarkController.getAllBookmarkByUser)
+bookMarkRouter.post('/api/bookmarks/:objId/:objType', authMiddleWare, BookMarkController.bookmark)
+bookMarkRouter.delete('/api/bookmarks/:objId/:objType', authMiddleWare, BookMarkController.removeBookmark)
+bookMarkRouter.get('/api/bookmarks/:objId/:objType', authMiddleWare, BookMarkController.checkBookmarked)
+bookMarkRouter.get('/api/bookmarks/user/:userId/:objType', BookMarkController.getBookmarks)
 
 export default bookMarkRouter

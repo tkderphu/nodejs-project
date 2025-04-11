@@ -1,9 +1,9 @@
 import { Router } from "express";
-import BookMarkController from "../app/controller/BookMarkController";
-import { authMiddleWare, handlerExceptionMiddleWare } from "../middleware/middleware";
+import GalleryController from "../app/controller/GalleryController";
+import { authMiddleWare } from "../middleware/middleware";
 
 const galleryRouter = Router()
 
-galleryRouter.get('/api/galleries/user', authMiddleWare, BookMarkController.getAllBookmarkByUser)
+galleryRouter.get('/api/galleries/user', authMiddleWare, GalleryController.getListGallery)
 
 export default galleryRouter

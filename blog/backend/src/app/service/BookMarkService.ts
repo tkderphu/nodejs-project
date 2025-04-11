@@ -1,39 +1,24 @@
-import { ObjectId } from "mongodb";
-import { POST_DOCUMENT, USER_DOCUMENT } from "../../db/document";
 import { BookMarkRepository } from "../../db/mongo";
-import { BookMark, BookMarkReq } from "../model/bookmark";
+import { Bookmark } from "../model/bookmark";
 import PostService from "./PostService";
 
 class BookMarkService {
 
  
-    async save(userId: string, bookMarkReq: BookMarkReq) {
-        let bookMark: BookMark = {
-            type: bookMarkReq.type,
-            user: userId,
-            createdAt: new Date()
+    async save(userId: string, objId: string, objType: string) {
+        let bookMark: Bookmark = {
+            userId: userId,
+            objId: objId,
+            objType: objType
         }
-
-        if(bookMarkReq.type === 'POSTS') {
-            //post
-        } else {
-            //find series
-        }
-
-        return BookMarkRepository.insertOne({
-            ...bookMark
-        })
+        return BookMarkRepository.insertOne(bookMark)
     }
 
-    /**
-     * remove bookmark
-     * @param bookmarkId 
-     * @returns 
-     */
-    async remove(userId: string, bookmarkId: string) {
+    async remove(userId: string, objId: string, objType: string) {
         const result = await BookMarkRepository.deleteOne({
-            _id: new ObjectId(bookmarkId),
-            userId: userId
+            userId: userId,
+            objId: objId,
+            objType: objType
         })
         if(result.acknowledged) {
             return true
@@ -42,41 +27,55 @@ class BookMarkService {
     }
 
 
-    async findAllBookmark(userId: string, type: "POSTS" | "SERIES", sortBy: "Published date" | "Bookmarked at" = 'Published date') {
-        let sort  = {}
-        if(sortBy === 'Published date') {
-            //@ts-ignore
-            sort.timestamps.createdAt =  -1
-        } else {
-            //@ts-ignore
-            sort.createdAt =  -1
-        }
-        return BookMarkRepository.find({
-            userId: userId,
-            type: type
-        }).sort(sort).toArray()
-    }
-
-    async countBookmark(objectId: string, type: "POSTS" | "SERIES") {
+    async countBookmark(objId: string, objType: "POST" | "SERIES") {
         const result = await BookMarkRepository.countDocuments({
-            type: type,
-            "object._id": objectId
+            objId: objId,
+            objType: objType
         })
         if(result) return result
         return 0;
     }
 
 
-    async isObjectBookmarked(userId: string, type: "POSTS" | "SERIES", objectId: string) {
+    async checkBookmarked(userId: string, objId: string, objType: string) {
         const result = await BookMarkRepository.findOne({
             userId: userId,
-            type: type
+            objId: objId,
+            objType: objType
         })
 
         if(result) {
             return true
         }
         return false
+    }
+
+    async getBookmarks(userId: string, objType: "POST" | "SERIES") {
+         const result = await BookMarkRepository.find({
+            userId: userId,
+            type: objType
+        }).toArray()
+
+        if(result) {
+            if(objType == 'POST') {
+                return result.map((bookmark) => {
+                    return {
+                        userId: userId,
+                        post: PostService.getPostDetail(bookmark.objId),
+                        objType: objType 
+                    }
+                })
+            } else {
+                return result.map((bookmark) => {
+                    return {
+                        userId: userId,
+                        series: "",
+                        objType: objType 
+                    }
+                })
+            }
+        }
+        return []
     }
 
 

@@ -1,47 +1,42 @@
 import { NextFunction, Request, Response } from "express"
 import { getUserLoggined } from "../framework/common/auth"
-import { BookMark, BookMarkReq } from "../model/bookmark"
 import BookMarkService from "../service/BookMarkService"
 
 
 class BookMarkController {
     bookmark(req: Request, res: Response, next: NextFunction) {
-        const {objectId, type} = req.body
-        const bookmarkReq: BookMarkReq = {
-            objectId: objectId,
-            type: type || 'POSTS',
-        }
-
-        BookMarkService.save(getUserLoggined(req).userId ,bookmarkReq).then(resp => {
-            res.status(200).send("ok")
+        const {objId, objType} = req.params
+        BookMarkService.save(getUserLoggined(req).userId ,objId, objType).then(resp => {
+            res.status(200).send("bookmark ok")
         }).catch(err => {
             next(err)
         })
     }
 
-    getAllBookmarkByUser(req: Request, res: Response, next: NextFunction) {
-        const {userId, type} = req.params
-        const {sortBy} = req.query
+    getBookmarks(req: Request, res: Response, next: NextFunction) {
+        const {userId, objType} = req.params
         //@ts-ignore
-        BookMarkService.findAllBookmark(userId, type, sortBy).then(result => {
-            res.status(200).send(result)
-        }).catch(err => next(err))
+        BookMarkService.getBookmarks(userId, objType).then(resp => {
+            res.status(200).send(resp)
+        }).catch(err => {
+            next(err)
+        })
     }
 
     removeBookmark(req: Request, res: Response, next: NextFunction) {
-        const {bookmarkId} = req.params
-        BookMarkService.remove(getUserLoggined(req).userId, bookmarkId).then(resp => {
-            res.status(200).send("ok")
+        const {objId, objType} = req.params
+        BookMarkService.remove(getUserLoggined(req).userId, objId, objType).then(resp => {
+            res.status(200).send("remove bookmark ok")
         }).catch(err => {
             next(err)
         })
     }
 
-    isCurrentUserBookmarkedThisObject(req: Request, res: Response, next: any) {
-        const {type, objectId} = req.params
+    checkBookmarked(req: Request, res: Response, next: any) {
+        const {objId, objType} = req.params
         //@ts-ignore
-        BookMarkService.isObjectBookmarked(getUserLoggined(req).userId, type, objectId).then(resp => {
-            res.status(200).send("ok")
+        BookMarkService.checkBookmarked(getUserLoggined(req).userId, objId, objType).then(resp => {
+            res.status(200).send(resp)
         }).catch(err => {
             next(err)
         })

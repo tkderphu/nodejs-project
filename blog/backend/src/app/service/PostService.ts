@@ -52,7 +52,7 @@ class PostService {
     async getPostDetail(postId: string)  {
         const post: any  = await this.findById(postId)
         post.user = await UserService.findById(post.userId)
-        post.bookmark = await BookMarkService.countBookmark(post._id.toString(), 'POSTS')
+        post.bookmark = await BookMarkService.countBookmark(post._id.toString(), 'POST')
         return post
     }
 
@@ -113,7 +113,7 @@ class PostService {
 
         for(let i = 0; i < posts?.length; i++) {
             posts[i].user = await UserService.findById(posts[i].userId)
-            posts[i].bookmark = await BookMarkService.countBookmark(posts[i]._id.toString(), 'POSTS')
+            posts[i].bookmark = await BookMarkService.countBookmark(posts[i]._id.toString(), 'POST')
         }
 
         

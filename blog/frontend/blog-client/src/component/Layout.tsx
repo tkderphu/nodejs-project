@@ -8,6 +8,9 @@ import PostCreate from "./post/PostCreate";
 import Profile from "./profile/Profile";
 import Register from "./register/Register";
 import PostDetail from "./post/PostDetail";
+import Bookmark from "./bookmark/Bookmark";
+import Series from "./series/Series";
+import SeriesCreate from "./series/SeriesCreate";
 
 function Layout() {
     const location = useLocation();
@@ -18,6 +21,8 @@ function Layout() {
         {!hideNavbarRoutes.includes(location.pathname) && <Header />}
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/bookmark/:userId"  element={<Bookmark/>}/>
+          <Route path="/series/create"  element={<SeriesCreate/>}/>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register/>} />
           <Route path="/forgot-password" element={<ForgetPassword/> }/>

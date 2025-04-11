@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { getUserLoggined } from "../framework/common/auth";
-import { BookMarkReq } from "../model/bookmark";
 import { PostPageUserBookMarkRequest, PostUpdateLike, PostUpdateReq } from "../model/post";
 import PostService from "../service/PostService";
 

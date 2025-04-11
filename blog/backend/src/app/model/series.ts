@@ -1,24 +1,17 @@
-import { ObjectId } from "mongodb"
-import { Tag } from "swagger-jsdoc"
-import { UserSimple } from "./user"
+import { ObjectId } from "mongodb";
+import { Tagging } from "./tagging";
 
-export interface Series extends SeriesSimpleResp{
-    content?: string
-}
-
-
-
-export interface SeriesSuperSimpleResp {
+export interface Series {
     _id?: ObjectId,
-    title?: string
+    title?: string,
+    content?: string,
+    tags:   Tagging[],
+    userId: string,
+    displayUrl?: string
+    description?: string
+    timestamps: {
+        createdAt: any,
+        updatedAt: any
+    }
 }
 
-export interface SeriesSimpleResp extends SeriesSuperSimpleResp{
-    title?: string
-    user?: UserSimple,
-    timestamps: {
-        createdAt: Date,
-        updatedAt: Date
-    },
-    tags: Tag[]
-}

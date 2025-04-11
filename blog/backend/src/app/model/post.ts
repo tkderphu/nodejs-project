@@ -1,6 +1,5 @@
 import { ObjectId } from "mongodb"
 import { PageParam } from "../framework/common/page"
-import { SeriesSuperSimpleResp } from "./series"
 import { Tagging } from "./tagging"
 import {UserSimple } from "./user"
 
@@ -22,7 +21,7 @@ export interface PostBase {
         createdAt: Date,
         updatedAt: Date
     }
-    series?: SeriesSuperSimpleResp
+    seriesId?: string
 }
 
 
