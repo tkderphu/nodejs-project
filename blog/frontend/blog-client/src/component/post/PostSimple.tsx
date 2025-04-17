@@ -9,7 +9,7 @@ function PostSimple(props: { post: Post, bookmark?: {
         <>
             <div className="d-flex justify-content-between align-items-center  card-body d-flex link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacit"
                  >
-                <a className="d-flex flex-column" href={`/posts/${props.post?._id}/${props.post?.title}`}>
+                <a className="d-flex flex-column" href={`/posts/${props.post?._id}`}>
                     <img src={props.post?.displayUrl} alt="Post Image" className="img-fluid rounded me-3" width={"250px"} height="200px" />
                     <span>{props.post?.timestamps?.createdAt}</span>
                 </a>

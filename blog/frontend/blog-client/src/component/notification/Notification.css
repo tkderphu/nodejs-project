@@ -1,0 +1,15 @@
+
+.notification:hover {
+    background-color: rgb(202, 196, 196);
+    border-radius: 10px;
+}
+.active-search {
+    background-color: rgb(202, 196, 196);
+
+}
+.notify-background {
+    cursor: pointer;
+}
+.notify-background:hover {
+    background-color: rgb(202, 196, 196);
+}

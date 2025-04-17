@@ -11,6 +11,13 @@ import PostDetail from "./post/PostDetail";
 import Bookmark from "./bookmark/Bookmark";
 import Series from "./series/Series";
 import SeriesCreate from "./series/SeriesCreate";
+import VibloClone from "../VibloClone";
+import HomePost from "./home/HomePost";
+import HomeFollowing from "./home/HomeFollowing";
+import HomeBookmark from "./home/HomeBookmark";
+import HomeSeries from "./home/HomeSeries";
+import Search from "./search/Search";
+import PostVeryDetails from "./post/PostVeryDetails";
 
 function Layout() {
     const location = useLocation();
@@ -20,7 +27,16 @@ function Layout() {
       <div>
         {!hideNavbarRoutes.includes(location.pathname) && <Header />}
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />}>
+            <Route index element={<HomePost/>} />
+            <Route path="my-followings" element={<HomeFollowing/>}/>
+            <Route path="my-bookmarks" element={<HomeBookmark/>}/>
+            <Route path="series" element={<HomeSeries/>}/>
+          </Route>
+
+          <Route path="/search" element={<Search/>} >
+          
+          </Route>
           <Route path="/bookmark/:userId"  element={<Bookmark/>}/>
           <Route path="/series/create"  element={<SeriesCreate/>}/>
           <Route path="/login" element={<Login />} />
@@ -28,7 +44,8 @@ function Layout() {
           <Route path="/forgot-password" element={<ForgetPassword/> }/>
           <Route path="/profile/:id" element={<Profile/>}></Route>
           <Route path='/create-post' element={<PostCreate/>}></Route>
-          <Route path="/posts/:id/:name" element={<PostDetail/>}></Route>
+          <Route path="/posts/:id" element={<PostVeryDetails/>}></Route>
+          <Route path="/clone" element={<VibloClone/>}/>
         </Routes>
       </div>
     );

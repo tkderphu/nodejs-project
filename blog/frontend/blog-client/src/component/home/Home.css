@@ -6,3 +6,9 @@
         overflow-y: auto;
     }
 }
+.active-btn:hover {
+    background-color: rgb(189, 185, 185);
+}
+.btn-active {
+    background-color: rgb(189, 185, 185);
+}

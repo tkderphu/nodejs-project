@@ -1,0 +1,29 @@
+body {
+    background-color: #fff;
+    font-family: system-ui, sans-serif;
+  }
+
+  .sidebar-icons i {
+    display: block;
+    margin: 15px 0;
+    cursor: pointer;
+    color: gray;
+  }
+
+  .toc a {
+    text-decoration: none;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .toc .text-danger {
+    font-weight: bold;
+  }
+
+  .code-box {
+    background-color: #eee;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 14px;
+  }
