@@ -15,7 +15,17 @@ function Search() {
 
     const [searchType, setSearchType] = useState<"POST" | "AUTHOR">("POST")
     const location = useLocation()
-    console.log(location.state)
+    const [search, setSearch] = useState("")
+    if(location.state == null) {
+        location.state = {
+            q: ""
+        }
+    }
+    console.log("search: ", search)
+    useEffect(() => {
+        console.log("search2:",location.state)
+        setSearch(location.state.q)
+    }, [location.state.q])
     return (
         <>
             <div className="container mt-3">
@@ -25,6 +35,10 @@ function Search() {
                             <input
                                 type="text"
                                 className="form-control me-3"
+                                value={search}
+                                onChange={(e: any) => {
+                                    setSearch(e.target.value)
+                                }}
                                 placeholder="Search..."
                             />
                             <button className="btn btn-primary">
@@ -57,6 +71,9 @@ function Search() {
                                     <li><a className="dropdown-item hover-item-search" href="#">Cũ nhất</a></li>
                                 </ul>
                             </div>
+                        </div>
+                        <div>
+                            {}
                         </div>
                     </div>
                     <div className="col-md-3 sticky-sidebar">

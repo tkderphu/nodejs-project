@@ -17,9 +17,9 @@ class PostController {
 
     getListPost(req: any, res: Response, next: NextFunction) {
         const page = Number.parseInt(req.query.page) || 1
-        const limit = Number.parseInt(req.query.limit) || 20
+        const limit = Number.parseInt(req.query.limit) || 10
         const { taggingNames, timeStamps, keyword, userId } = req.body
-
+        console.log("limit: ", limit)
         console.log("request: ", req.body)
         //@ts-ignore
         PostService.findAll({

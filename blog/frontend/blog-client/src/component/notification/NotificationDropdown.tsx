@@ -43,6 +43,7 @@ export default function NotificationDropdown() {
                     right: "-150%", // shift dropdown left of button
                     top: '100%',   // place dropdown below button
                     zIndex: 9999,
+                    width: "500px",
                     maxHeight: "80vh",
                     overflowY: "auto"
                   }}

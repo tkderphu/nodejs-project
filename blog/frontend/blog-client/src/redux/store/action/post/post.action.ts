@@ -26,7 +26,7 @@ export const createPostAction = (req: { title: string; description: string; cont
 
 
 export const fetchAllPostAction = (req: {taggingNames?: string[], timestamp?: {startDate: any, endDate: any}, userId?: string, keyword?: string},
-    page: number = 1, limit: number = 15) => {
+    page: number = 1, limit: number = 7) => {
     console.log("request: ", req)
     return (dispatch: any) => {
         dispatch({

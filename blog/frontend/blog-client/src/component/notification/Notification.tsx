@@ -51,6 +51,7 @@ const notifications = [
 ];
 import "./Notification.css"
 import NotifyCommentTemplate from './template/NotifyCommentTemplate';
+import NotifyFollowTemplate from './template/NotifyFollowTemplate';
 export default function Notification() {
 
     const [search, setSearch] = useState<"All" | "Unread">()
@@ -64,20 +65,25 @@ export default function Notification() {
             </div>
 
             <ul className="list-group">
-            
+                <li  className={`list-group-item notify-background d-flex align-items-start`}>
+                    <NotifyFollowTemplate
+                        time={"2w"}
+                        user={{ _id: "323", avatar: "https://i.imgur.com/mYYIVJj.png", fullname: "Ngyne Quang pHU" }}
+                    />
+                </li>
                 {notifications.map((notif) => (
                     <li
                         onClick={() => {
-                            navigate(`/posts/${notif.id}#comment_id_${5}`, {replace: true})
+                            navigate(`/posts/${notif.id}#comment_id_${5}`, { replace: true })
                         }}
                         key={notif.id}
                         className={`list-group-item notify-background d-flex align-items-start ${notif.unread ? '' : "text-muted"}`}
                     >
-                        <NotifyCommentTemplate 
-                            user={{avatar: notif.avatar, fullName: "test"}}
-                            post={{_id: "2323", title: "Handle exception in nodejs"}}
+                        <NotifyCommentTemplate
+                            user={{ avatar: notif.avatar, fullName: "test" }}
+                            post={{ _id: "2323", title: "Handle exception in nodejs" }}
                             time={"2w"}
-                            
+
                         />
                     </li>
                 ))}
