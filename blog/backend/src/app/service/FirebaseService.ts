@@ -6,38 +6,41 @@ import { FirebaseMessageToken } from "../model/notification"
 class FirebaseMessageService {
     async storeFMToken(userId: string, tokenId: string) {
         const userStoredToken = await this.getFMToken(userId)
-        if(!userStoredToken) {
+        if (!userStoredToken) {
             const fmToken: FirebaseMessageToken = {
                 token: tokenId,
                 userId: userId
             }
-            FirebaseMessageTokenRepository.insertOne(fmToken)   
+            FirebaseMessageTokenRepository.insertOne(fmToken)
         }
     }
 
-    async sendMessage(title: string, body: string, token: string) {
-        const message: Message = {
-            token: token,
-            notification: {
-                body: body,
-                title: title,
-                imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-kIT1Fa9RSYgIDsOwQ46BuWmQI12y-wqrmQ&s'
+    async sendMessage(title: string, body: string, userIds: string[]) {
+        userIds.forEach(async (userId) => {
+            const fmToken = await this.getFMToken(userId)
+            const message: Message = {
+                token: fmToken.token,
+                notification: {
+                    body: body,
+                    title: title,
+                    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-kIT1Fa9RSYgIDsOwQ46BuWmQI12y-wqrmQ&s'
+                }
             }
-        }
-        try {
-            const response = await admin.messaging().send(message);
-            console.log('Notification sent successfully:', response);
-          } catch (error) {
-            console.error('Error sending notification:', error);
-          }
+            try {
+                const resp =  await admin.messaging().send(message);
+                console.log('Notification sent successfully:', resp);
+            } catch (error) {
+                console.error('Error sending notification:', error);
+            }
+        })
     }
-    
+
 
     async getFMToken(userId: string) {
         const fmToken = await FirebaseMessageTokenRepository.findOne({
             userId: userId
         })
-        if(fmToken) return fmToken.token
+        if (fmToken) return fmToken.token
         return undefined
     }
 

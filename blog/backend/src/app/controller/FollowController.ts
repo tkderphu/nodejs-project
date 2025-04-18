@@ -4,7 +4,9 @@ import { FollowBase } from "../model/follow";
 import { UserSimple } from "../model/user";
 import FollowService from "../service/FollowService";
 import UserService from "../service/UserService";
-
+import {NotifyFollow, NotifyMessage} from "../model/notification"
+import NotificationService from "../service/NotificationService";
+import { NotifyMessageRepository } from "../../db/mongo";
 class FollowController {
     async follow(req: Request, res: Response, next: any) {
         try {
@@ -16,9 +18,15 @@ class FollowController {
             } else {
                 followObject = await UserService.getProfile(followObjectId)
             }
-
+            //@ts-ignore
             await FollowService.follow(user, followObject, type)
-
+            if(type === "USER") {
+                await NotificationService.saveNotifyFollow({
+                    _id: user._id.toString(),
+                    avatar: user.image_url,
+                    fullname: user.fullName
+                }, followObjectId)
+            }
             res.status(200).send("follow successfully")
 
         } catch (err) {

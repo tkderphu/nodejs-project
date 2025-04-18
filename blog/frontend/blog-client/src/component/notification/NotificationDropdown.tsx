@@ -46,19 +46,19 @@ export default function NotificationDropdown() {
                     width: "500px",
                     maxHeight: "80vh",
                     overflowY: "auto"
-                  }}
-            aria-labelledby="notificationDropdown"
+                }}
+                aria-labelledby="notificationDropdown"
             >
-            <Notification />
-            <li>
-                <hr className="dropdown-divider" />
-            </li>
-            <li>
-                <a className="dropdown-item text-center text-primary" href="#">
-                    Xem tất cả
-                </a>
-            </li>
-        </ul>
+                <Notification />
+                <li>
+                    <hr className="dropdown-divider" />
+                </li>
+                <li>
+                    <a className="dropdown-item text-center text-primary" href="#">
+                        Xem tất cả
+                    </a>
+                </li>
+            </ul>
         </div >
     );
 }

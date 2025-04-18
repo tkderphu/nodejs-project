@@ -15,7 +15,7 @@ class PostService {
 
 
     async save(userId: string, postReq: PostUpdateReq) {
-        const userSimple: any = await UserService.findById(userId)
+        const userSimpl = await UserService.findById(userId)
         const post: PostBase  = {
             comment: 0,
             like: 0,
@@ -31,12 +31,15 @@ class PostService {
             title: postReq.title,
             taggings: (await TaggingService.save(postReq.taggingNames))
         }
-        const resp = await PostRepository.insertOne(post)
-        //notification 
+        const resp =  await PostRepository.insertOne(post) 
         //@ts-ignore
-        NotificationService.sendNotify(resp.insertedId.toString(),post.title, 
-            userSimple?._id.toString(), userSimple.fullName, post.timestamps.createdAt)
-        return 
+        NotificationService.saveNotifyPost({ _id: userSimpl?._id.toString(), fullName: userSimpl?.fullName },{  _id: resp.insertedId, title: post.title})
+        .then(resp => {
+            //send
+        }).catch(err => {
+            console.error("error send notifcation: ", err)
+        })
+        
     }
 
     update(postId: string, post: PostUpdateReq) {
@@ -59,7 +62,7 @@ class PostService {
     async findById(postId: string) {
         const result = await  PostRepository.findOne({
             _id: new ObjectId(postId)
-        })
+        }) 
         if(result) return result
 
         throw new PostNotFoundException("post not found")

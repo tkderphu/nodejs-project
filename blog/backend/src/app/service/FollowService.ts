@@ -5,7 +5,7 @@ import { FollowBase } from "../model/follow";
 class FollowService {
 
 
-     follow(user: any, followObject: any, type: any) {
+     follow(user: any, followObject: any, type: "USER" | "TAG") {
         const followOb: FollowBase = {
             user, followObject, type
         }

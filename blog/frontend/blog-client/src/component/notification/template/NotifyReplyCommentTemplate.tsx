@@ -1,7 +1,14 @@
-export default function NotifyPostTemplate(props: {
+export default function NotifyReplyCommentTemplate(props: {
     time: any,
     params: {
-        author: { avatar: string, fullName: string },
+        oldComment: {
+            _id: string,
+            user: {
+                _id: string,
+                fullName: string
+            }
+        },
+        user: { fullName: string, avatar: string },
         post: { title: string, _id: string }
     },
     read: boolean
@@ -9,7 +16,7 @@ export default function NotifyPostTemplate(props: {
     return (
         <li className={`list-group-item notify-background d-flex align-items-start ${!props.read ? '' : "text-muted"}`}>
             <img
-                src={props.params.author.avatar}
+                src={props.params.user.avatar}
                 alt="avatar"
                 className="rounded-circle me-3"
                 width="40"
@@ -18,9 +25,8 @@ export default function NotifyPostTemplate(props: {
             {/* <Link to={"vc"}> */}
             <div className="flex-grow-1">
                 <div className="mb-1">
-                    <strong>{props.params.author.fullName}</strong> đã đăng một bài viết mới là 
+                    <strong>{props.params.user.fullName}</strong> đã phản hồi về bình luận của bạn trong bài viết
                     <span className="text-primary ms-1">{props.params.post.title}</span>.
-
                 </div>
                 <small className="text-muted">{props.time}</small>
             </div>

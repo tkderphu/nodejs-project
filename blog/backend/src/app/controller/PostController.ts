@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { getUserLoggined } from "../framework/common/auth";
 import { PostPageUserBookMarkRequest, PostUpdateLike, PostUpdateReq } from "../model/post";
+import NotificationService from "../service/NotificationService";
 import PostService from "../service/PostService";
 
 
@@ -9,7 +10,9 @@ class PostController {
     createPost(req: any, res: Response, next: NextFunction) {
         const body: PostUpdateReq = req.body;
         PostService.save(getUserLoggined(req).userId, body).then(result => {
-            res.status(200).send(result)
+            const postId = result.insertedId;
+            NotifyService
+
         }).catch(err => next(err))
     }
 

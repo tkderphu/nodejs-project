@@ -65,13 +65,28 @@ export default function Notification() {
             </div>
 
             <ul className="list-group">
-                <li  className={`list-group-item notify-background d-flex align-items-start`}>
-                    <NotifyFollowTemplate
-                        time={"2w"}
-                        user={{ _id: "323", avatar: "https://i.imgur.com/mYYIVJj.png", fullname: "Ngyne Quang pHU" }}
-                    />
-                </li>
-                {notifications.map((notif) => (
+                <NotifyFollowTemplate
+                    time={"2w"}
+                    params={{
+                        user: { _id: "323", avatar: "https://i.imgur.com/mYYIVJj.png", fullname: "Ngyne Quang pHU" }
+                    }}
+                    read={false}
+                />
+                <NotifyFollowTemplate
+                    time={"2w"}
+                    params={{
+                        user: { _id: "323", avatar: "https://i.imgur.com/mYYIVJj.png", fullname: "Ngyne Quang pHU" }
+                    }}
+                    read={false}
+                />
+                <NotifyFollowTemplate
+                    time={"2w"}
+                    params={{
+                        user: { _id: "323", avatar: "https://i.imgur.com/mYYIVJj.png", fullname: "Ngyne Quang pHU" }
+                    }}
+                    read={true}
+                />
+                {/* {notifications.map((notif) => (
                     <li
                         onClick={() => {
                             navigate(`/posts/${notif.id}#comment_id_${5}`, { replace: true })
@@ -86,7 +101,7 @@ export default function Notification() {
 
                         />
                     </li>
-                ))}
+                ))} */}
             </ul>
 
         </>
