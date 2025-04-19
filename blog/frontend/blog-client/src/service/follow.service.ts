@@ -12,10 +12,10 @@ class FollowService {
     checkFollowedObject(followObjectId: string, type: "USER" | "TAG") {
         return api.get(`/${URL}/check/${followObjectId}/${type}`)
     }
-    getListFollowers(userId: string) {
+    getListFollowers(userId: string, type: "USER" | "TAG") {
         return api.get(`${URL}/${userId}/followers`)
     }
-    getListFollowing(userId: string) {
+    getListFollowing(userId: string, type: "USER" | "TAG") {
         return api.get(`${URL}/${userId}/followings`)
     }
 }

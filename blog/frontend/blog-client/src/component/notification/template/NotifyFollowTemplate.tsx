@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function NotifyFollowTemplate(props: {
     params: {
@@ -11,8 +11,11 @@ export default function NotifyFollowTemplate(props: {
     time: any,
     read: boolean
 }) {
+    const navigate = useNavigate()
     return (
-        <li className={`list-group-item notify-background d-flex align-items-start  ${!props.read ? '' : "text-muted"}`}>
+        <li onClick={() => {
+            navigate(`/profile/${props.params.user._id}`)
+        }}  className={`list-group-item notify-background d-flex align-items-start  ${!props.read ? '' : "text-muted"}`}>
             <img
                 src={props.params.user.avatar}
                 alt="avatar"

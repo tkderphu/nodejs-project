@@ -77,22 +77,21 @@ export const fetchFollowersAction = (userId: string) => {
         // })
     }
 }
-export const fetchFollowingsAction = (userId: string) => {
+export const fetchFollowingsAction = (userId: string, type: any) => {
     return (dispatch: any) => {
         dispatch({
             type: FETCH_FOLLOWING_BEGIN
         })
-        // followService.checkCurrentUserFollowedUserId(userId).then(response => {
-        //     const data = response.data;
-        //     dispatch({
-        //         type: FETCH_FOLLOWING_SUCCESS,
-        //         payload: data
-        //     })
-        // }).catch(err => {
-        //     dispatch({
-        //         type: FETCH_FOLLOWING_FAILED,
-        //         payload: err
-        //     })
-        // })
+        followService.getListFollowing(userId, type).then(res => {
+            dispatch({
+                type: FETCH_FOLLOWERS_SUCCESS,
+                payload: res.data
+            })
+        }).catch(err => {
+            dispatch({
+                type: FETCH_FOLLOWERS_FAILED,
+                payload: err
+            })
+        })
     }
 }

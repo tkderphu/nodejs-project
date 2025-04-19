@@ -10,8 +10,7 @@ class PostController {
     createPost(req: any, res: Response, next: NextFunction) {
         const body: PostUpdateReq = req.body;
         PostService.save(getUserLoggined(req).userId, body).then(result => {
-            const postId = result.insertedId;
-            NotifyService
+            res.status(200).send(true)
 
         }).catch(err => next(err))
     }

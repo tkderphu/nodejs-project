@@ -2,15 +2,24 @@ import { ObjectId } from "mongodb"
 import { FirebaseMessageTokenRepository, NotifyMessageRepository } from "../../db/mongo"
 import { NotificationNewPostTempalte } from "../framework/template/Notification"
 import { NotifyComment, NotifyFollow, NotifyMessage, NotifyNewPost, NotifyReplyComment } from "../model/notification"
+import { UserSimple } from "../model/user"
 import FirebaseService from "./FirebaseService"
 import FollowService from "./FollowService"
 import PostService from "./PostService"
 
 class NotificationService {
     async getListNotifyMessage(userId: string) {
-        const notifyMessages = NotifyMessageRepository.find({
-            "userMessages.userId": userId
-        }).sort({ createdAt: -1 }).toArray()
+        const notifyMessages = (await  NotifyMessageRepository.aggregate([
+            {
+                $unwind: "$userMessages"
+            },
+            {
+                $match: {
+                    "userMessages.userId": userId
+                }
+            }
+        ]).sort({"createdAt": -1}).toArray())
+        
         return notifyMessages
     }
     async saveNotifyFollow(user: {
@@ -68,18 +77,19 @@ class NotificationService {
         await NotifyMessageRepository.insertOne(notifyMessage)
 
     }
-    async saveNotifyPost(author: { _id: string, fullName: string }, post: { _id: string, title: string }) {
+    async saveNotifyPost(author: { _id: string, fullName: string, avatar: string}, post: { _id: string, title: string }) {
         const followers = await FollowService.getListFollower(author._id, "USER")
         const notifyPost: NotifyNewPost = {
             author: author,
             post: post
         }
         const users = followers.map((follower) => {
+            const user = follower.user as UserSimple
             return {
                 read: false,
-                userId: follower._id.toString()
+                userId: user._id?.toString() || ""
             }
-        })
+        }) || []
 
         const notifyMessage: NotifyMessage = {
             createdAt: new Date(),
@@ -93,17 +103,40 @@ class NotificationService {
     }
 
     async readNotifyMessage(notifyMessageId: string, userId: string) {
-        NotifyMessageRepository.updateOne({
-            _id: new ObjectId(notifyMessageId),
-            "userMessages.userId": userId
-        }, { "userMessages.read": true })
+        await NotifyMessageRepository.updateOne(
+            {
+                _id: new ObjectId(notifyMessageId), // Notification ID
+            },
+            {
+                $set: {
+                    "userMessages.$[elem].read": true
+                }
+            },
+            {
+                arrayFilters: [
+                    {
+                        "elem.userId": userId,
+                        "elem.read": false
+                    }
+                ]
+            }
+        )
+        
     }
     async countUnreadNotifyMessage(userId: string) {
         console.log("count unread message")
-        const result = await NotifyMessageRepository.countDocuments({
-            "userMessages.userId": userId,
-            "userMessages.read": false
-        })
+        const result = (await NotifyMessageRepository.aggregate([
+            { $unwind: "$userMessages" },
+            {
+                $match: {
+                    "userMessages.read": false,
+                    "userMessages.userId": "67f1e2e5efa5824400a03369"
+                }
+            },
+            {
+                $count: 'unreadCount'
+            }
+        ]).toArray()).at(0)?.unreadCount
         console.log("countUnread: ", result)
         return result
     }

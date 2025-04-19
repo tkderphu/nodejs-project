@@ -12,16 +12,17 @@ class NotificationController {
             next(err)
         })
     }
-    getUnreadMessage(req: Request, res: Response, next: any) {
+    countUnreadNotify(req: Request, res: Response, next: any) {
         NotificationService.countUnreadNotifyMessage(getUserLoggined(req).userId)
         .then(result => {
             res.status(200).json(result)
         }).catch(err => next(err))
     }
     readMessage(req: Request, res: Response, next: any) {
-        const {id} = req.params
+        const {messageId} = req.params
+        console.log("update request")
         NotificationService.readNotifyMessage(
-            id, getUserLoggined(req).userId
+            messageId, getUserLoggined(req).userId
         ).then(resp => {
             res.status(200).send("ok")
         }).catch(err => next(err))

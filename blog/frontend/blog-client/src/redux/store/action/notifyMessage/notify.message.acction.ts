@@ -34,6 +34,7 @@ export const readNotifyMessageAction = (messageId: string) => {
                 type: READ_NOTIFY_MESSAGE_SUCCESS,
                 payload: resp.data
             })
+            dispatch(countUnreadNotifyMessageAction())
         }).catch(err => {
             dispatch({
                 type: READ_NOTIFY_MESSAGE_FAILED,

@@ -1,6 +1,6 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { Link, Outlet, useParams } from "react-router-dom"
 import { UserProfile } from "../../model/User"
 import { checkFollowedUserAction, followObjectAction, unfollowObjectAction } from "../../redux/store/action/follow/follow.action"
 import { fetchProfileAction } from "../../redux/store/action/profile/profile.action"
@@ -26,7 +26,8 @@ function Profile() {
         return state.checkFollowedUser
     })
 
-    console.log("state follow: ", stateFolow)
+    
+    const [useTab, setUseTab] = useState<"POST" | "SERIES" | "BOOKMARK" | "FOLLOWING" | "FOLLOWER" | "TAG">("POST")
 
     const dispatch = useDispatch()
     useEffect(() => {
@@ -43,7 +44,7 @@ function Profile() {
                     <div className="row">
                         <div className="col-lg-8 col-md-7">
                             <div className="profile-header mb-3">
-                                <img src="https://images.viblo.asia/avatar-retina/f8a57b4c-034c-4efd-971a-763c5b4ccee1.jpg" alt="User Avatar" />
+                                <img src={state.user?.image_url} alt="User Avatar" />
                                 <div>
                                     <h4>{state.user?.fullName}</h4>
                                     <p className="text-muted">@quangphu</p>
@@ -65,19 +66,16 @@ function Profile() {
                             </div>
 
                             <ul className="nav nav-tabs">
-                                <li className="nav-item"><a className="nav-link active" href="#">Bài viết</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#">Series</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#">Bookmark</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#">Đang theo dõi</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#">Người theo dõi</a></li>
-                                <li className="nav-item"><a className="nav-link" href="#">Thẻ</a></li>
+                                <li className="nav-item"><Link className="nav-link active" to={'/posts'}>Bài viết</Link></li>
+                                <li className="nav-item"><Link className="nav-link" to={"followings"}>Series</Link></li>
+                                <li className="nav-item"><Link className="nav-link" to={"followings"}>Bookmark</Link></li>
+                                <li className="nav-item"><Link className="nav-link" to={"followings"}>Đang theo dõi</Link></li>
+                                <li className="nav-item"><Link className="nav-link" to={"followings"}>Người theo dõi</Link></li>
+                                <li className="nav-item"><Link className="nav-link" to={"followings"}>Thẻ</Link></li>
                             </ul>
 
                             <div className="content-box">
-                                <Post />
-                                <Post />
-                                <Post />
-                                <Post />
+                                <Outlet/>
                             </div>
                         </div>
 

@@ -18,6 +18,7 @@ import HomeBookmark from "./home/HomeBookmark";
 import HomeSeries from "./home/HomeSeries";
 import Search from "./search/Search";
 import PostVeryDetails from "./post/PostVeryDetails";
+import ProfileFollowing from "./profile/ProfileFollowing";
 
 function Layout() {
     const location = useLocation();
@@ -42,7 +43,9 @@ function Layout() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register/>} />
           <Route path="/forgot-password" element={<ForgetPassword/> }/>
-          <Route path="/profile/:id" element={<Profile/>}></Route>
+          <Route path="/profile/:id" element={<Profile/>}>
+            <Route path="followings" element={<ProfileFollowing/>}/>
+          </Route>
           <Route path='/create-post' element={<PostCreate/>}></Route>
           <Route path="/posts/:id" element={<PostVeryDetails/>}></Route>
           <Route path="/clone" element={<VibloClone/>}/>

@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { fetchNotifyMessageAction } from '../../redux/store/action/notifyMessage/notify.message.acction';
+import AlertConponent from '../common/AlertComponent';
 
 const notifications = [
     {
@@ -52,10 +55,36 @@ const notifications = [
 import "./Notification.css"
 import NotifyCommentTemplate from './template/NotifyCommentTemplate';
 import NotifyFollowTemplate from './template/NotifyFollowTemplate';
+import NotifyPostTemplate from './template/NotifyPostTemplate';
 export default function Notification() {
 
     const [search, setSearch] = useState<"All" | "Unread">()
-    const navigate = useNavigate()
+    const notificationState: {
+        loading: boolean,
+        hasError: boolean,
+        error: any,
+        messages: {
+            _id: string,
+            createdAt: Date,
+            notifyType: "COMMENT" | "POST" | "FOLLOW" | "REPLY_COMMENT",
+            params: any,
+            userMessages: {
+                read: boolean
+            }
+        }[]
+    } = useSelector((state: any) => {
+        return state.fetchAllNotifyMessage
+    })
+    console.log("notification state: ", notificationState)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        //@ts-ignore
+         dispatch(fetchNotifyMessageAction())
+    }, [])
+
+    if (notificationState.loading || notificationState.hasError) {
+        return <AlertConponent loading={notificationState.loading} hasError={notificationState.hasError} error={notificationState.error} />
+    }
     return (
         <>
             <h5 className="fw-bold mb-1 mx-3">Thông báo</h5>
@@ -65,27 +94,31 @@ export default function Notification() {
             </div>
 
             <ul className="list-group">
-                <NotifyFollowTemplate
-                    time={"2w"}
-                    params={{
-                        user: { _id: "323", avatar: "https://i.imgur.com/mYYIVJj.png", fullname: "Ngyne Quang pHU" }
-                    }}
-                    read={false}
-                />
-                <NotifyFollowTemplate
-                    time={"2w"}
-                    params={{
-                        user: { _id: "323", avatar: "https://i.imgur.com/mYYIVJj.png", fullname: "Ngyne Quang pHU" }
-                    }}
-                    read={false}
-                />
-                <NotifyFollowTemplate
-                    time={"2w"}
-                    params={{
-                        user: { _id: "323", avatar: "https://i.imgur.com/mYYIVJj.png", fullname: "Ngyne Quang pHU" }
-                    }}
-                    read={true}
-                />
+                {notificationState.messages && notificationState.messages.map(message => {
+                    if (message.notifyType === "FOLLOW") {
+                        return (
+                            <NotifyFollowTemplate
+                                time={"2w"}
+                                params={message.params}
+                                read={message.userMessages.read}
+                            />
+                        )
+                    } else if(message.notifyType === "COMMENT") {
+                        
+                    } else if(message.notifyType === "POST") {
+                        return (
+                            <NotifyPostTemplate
+                                params={message.params}
+                                time={"2w"}
+                                messageId={message._id}
+                                read={message.userMessages.read}
+                            />
+                        )
+                    } else {
+
+                    }
+                })}
+                
                 {/* {notifications.map((notif) => (
                     <li
                         onClick={() => {

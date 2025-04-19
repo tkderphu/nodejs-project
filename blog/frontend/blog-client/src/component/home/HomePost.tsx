@@ -119,9 +119,9 @@ export default function HomePost() {
                             </div>
                         </div>
                         <h6 className="mt-2">
-                            <a href="#" className="text-decoration-none">
+                            <Link to={`/posts/${post._id}`} className="text-decoration-none">
                                 {post.title}
-                            </a>
+                            </Link>
                             {/* {post.pinned && <i className="fas fa-thumbtack text-primary ms-2"></i>} */}
                         </h6>
                         {/* {post.type && <span className="badge bg-primary">{post.type}</span>} */}

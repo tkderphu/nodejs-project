@@ -30,7 +30,7 @@ function Home(props: {
             <div className="container mt-3">
                 <ul className="nav nav-tabs">
                     {!getUserLoggined() ? "" : <li className={"nav-item"}><Link className={useNav == 'POST' ? "nav-link active" : "nav-link"} to={`/`} onClick={() => setUseNav("POST")}>Bài viết</Link></li>}
-                    {!getUserLoggined() ? "" : <li className={"nav-item"}><Link className={useNav == 'FOLLOWING' ? "nav-link active" : "nav-link"} to={`my-followings`} onClick={() => setUseNav("FOLLOWING")}>Người đang theo dõi</Link></li>}
+                    {!getUserLoggined() ? "" : <li className={"nav-item"}><Link className={useNav == 'FOLLOWING' ? "nav-link active" : "nav-link"} to={`my-followings`} onClick={() => setUseNav("FOLLOWING")}>Đang theo dõi</Link></li>}
                     {!getUserLoggined() ? "" : <li className={"nav-item"}><Link className={useNav == 'BOOKMARK' ? "nav-link active" : "nav-link"} to={"my-bookmarks"} onClick={() => setUseNav("BOOKMARK")}>Bookmark của tôi</Link></li>}
                     {!getUserLoggined() ? "" : <li className={"nav-item"}><Link className={useNav == 'SERIES' ? "nav-link active" : "nav-link"} to={"series"} onClick={() => setUseNav("SERIES")}>Series</Link></li>}
                 </ul>
