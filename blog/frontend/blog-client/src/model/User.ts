@@ -3,7 +3,7 @@ export interface Author {
     fullName?: string,
     image_url?: string,
     followers?: number
-    numberPosts?: number,
+    posts?: number,
     view?: number
 }
 export interface UserProfile {
@@ -14,8 +14,17 @@ export interface UserProfile {
     posts?: number,
     bookmark?: number,
     comments?: number,
-    fullName?: string
+    fullName?: string,
+    nickname?: string
     image_url?: string
     bio?: string
-    role?: 'ADMIN' | 'USER'
+    role?: 'ADMIN' | 'USER',
+
+    socialNetworkPlatform?: {
+        instagram?: any
+        twitter?: any
+        github?: any
+        yoursite?: any
+        linkedln?: any
+    }
 }

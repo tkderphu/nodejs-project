@@ -58,23 +58,23 @@ export const checkFollowedUserAction = (followObjectId: string, type: "USER" | "
     }
 }
 
-export const fetchFollowersAction = (userId: string) => {
+export const fetchFollowersAction = (userId: string, type: "TAG" | "USER") => {
     return (dispatch: any) => {
         dispatch({
             type: FETCH_FOLLOWERS_BEGIN
         })
-        // followService.checkCurrentUserFollowedUserId(userId).then(response => {
-        //     const data = response.data;
-        //     dispatch({
-        //         type: FETCH_FOLLOWERS_SUCCESS,
-        //         payload: data
-        //     })
-        // }).catch(err => {
-        //     dispatch({
-        //         type: FETCH_FOLLOWERS_FAILED,
-        //         payload: err
-        //     })
-        // })
+        followService.getListFollowers(userId, type).then(response => {
+            const data = response.data;
+            dispatch({
+                type: FETCH_FOLLOWERS_SUCCESS,
+                payload: data
+            })
+        }).catch(err => {
+            dispatch({
+                type: FETCH_FOLLOWERS_FAILED,
+                payload: err
+            })
+        })
     }
 }
 export const fetchFollowingsAction = (userId: string, type: any) => {
@@ -84,12 +84,12 @@ export const fetchFollowingsAction = (userId: string, type: any) => {
         })
         followService.getListFollowing(userId, type).then(res => {
             dispatch({
-                type: FETCH_FOLLOWERS_SUCCESS,
+                type: FETCH_FOLLOWING_SUCCESS,
                 payload: res.data
             })
         }).catch(err => {
             dispatch({
-                type: FETCH_FOLLOWERS_FAILED,
+                type: FETCH_FOLLOWING_FAILED,
                 payload: err
             })
         })

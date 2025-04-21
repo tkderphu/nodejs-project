@@ -19,7 +19,15 @@ export interface UserBase {
     password?: string
     image_url?: string
     bio?: string
-    role?: 'ADMIN' | 'USER'
+    role?: 'ADMIN' | 'USER',
+    socialNetworkPlatform?: {
+        instagram?: string
+        twitter?: string
+        linkedln?: string,
+        github?: string,
+        yoursite?: string
+    },
+    nickname?: string
 }
 
 

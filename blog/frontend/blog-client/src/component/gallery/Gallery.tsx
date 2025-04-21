@@ -11,7 +11,7 @@ interface Gallery {
     userId?: string
     imageUrl?: string
 }
-function Gallery() {
+function Gallery(props: {chooseMultiple: boolean, saveImageCallback: any}) {
     const galleryState: {
         galleries: Gallery[],
         loading: boolean,
@@ -71,7 +71,9 @@ function Gallery() {
                 {galleryState.galleries && galleryState.galleries.map((gallery, index) => {
                     return (
                         <div className="form-check form-check-inline d-flex align-items-center mb-3">
-                            <input className="form-check-input" type="checkbox" id={"inlineCheckbox" + index} value="option1" />
+                            <input className="form-check-input" onChange={(e) => {
+                                props.saveImageCallback(e.target.value)
+                            }}  type={props.chooseMultiple ? "checkbox" : "radio"} id={"inlineCheckbox" + index} name={props.chooseMultiple ? "galleryImage" + index : "galleryImage" }  value={gallery.imageUrl} />
                             <label className="form-check-label" htmlFor={"inlineCheckbox" + index}>
                                 <img
                                     width={"100px"} height="100px" className="mx-3"

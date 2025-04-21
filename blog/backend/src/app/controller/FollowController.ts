@@ -56,10 +56,10 @@ class FollowController {
     }
 
     getFollowers(req: Request, res: Response, next: any) {
-        const { followObjectId, type } = req.params
+        const { userId, type } = req.params
 
         //@ts-ignore
-        FollowService.getListFollower(followObjectId, type).then(resp => {
+        FollowService.getListFollower(userId, type).then(resp => {
             res.status(200).send(resp)
         }).catch(err => {
             next(err)

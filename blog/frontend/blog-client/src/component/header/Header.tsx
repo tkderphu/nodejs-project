@@ -24,26 +24,27 @@ function Header() {
                 </ul>
 
                 {getRefreshToken() && (
-                    <NotificationDropdown/>
+                    <NotificationDropdown />
                 )}
                 {!getToken() && (
                     <a href={`/login?continue=${location.href}`} className="btn btn-outline-secondary ms-3">Đăng nhập/Đăng ký</a>
 
                 )}
-                {getToken() && (<div className="dropdown">
-                    <button className="btn btn-outline-secondary dropdown-toggle" type="button" id="userDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                {getToken() && (
+                    <div className="dropdown">
+                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i className="bi bi-person-circle"></i> {getUserLoggined()?.fullName}
                     </button>
-                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a className="dropdown-item" href={`/profile/${getUserLoggined()._id}`}>Thông tin cá nhân</a></li>
-                        <li><a className="dropdown-item" href="#">Settings</a></li>
+                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><Link className="dropdown-item" to={`/profile/${getUserLoggined()._id}`}>Thông tin cá nhân</Link></li>
+                        <li><a className="dropdown-item" href="#">Cài đặt</a></li>
                         <li>
                             <hr className="dropdown-divider" />
                         </li>
-                        <li><a className="dropdown-item" href="#">Logout</a></li>
-                    </ul>
-                </div>)}
+                        <li><a className="dropdown-item" href="#">Đăng xuất</a></li>
+                    </div>
+                </div>
+                )}
             </div>
         </nav>
     )

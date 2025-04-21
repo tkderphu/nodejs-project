@@ -6,7 +6,7 @@ import { checkFollowedUserReducer, fetchFollowersReducer, fetchFollowingsReducer
 import { fetchGalleriesReducer } from './store/reducer/gallery/gallery.reducer'
 import { countUnreadNotifyMessageReducer, fetchAllNotifyMessageReducer } from './store/reducer/notifyMessage/notify.message.reducer'
 import { createPostReducer, fetchAllPostReducer, fetchPostReducer } from './store/reducer/post/post.reducer'
-import { fetchProfileReducer } from './store/reducer/profile/profile.reducer'
+import { fetchProfileReducer, updateProfileSocialReducer, updateProfileUserInfoReducer } from './store/reducer/profile/profile.reducer'
 import { createSeriesReducer, fetchSeriesReducer } from './store/reducer/series/series.reducer'
 import { uploadReducer } from './store/reducer/upload/upload.reducer'
 const rootReducer = combineReducers({
@@ -32,7 +32,9 @@ const rootReducer = combineReducers({
     popPostFromBookmark: popPostFromBookmarkedReducer,
     fetchBookmark: fetchBookmarkReducer,
     fetchSeries: fetchSeriesReducer,
-    createSeries: createSeriesReducer
+    createSeries: createSeriesReducer,
+    updateProfileSocial: updateProfileSocialReducer,
+    updateProfileInfoUser: updateProfileUserInfoReducer
 })
 
 export default rootReducer

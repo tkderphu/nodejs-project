@@ -13,10 +13,10 @@ class FollowService {
         return api.get(`/${URL}/check/${followObjectId}/${type}`)
     }
     getListFollowers(userId: string, type: "USER" | "TAG") {
-        return api.get(`${URL}/${userId}/followers`)
+        return api.get(`${URL}/${userId}/followers/${type}`)
     }
     getListFollowing(userId: string, type: "USER" | "TAG") {
-        return api.get(`${URL}/${userId}/followings`)
+        return api.get(`${URL}/${userId}/followings/${type}`)
     }
 }
 export default new FollowService()

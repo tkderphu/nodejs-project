@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { FollowRepository } from "../../db/mongo";
-import { FollowBase } from "../model/follow";
+import { Follow, FollowBase } from "../model/follow";
+import UserService from "./UserService";
 
 class FollowService {
 
@@ -20,19 +21,43 @@ class FollowService {
         })
     }
 
-     getListFollowed(userId: string, type: "USER" | "TAG") {
-        return FollowRepository.find({
-            userId: userId,
+     async getListFollowed(userId: string, type: "USER" | "TAG") {
+        const result = (await  FollowRepository.find({
+            "user._id": new ObjectId(userId),
             type: type
-        }).toArray()
+        }).toArray())
+
+        const resp = []
+        for(let following of result) {
+            resp.push({
+                ...following, 
+                //@ts-ignore
+                "followObject": (type === "USER") ? (await UserService.getProfile(following.followObject._id?.toString())) : following.followObject
+            })
+        }
+
+        return resp;
+
     }
 
     async getListFollower(followObjectId: string, type: "USER" | "TAG") {
-        const result =  FollowRepository.find({
+        const result = await  FollowRepository.find({
             "followObject._id": new ObjectId(followObjectId),
             "type": type
         }).toArray()
-        return result;
+
+        const resp = []
+        for(let following of result) {
+            resp.push({
+                ...following, 
+                //@ts-ignore
+                "user": (await UserService.getProfile(following.user._id.toString()))
+            })
+        }
+
+        return resp;
+
+
     }
     async checkWhetherFollowed(userId: string, followObjectId: string, type: "USER" | "TAG") {
         const result = await  FollowRepository.findOne({

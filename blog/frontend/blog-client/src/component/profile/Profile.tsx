@@ -10,8 +10,11 @@ import AlertConponent from "../common/AlertComponent"
 import Modal from "../common/Modal"
 import Post from "../post/PostSimple"
 import "./Profile.css"
+import ProfileEmbedded from "./ProfileEmbedded"
+import ProfileInfo from "./ProfifleInfo"
+import ProfileUpdate from "./ProfifleInfo"
 function Profile() {
-    const { id } = useParams()
+    const { id } = useParams() || ''
     const state: {
         error: any, hasError: boolean, user: UserProfile, loading: boolean
     } = useSelector((state: any) => {
@@ -26,7 +29,7 @@ function Profile() {
         return state.checkFollowedUser
     })
 
-    
+
     const [useTab, setUseTab] = useState<"POST" | "SERIES" | "BOOKMARK" | "FOLLOWING" | "FOLLOWER" | "TAG">("POST")
 
     const dispatch = useDispatch()
@@ -43,11 +46,14 @@ function Profile() {
                 <div className="container mt-4">
                     <div className="row">
                         <div className="col-lg-8 col-md-7">
-                            <div className="profile-header mb-3">
-                                <img src={state.user?.image_url} alt="User Avatar" />
-                                <div>
-                                    <h4>{state.user?.fullName}</h4>
-                                    <p className="text-muted">@quangphu</p>
+                            <div className="profile-header mb-3 d-flex justify-content-between flex-wrap">
+                                <div className="d-flex">
+                                    <img src={state.user?.image_url} alt="User Avatar" />
+                                    <div className="d-flex flex-column justify-content-center align-items-center">
+                                        <strong>{state.user?.fullName}</strong>
+                                        <p>@{state.user?.nickname}</p>
+                                        {/* <button className="btn btn-sm btn-outline-secondary ms-auto">follower</button> */}
+                                    </div>
                                 </div>
                                 {getUserLoggined()._id != id && <div className="d-flex flex-column">
                                     <button className="btn btn-outline-primary edit-btn" onClick={() => {
@@ -61,28 +67,40 @@ function Profile() {
                                     }} type="button">{stateFolow.followed ? "Hủy theo dõi" : "Theo dõi"}</button>
                                     {stateFolow.hasError && <AlertConponent hasError={stateFolow.hasError} error={state.error} loading={state.loading} />}
                                 </div>}
-                                <button className="btn btn-outline-primary edit-btn" type="button" data-toggle="modal" data-target='.profile-user'>Sửa</button>
-                                <Modal dataTarget="profile-user" />
+                                {(id == getUserLoggined()._id || '') && <ProfileInfo info={state.user} />}
                             </div>
 
                             <ul className="nav nav-tabs">
-                                <li className="nav-item"><Link className="nav-link active" to={'/posts'}>Bài viết</Link></li>
-                                <li className="nav-item"><Link className="nav-link" to={"followings"}>Series</Link></li>
-                                <li className="nav-item"><Link className="nav-link" to={"followings"}>Bookmark</Link></li>
-                                <li className="nav-item"><Link className="nav-link" to={"followings"}>Đang theo dõi</Link></li>
-                                <li className="nav-item"><Link className="nav-link" to={"followings"}>Người theo dõi</Link></li>
-                                <li className="nav-item"><Link className="nav-link" to={"followings"}>Thẻ</Link></li>
+                                <li className="nav-item"><Link className={`nav-link ${useTab === "POST" ? "active" : ""}`} to={'posts'} onClick={() => setUseTab("POST")}>Bài viết</Link></li>
+                                <li className="nav-item"><Link className={`nav-link ${useTab === "SERIES" ? "active" : ""}`} to={"series"} onClick={() => setUseTab("SERIES")}>Series</Link></li>
+                                <li className="nav-item"><Link className={`nav-link ${useTab === "BOOKMARK" ? "active" : ""}`} to={"bookmarks"} onClick={() => setUseTab("BOOKMARK")}>Bookmark</Link></li>
+                                <li className="nav-item"><Link className={`nav-link ${useTab === "FOLLOWING" ? "active" : ""}`} to={"followings"} onClick={() => setUseTab("FOLLOWING")}>Đang theo dõi</Link></li>
+                                <li className="nav-item"><Link className={`nav-link ${useTab === "FOLLOWER" ? "active" : ""}`} to={"followers"} onClick={() => setUseTab("FOLLOWER")}>Người theo dõi</Link></li>
+                                {/* <li className="nav-item"><Link className={`nav-link ${useTab==="TAG" ? "active" : ""}`} to={"tags"} onClick={() => setUseTab("TAG")}>Thẻ</Link></li> */}
                             </ul>
 
                             <div className="content-box">
-                                <Outlet/>
+                                <Outlet />
                             </div>
                         </div>
 
                         <div className="col-lg-4 col-md-5">
                             <div className="stats-box">
-                                <Modal dataTarget="social-embedded" />
-                                <button className="btn btn-light w-100 mb-2" data-toggle="modal" data-target='.social-embedded'>Nhúng trang cá nhân</button>
+                                {(id == getUserLoggined()._id || '') && <ProfileEmbedded socialPlatform={state.user?.socialNetworkPlatform} />}
+                                {state.user?.socialNetworkPlatform && (
+                                    <div className="mb-2 p-2" style={{
+                                        backgroundColor: "#c9cdd1",
+                                        border: "1px",
+                                        height: "130px",
+                                        borderRadius: "10px"
+                                    }}>
+                                        <div className="text-truncate">Github: <a href={state.user.socialNetworkPlatform.github} target={"_blank"}>{state.user.socialNetworkPlatform.github}</a></div>
+                                        <div className="text-truncate">Instagram: <a href={state.user.socialNetworkPlatform.instagram} target={"_blank"}>{state.user.socialNetworkPlatform.instagram}</a></div>
+                                        <div className="text-truncate">Twitter: <a href={state.user.socialNetworkPlatform.twitter} target={"_blank"}>{state.user.socialNetworkPlatform.twitter}</a></div>
+                                        <div className="text-truncate">Linkln: <a href={state.user.socialNetworkPlatform.linkedln} target={"_blank"}>{state.user.socialNetworkPlatform.linkedln}</a></div>
+                                        <div className="text-truncate">Website: <a href={state.user.socialNetworkPlatform.yoursite} target={"_blank"}>{state.user.socialNetworkPlatform.yoursite}</a></div>
+                                    </div>
+                                )}
                                 <div className="stats-item"><span>Các thẻ theo dõi</span> <strong>{state.user?.followTags}</strong></div>
                                 <div className="stats-item"><span>Đang theo dõi các người dùng</span> <strong>{state.user?.followings}</strong></div>
                                 <div className="stats-item"><span>Các người dùng đang theo dõi</span> <strong>{state.user?.followers}</strong></div>

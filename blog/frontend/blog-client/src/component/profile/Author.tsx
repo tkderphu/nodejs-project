@@ -6,7 +6,7 @@ function AuthorComponent(props: {author?: Author}) {
             <img src="top_author2.jpg" alt="Top Author" className="rounded-circle me-3" width="40" />
             <div>
                 <span>{props.author?.fullName}</span><br />
-                <small className="text-muted">👁️ {props.author?.view} | 📝 {props.author?.numberPosts} | 👥 {props.author?.followers}</small>
+                <small className="text-muted">👁️ {props.author?.view} | 📝 {props.author?.posts} | 👥 {props.author?.followers}</small>
             </div>
         </li>
     )

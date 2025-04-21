@@ -19,6 +19,10 @@ import HomeSeries from "./home/HomeSeries";
 import Search from "./search/Search";
 import PostVeryDetails from "./post/PostVeryDetails";
 import ProfileFollowing from "./profile/ProfileFollowing";
+import ProfilePost from "./profile/ProfilePost";
+import ProfileFollower from "./profile/ProfileFollower";
+import ProfileSeries from "./profile/ProfileSeries";
+import ProfileBookmark from "./profile/ProfileBookmark";
 
 function Layout() {
     const location = useLocation();
@@ -45,6 +49,11 @@ function Layout() {
           <Route path="/forgot-password" element={<ForgetPassword/> }/>
           <Route path="/profile/:id" element={<Profile/>}>
             <Route path="followings" element={<ProfileFollowing/>}/>
+            <Route index element={<ProfilePost/>} />
+            <Route path="posts" element={<ProfilePost/>} />
+            <Route path="followers"  element={<ProfileFollower />}/>
+            <Route path="series" element={<ProfileSeries/>}/>
+            <Route path="bookmarks" element={<ProfileBookmark/>}/>
           </Route>
           <Route path='/create-post' element={<PostCreate/>}></Route>
           <Route path="/posts/:id" element={<PostVeryDetails/>}></Route>

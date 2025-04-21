@@ -25,10 +25,29 @@ class UserController {
        })
     }
 
+    updateSocialNetworkPlatform(req: Request, res: Response, next: any) {
+        const socialNetworkPlatformReq = req.body
+        UserService.updateSocialNetworkPlatform(getUserLoggined(req).userId, socialNetworkPlatformReq).then(resp => {
+            res.status(200).send("ok")
+        }).catch(err => {
+            next(err)
+        })
+    }
+
     getUserProfile(req: Request, res: Response, next: any) {
         const {userId} = req.params
         UserService.getProfile(userId).then(response => {
             res.status(200).send(response)
+        }).catch(err => {
+            next(err)
+        })
+        
+    }
+
+    updateProfileInfo(req: Request, res: Response, next: any) {
+        const body = req.body
+        UserService.updateProfileInfo(getUserLoggined(req).userId, body).then(resp => {
+            res.status(200).send("update info ok")
         }).catch(err => {
             next(err)
         })

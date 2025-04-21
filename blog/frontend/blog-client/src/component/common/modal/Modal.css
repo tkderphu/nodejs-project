@@ -1,0 +1,80 @@
+.custom-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  
+  .custom-modal {
+    background: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  .custom-modal-header {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .custom-modal-body {
+    padding: 1rem;
+    overflow-y: scroll;
+    max-height: 500px;
+  }
+  
+  .custom-modal-footer {
+    padding: 1rem;
+    border-top: 1px solid #ddd;
+    text-align: right;
+  }
+  
+  .custom-modal-close {
+    font-size: 1.5rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+  
+  .custom-button {
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .custom-button.primary {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .custom-button.secondary {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+

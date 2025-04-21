@@ -59,6 +59,16 @@ class UserService {
     }
 
 
+    updateSocialNetworkPlatform(userId: string, req: { instagram?: string, github?: string, linkedln?: string, twitter?: string}) {
+        return UserRepository.updateOne({
+            _id: new ObjectId(userId)
+        }, {
+            $set: {
+                "socialNetworkPlatform": req
+            }
+        })
+    }
+
 
     private updateById(userId: string, data: object) {
         return UserRepository.updateOne({
@@ -70,7 +80,9 @@ class UserService {
         })
     }
 
-
+    updateProfileInfo(userId: string, req: any) {
+        return this.updateById(userId, req)
+    }
     
 
 }
