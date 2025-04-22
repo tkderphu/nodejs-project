@@ -58,7 +58,7 @@ export default function ProfileEmbedded(props: {
                     setModalOpen(true)
                     console.log("props: ", props.socialPlatform)
 
-                }} className='btn btn-light w-100'>Nhúng trang cá nhân</button>
+                }} className='btn btn-primary w-100 mb-3'>Nhúng trang cá nhân</button>
 
                 <ModalComponent
                     show={modalOpen}

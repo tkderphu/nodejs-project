@@ -38,7 +38,7 @@ function Profile() {
         dispatch(fetchProfileAction(id || ""))
         //@ts-ignore
         dispatch(checkFollowedUserAction(id || "", "USER"))
-    }, [])
+    }, [id])
     return (
         <>
             <AlertConponent error={state.error} loading={state.loading} hasError={state.hasError} />
@@ -46,15 +46,16 @@ function Profile() {
                 <div className="container mt-4">
                     <div className="row">
                         <div className="col-lg-8 col-md-7">
-                            <div className="profile-header mb-3 d-flex justify-content-between flex-wrap">
-                                <div className="d-flex">
+                            <div className="profile-header d-flex justify-content-between flex-wrap">
+                                <div className="d-flex align-items-center">
                                     <img src={state.user?.image_url} alt="User Avatar" />
-                                    <div className="d-flex flex-column justify-content-center align-items-center">
+                                    <div className="d-flex flex-column">
                                         <strong>{state.user?.fullName}</strong>
-                                        <p>@{state.user?.nickname}</p>
+                                        {state.user?.nickname && (<p>@{state.user?.nickname}</p>)}
                                         {/* <button className="btn btn-sm btn-outline-secondary ms-auto">follower</button> */}
                                     </div>
                                 </div>
+                                
                                 {getUserLoggined()._id != id && <div className="d-flex flex-column">
                                     <button className="btn btn-outline-primary edit-btn" onClick={() => {
                                         if (stateFolow.followed) {
@@ -68,8 +69,9 @@ function Profile() {
                                     {stateFolow.hasError && <AlertConponent hasError={stateFolow.hasError} error={state.error} loading={state.loading} />}
                                 </div>}
                                 {(id == getUserLoggined()._id || '') && <ProfileInfo info={state.user} />}
+                                
                             </div>
-
+                            <div className="mb-2 text-start"><span>{state.user?.bio}</span></div>
                             <ul className="nav nav-tabs">
                                 <li className="nav-item"><Link className={`nav-link ${useTab === "POST" ? "active" : ""}`} to={'posts'} onClick={() => setUseTab("POST")}>Bài viết</Link></li>
                                 <li className="nav-item"><Link className={`nav-link ${useTab === "SERIES" ? "active" : ""}`} to={"series"} onClick={() => setUseTab("SERIES")}>Series</Link></li>

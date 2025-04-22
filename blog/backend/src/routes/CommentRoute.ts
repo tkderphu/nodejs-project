@@ -122,7 +122,7 @@ commentRouter.post('/api/comments', authMiddleWare, CommentController.createComm
  *      500:
  *        description: Server Error
  */
-commentRouter.post('/api/comments/post', CommentController.getAllCommentByPostId)
+commentRouter.get('/api/comments/post/:postId', CommentController.getAllCommentByPostId)
 
 
 

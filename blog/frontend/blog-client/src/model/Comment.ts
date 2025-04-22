@@ -1,22 +1,19 @@
-import { ObjectId } from "mongodb"
-import { PageParam } from "../framework/common/page"
-import { UserSimple } from "./user"
-
+import {Author} from './User'
 export interface Comment{
-    _id?: ObjectId,
-    userId?: string
+    _id: string
+    user: Author
     content?: string
-    postId?: string
     rootCommentId?: string
-    createdDate: Date,
+    createdDate: any,
     imageUrls?: string[],
-    replyCommentId?: string
+    replyComment?: Comment
+    nestedComments: Comment[]
     like?: number
 }
 
 export interface CommentReqVO {
     content?: string
-    postId: string
+    postId?: string
     rootCommentId?: string,
     replyCommentId?: string
     imageUrls?: string[]

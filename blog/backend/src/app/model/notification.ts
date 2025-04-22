@@ -11,18 +11,8 @@ export interface NotifyMessage {
     }[]
 }
 
-export interface NotifyReplyComment {
-    oldComment: {
-        _id?: string,
-        user?: {
-            _id?: string,
-            fullName?: string
-        }
-    },
-    user?: { fullName: string, avatar: string },
-    post?: { title: string, _id: string }
-}
 export interface NotifyComment {
+    commentId?: string
     user?: { fullName: string, avatar: string },
     post?: { title: string, _id: string }
 }

@@ -1,8 +1,9 @@
 import { ObjectId } from "mongodb"
 import { FirebaseMessageTokenRepository, NotifyMessageRepository } from "../../db/mongo"
 import { NotificationNewPostTempalte } from "../framework/template/Notification"
-import { NotifyComment, NotifyFollow, NotifyMessage, NotifyNewPost, NotifyReplyComment } from "../model/notification"
+import { NotifyComment, NotifyFollow, NotifyMessage, NotifyNewPost } from "../model/notification"
 import { UserSimple } from "../model/user"
+import CommentService from "./CommentService"
 import FirebaseService from "./FirebaseService"
 import FollowService from "./FollowService"
 import PostService from "./PostService"
@@ -41,9 +42,10 @@ class NotificationService {
         await NotifyMessageRepository.insertOne(notifyMessage)
     }
 
-    async saveNotifyReplyComment(oldComment: { _id: string, user: { _id: string } }, user: { _id: string, fullName: string, avatar: string }, post: { _id: string, title: string }) {
-        const notifyReplyComment: NotifyReplyComment = {
-            oldComment: oldComment,
+    async saveNotifyReplyComment(oldCommentId: string, user: { _id: string, fullName: string, avatar: string }, post: { _id: string, title: string }) {
+        const commentAuthor = await CommentService.getCommentById(oldCommentId)
+        const notifyReplyComment: NotifyComment = {
+            commentId: oldCommentId,
             post: post,
             user: user
         }
@@ -52,19 +54,20 @@ class NotificationService {
             createdAt: new Date(),
             notifyType: "REPLY_COMMENT",
             params: notifyReplyComment,
-            userMessages: [{ read: false, userId: oldComment.user._id }]
+            userMessages: [{ read: false, userId: commentAuthor.userId }]
         }
 
         await NotifyMessageRepository.insertOne(notifyMessage)
     }
 
-    async saveNotifyComment(user: { _id: string, fullName: string, avatar: string }, post: { _id: string, title: string }) {
+    async saveNotifyComment(commentId: string, user: { _id: string, fullName: string, avatar: string }, post: { _id: string, title: string }) {
         const postDoc = await PostService.findById(post._id)
         const authorId = postDoc.userId
 
         const notifyComment: NotifyComment = {
             post: post,
-            user: user
+            user: user,
+            commentId: commentId
         }
 
         const notifyMessage: NotifyMessage = {

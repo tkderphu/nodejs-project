@@ -4,58 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { fetchNotifyMessageAction } from '../../redux/store/action/notifyMessage/notify.message.acction';
 import AlertConponent from '../common/AlertComponent';
 
-const notifications = [
-    {
-        id: 1,
-        avatar: 'https://i.imgur.com/9n3sX3F.png',
-        content: (
-            <>
-                You're featured on <strong>Học viện Công nghệ Bưu chính Viễn thông</strong> - PTIT's public weekly engagement...
-            </>
-        ),
-        time: '1d',
-    },
-    {
-        id: 2,
-        avatar: 'https://i.imgur.com/I7z5qkY.png',
-        content: <>Anonymous participant likes your answer to a question.</>,
-        time: '6d · 1 Reaction',
-    },
-    {
-        id: 3,
-        avatar: 'https://i.imgur.com/8ZVQOba.png',
-        content: <>Ngọc Thiên followed you.</>,
-        time: '6d',
-        unread: true,
-    },
-    {
-        id: 4,
-        avatar: 'https://i.imgur.com/DQK1MuI.png',
-        content: (
-            <>
-                <strong>Tôi Yêu PTIT</strong>, a Page you recently viewed, invited you to join their public group.
-            </>
-        ),
-        time: '1w',
-        unread: true,
-    },
-    {
-        id: 5,
-        avatar: 'https://i.imgur.com/mYYIVJj.png',
-        content: <>Welcome to <strong>Tìm bạn học tập</strong>. Now you can post, connect with other members and more.</>,
-        time: '1w',
-    },
-    {
-        id: 6,
-        avatar: 'https://i.imgur.com/xPbGEOQ.png',
-        content: <>Welcome to <strong>J2TEAM Community</strong>. Now you can post, connect with other members and more.</>,
-        time: '1w',
-    },
-];
 import "./Notification.css"
 import NotifyCommentTemplate from './template/NotifyCommentTemplate';
 import NotifyFollowTemplate from './template/NotifyFollowTemplate';
 import NotifyPostTemplate from './template/NotifyPostTemplate';
+import NotifyReplyCommentTemplate from './template/NotifyReplyCommentTemplate';
 export default function Notification() {
 
     const [search, setSearch] = useState<"All" | "Unread">()
@@ -104,7 +57,14 @@ export default function Notification() {
                             />
                         )
                     } else if(message.notifyType === "COMMENT") {
-                        
+                        return (
+                            <NotifyCommentTemplate
+                                params={message.params}
+                                time={"2w"}
+                                // messageId={message._id}
+                                read={message.userMessages.read}
+                            />
+                        )
                     } else if(message.notifyType === "POST") {
                         return (
                             <NotifyPostTemplate
@@ -115,7 +75,14 @@ export default function Notification() {
                             />
                         )
                     } else {
-
+                        return (
+                            <NotifyReplyCommentTemplate
+                                params={message.params}
+                                time={"2w"}
+                                // messageId={message._id}
+                                read={message.userMessages.read}
+                            />
+                        )
                     }
                 })}
                 

@@ -1,102 +1,59 @@
-import commentService from "../../../service/comment.service"
-import { CREATE_COMMENT_BEGIN, CREATE_COMMENT_FAILED, CREATE_COMMENT_SUCCESS } from "./comment.action.type"
+import commentService from "../../../../service/comment.service"
+import { CREATE_COMMENT_BEGIN, CREATE_COMMENT_FAILED, CREATE_COMMENT_SUCCESS, FETCH_ALL_COMMENT_BEGIN, FETCH_ALL_COMMENT_FAILED, FETCH_ALL_COMMENT_SUCCESS, REMOVE_COMMENT_BEGIN, REMOVE_COMMENT_FAILED, REMOVE_COMMENT_SUCCESS } from "./comment.action.type"
 
-
-const createCommentBegin = () => {
-    return {
-        type: CREATE_COMMENT_BEGIN
-    }
-}
-const createCommentSuccess = (response: any) => {
-    return {
-        type: CREATE_COMMENT_SUCCESS,
-        payload: response
-    }
-}
-const createCommentFailed = (err: any, message: any, path: any, status: any) => {
-    return {
-        type: CREATE_COMMENT_FAILED,
-        err, message, path, status
-    }
-}
-
-/**Create comment action
- * @param
- * @returns 
- */
-export const createCommentAction = () => {
-    const body = {}
+export  const createCommentAction = (req: any) => {
     return (dispatch: any) => {
-        dispatch(createCommentBegin())
-        commentService.createComment(body).then(response => {
-            dispatch(createCommentSuccess(response.data))
-            dispatch(fetchAllCommentAction(body.postId))
+        dispatch({
+            type: CREATE_COMMENT_BEGIN
+        })
+        commentService.createComment(req).then(response => {
+            dispatch({
+                type: CREATE_COMMENT_SUCCESS
+            }),
+            dispatch(fetchAllCommentAction(req.postId))
         }).catch(err => {
-            if(err.status === 401) {
-                localStorage.clear()
-                dispatch(createCommentFailed(err, "Your token is expired, please login", '', 401))
-            } else {
-
-            }
+            dispatch({
+                type: CREATE_COMMENT_FAILED,
+                payload: err
+            })
         })
     }
 }
- 
-const fetchAllCommentBegin = () => {
-    return {
 
-    }
-}
-const fetchAllCommentSuccess = (response: any) => {
-    return {
-        
-        payload: response
-    }
-}
 
-const fetchAllCommentFailed =(err: any, message: any, path: any, status: any) => {
-    return {
-
-    }
-}
-const fetchAllCommentAction = (postId: any) => {
+export const fetchAllCommentAction = (postId: any) => {
     return (dispatch: any) => {
-        dispatch(fetchAllCommentBegin())
+        dispatch({
+            type: FETCH_ALL_COMMENT_BEGIN
+        })
         commentService.getAllCommentByPost(postId).then(response => {
-            if(response.data.error) {
-
-            } else {
-                dispatch(fetchAllCommentSuccess(response.data))
-            }
+            dispatch({
+                type: FETCH_ALL_COMMENT_SUCCESS,
+                payload: response.data
+            })
         }).catch(err => {
-
+            dispatch({
+                type: FETCH_ALL_COMMENT_FAILED,
+                payload: err
+            })
         })
     }
 }
-const removeCommentBegin = () => {
-    return {
 
-    }
-}
-const removeCommentSuccess = () => {
-    return {
-
-    }
-}
-const removeCommentError = (err: any, message: any, path: any, status: any)  => {
-    return {
-
-    }   
-}
-const removeCommentAction = (commentId: any, postId: any) => {
+export const removeCommentAction = (commentId: any, postId: string) => {
     return (dispatch: any) => {
+        dispatch({
+            type: REMOVE_COMMENT_BEGIN
+        })
         commentService.removeComment(commentId).then(response => {
-            if(response.data.error) {
-                
-            } else {
-                dispatch(removeCommentSuccess())
-                dispatch(fetchAllCommentAction(postId))
-            }
+            dispatch({
+                type: REMOVE_COMMENT_SUCCESS
+            })
+            dispatch(fetchAllCommentAction(postId))
+        }).catch(err => {
+            dispatch({
+                type: REMOVE_COMMENT_FAILED
+            })
         })
     }
 }

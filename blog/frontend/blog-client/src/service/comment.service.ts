@@ -1,18 +1,17 @@
-import axios from 'axios'
-import dotenv from 'dotenv'
-dotenv.config()
+
+import api from '../interceptor/AxiosInterceptor'
 
 
-const URL = `${process.env.BASE_URL_API}/comments`
+const PATH = "/comments"
 class CommentService {
     createComment(req: any) {
-       return axios.post(URL, req)
+       return api.post(PATH, req)
     }
     getAllCommentByPost(postId: any) {
-        return axios.get(`${URL}/post/${postId}`)
+        return api.get(`${PATH}/post/${postId}`)
     }
     removeComment(commentId: any) {
-        return axios.delete(`${URL}/${commentId}`)
+        return api.delete(`${PATH}/${commentId}`)
     }
 
 }

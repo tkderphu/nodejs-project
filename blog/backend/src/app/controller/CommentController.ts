@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { getUserLoggined } from "../framework/common/auth"
-import { CommentPageReqVO, CommentReqVO } from "../model/comment"
+import { CommentReqVO } from "../model/comment"
 import CommentService from "../service/CommentService"
 
 
@@ -18,16 +18,8 @@ class CommentController {
 
     getAllCommentByPostId(req: Request, res: Response, next: NextFunction) {
         const { postId } = req.params;
-        const { page, limit } = req.query
-        //@ts-ignore
-        CommentService.getPageCommentByPostId(postId, page, limit).then(response => {
-            const resp = response.map(comment => {
-                return {
-                    ...comment,
-                    id: comment._id.toString()
-                }
-            })
-            res.send(resp)
+        CommentService.getListCommentByPost(postId).then(response => {
+            res.send(response)
         }).catch(err => next(err))
     }
 

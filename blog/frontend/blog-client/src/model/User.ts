@@ -1,10 +1,11 @@
 export interface Author {
-    _id?: string
+    _id: string
     fullName?: string,
     image_url?: string,
     followers?: number
     posts?: number,
-    view?: number
+    view?: number,
+    nickname?: string
 }
 export interface UserProfile {
     _id: string,

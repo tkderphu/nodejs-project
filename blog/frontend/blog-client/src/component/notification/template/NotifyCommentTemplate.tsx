@@ -1,13 +1,19 @@
+import { useNavigate } from "react-router-dom"
+
 export default function NotifyCommentTemplate(props: {
     time: any,
     params: {
         user: { fullName: string, avatar: string },
-        post: { title: string, _id: string }
+        post: { title: string, _id: string },
+        commentId: string
     },
     read: boolean
 }) {
+    const navigate = useNavigate()
     return (
-        <li className={`list-group-item notify-background d-flex align-items-start ${!props.read ? '' : "text-muted"}`}>
+        <li onClick={() => {
+            navigate(`/posts/${props.params.post._id}#comment_id_${props.params.commentId}`)
+        }}  className={`list-group-item notify-background d-flex align-items-start ${!props.read ? '' : "text-muted"}`}>
             <img
                 src={props.params.user.avatar}
                 alt="avatar"
