@@ -24,7 +24,7 @@ export default function PagingComponent(props: {
                     console.log("page: ", page)
                     if(index > 5) return null;
                     return (
-                        <li className={`page-item ${page === props.currentPage ? "active" : ""}`}><Link className="page-link" to={`?page=${page}`} state={{
+                        <li className={`page-item ${page === props.currentPage ? "active" : ""}`}><Link className="page-link" to={`#?page=${page}#`} state={{
                             page: page
                         }}>{page}</Link></li>
                     )

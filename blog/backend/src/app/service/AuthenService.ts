@@ -25,7 +25,8 @@ class AuthenService {
 
         const result = await UserService.create({
             ...authRegister,
-            password: password
+            password: password,
+            nickname: authRegister.fullName.trim().replace(" ", "")
         })
 
         return result

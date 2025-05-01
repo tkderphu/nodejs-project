@@ -23,44 +23,50 @@ import ProfilePost from "./profile/ProfilePost";
 import ProfileFollower from "./profile/ProfileFollower";
 import ProfileSeries from "./profile/ProfileSeries";
 import ProfileBookmark from "./profile/ProfileBookmark";
+import SearchPost from "./search/SearchPost";
+import SearchAuthor from "./search/SearchAuthor";
+import ProtectedComponent from "./protected/ProtectedComponent";
 
 function Layout() {
-    const location = useLocation();
-    const hideNavbarRoutes = ["/login", "/register", "/forgot-password"];
-  
-    return (
-      <div>
-        {!hideNavbarRoutes.includes(location.pathname) && <Header />}
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<HomePost/>} />
-            <Route path="my-followings" element={<HomeFollowing/>}/>
-            <Route path="my-bookmarks" element={<HomeBookmark/>}/>
-            <Route path="series" element={<HomeSeries/>}/>
-          </Route>
+  const location = useLocation();
+  const hideNavbarRoutes = ["/login", "/register", "/forgot-password"];
 
-          <Route path="/search" element={<Search/>} >
-          
-          </Route>
-          <Route path="/bookmark/:userId"  element={<Bookmark/>}/>
-          <Route path="/series/create"  element={<SeriesCreate/>}/>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register/>} />
-          <Route path="/forgot-password" element={<ForgetPassword/> }/>
-          <Route path="/profile/:id" element={<Profile/>}>
-            <Route path="followings" element={<ProfileFollowing/>}/>
-            <Route index element={<ProfilePost/>} />
-            <Route path="posts" element={<ProfilePost/>} />
-            <Route path="followers"  element={<ProfileFollower />}/>
-            <Route path="series" element={<ProfileSeries/>}/>
-            <Route path="bookmarks" element={<ProfileBookmark/>}/>
-          </Route>
-          <Route path='/create-post' element={<PostCreate/>}></Route>
-          <Route path="/posts/:id" element={<PostVeryDetails/>}></Route>
-          <Route path="/clone" element={<VibloClone/>}/>
-        </Routes>
-      </div>
-    );
-  }
+  return (
+    <div>
+      {!hideNavbarRoutes.includes(location.pathname) && <Header />}
+      <Routes>
+        <Route path="/" element={<Home />}>
+          <Route index element={<HomePost />} />
+          <Route path="my-followings" element={<HomeFollowing />} />
+          <Route path="my-bookmarks" element={<HomeBookmark />} />
+          <Route path="series" element={<HomeSeries />} />
+        </Route>
+
+        <Route path="/search" element={<Search />} >
+
+        </Route>
+        <Route path="/bookmark/:userId" element={<Bookmark />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgetPassword />} />
+        <Route path="/profile/:id" element={<Profile />}>
+          <Route path="followings" element={<ProfileFollowing />} />
+          <Route index element={<ProfilePost />} />
+          <Route path="posts" element={<ProfilePost />} />
+          <Route path="followers" element={<ProfileFollower />} />
+          <Route path="series" element={<ProfileSeries />} />
+          <Route path="bookmarks" element={<ProfileBookmark />} />
+        </Route>
+        <Route path="/posts/:id" element={<PostVeryDetails />}></Route>
+        <Route path="/clone" element={<VibloClone />} />
+
+        <Route element={<ProtectedComponent />}>
+          <Route path='/create-post' element={<PostCreate />}></Route>
+          <Route path="/series/create" element={<SeriesCreate />} />
+        </Route>
+      </Routes>
+    </div>
+  );
+}
 
 export default Layout

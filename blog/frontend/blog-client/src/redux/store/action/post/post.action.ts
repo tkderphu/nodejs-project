@@ -25,15 +25,12 @@ export const createPostAction = (req: { title: string; description: string; cont
 }
 
 
-export const fetchAllPostAction = (req: {taggingNames?: string[], timestamp?: {startDate: any, endDate: any}, userId?: string, keyword?: string},
-    page: number = 1, limit: number = 7) => {
-    console.log("request: ", req)
+export const fetchAllPostAction = (search: string, page: number = 1, limit: number = 7) => {
     return (dispatch: any) => {
         dispatch({
             type: FETCH_ALL_POST_BEGIN
         })
-        postService.fetchAllPost(req, page, limit).then(response => {
-            console.log("request: ", req)
+        postService.fetchAllPost(search, page, limit).then(response => {
             console.log("fetch post:", response.data)
             dispatch({
                 type: FETCH_ALL_POST_SUCCESS,

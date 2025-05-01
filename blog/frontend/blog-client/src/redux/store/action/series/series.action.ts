@@ -21,12 +21,12 @@ export const createSeriesAction = (req: SeriesCreateReq) => {
     }
 }
 
-export const fetchSereisAction = () => {
+export const fetchSereisAction = (sortDate: -1 | 1 = -1) => {
     return (dispatch: any) => {
         dispatch({
             type: FETCH_SERIES_BEGIN
         })
-        seriesService.getListSeries().then(resp => {
+        seriesService.getListSeries(sortDate).then(resp => {
             dispatch({
                 payload: resp.data,
                 type: FETCH_SERIES_SUCCESS

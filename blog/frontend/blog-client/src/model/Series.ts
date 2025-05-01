@@ -1,21 +1,22 @@
-import { ObjectId } from "mongodb";
-import { Tagging } from "./tagging";
+import { UserProfile } from "./User"
 
 export interface Series {
-    _id?: ObjectId,
+    _id?: string,
     title?: string,
     content?: string,
-    tags:   Tagging[],
-    userId: string,
+    tags:   {
+        _id: string,
+        name: string
+    }[],
+    user: UserProfile
     displayUrl?: string
     description?: string
     timestamps: {
         createdAt: any,
         updatedAt: any
     },
+    like: number,
     bookmark: number,
-    view: number,
     comment: number,
-    like: number
+    view: number
 }
-

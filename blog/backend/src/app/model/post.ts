@@ -13,6 +13,7 @@ export interface PostBase {
     view: number
     like: number,
     comment: number,
+    bookmark: number
     content?: string
     displayUrl?: string
     description?: string
@@ -23,6 +24,7 @@ export interface PostBase {
     }
     seriesId?: string
 }
+
 
 
 export interface PostUpdateReq {

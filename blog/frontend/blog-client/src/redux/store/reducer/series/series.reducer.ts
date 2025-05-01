@@ -40,7 +40,7 @@ export const fetchSeriesReducer = (state: any = {}, action: any) => {
         case FETCH_SERIES_SUCCESS: {
             return {
                 loading: false,
-                series: action.payload
+                pageResult: action.payload
             }
         }
         default: return state

@@ -7,9 +7,8 @@ class PostService {
     /**
      * get all postes by created date
      */
-    fetchAllPost(req: any, page: number, limit: number) {
-        console.log("req: ", req)
-        return api.patch(`/posts?page=${page}&limit=${limit}`, req)
+    fetchAllPost(search: string, page: number, limit: number) {
+        return api.get(`/posts?page=${page}&limit=${limit}&${search}`)
     }
     fetchPost(id: string) {
         return api.get(`/posts/${id}`)

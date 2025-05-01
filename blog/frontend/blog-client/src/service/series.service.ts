@@ -11,8 +11,8 @@ class SeriesService {
     save(req: SeriesCreateReq) {
         return api.post("/series", req)
     }
-    getListSeries() {
-        return api.get("/series")
+    getListSeries(sortDate: number) {
+        return api.get(`/series?sortDate=${sortDate}`)
     }
 }
 export default new SeriesService()

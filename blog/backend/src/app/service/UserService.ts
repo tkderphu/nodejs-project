@@ -59,6 +59,11 @@ class UserService {
     }
 
 
+    async findUserByFullName(fullName: string) {
+        
+    }
+
+
     updateSocialNetworkPlatform(userId: string, req: { instagram?: string, github?: string, linkedln?: string, twitter?: string}) {
         return UserRepository.updateOne({
             _id: new ObjectId(userId)

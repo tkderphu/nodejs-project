@@ -1,7 +1,8 @@
 export interface PageResult<T> {
     currentPage: number,
     totalPage: number,
-    list: Array<T>
+    list: Array<T>,
+    totalItem?: number
 }
 
 export interface PageParam {

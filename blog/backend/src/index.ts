@@ -17,6 +17,7 @@ import notificationRouter from './routes/NotificationRoute'
 import galleryRouter from './routes/GalleryRoute'
 import seriesRoute from './routes/SeriesRoute'
 import seriesRouter from './routes/SeriesRoute'
+import searchRoute from './routes/SearchRoute'
 
 dotenv.config()
 
@@ -45,6 +46,7 @@ app.use(uploadRouter)
 app.use(notificationRouter)
 app.use(galleryRouter)
 app.use(seriesRouter)
+app.use(searchRoute)
 // app.use(taggingRouter)
 
 

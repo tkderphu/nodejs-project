@@ -7,6 +7,7 @@ import { fetchGalleriesReducer } from './store/reducer/gallery/gallery.reducer'
 import { countUnreadNotifyMessageReducer, fetchAllNotifyMessageReducer } from './store/reducer/notifyMessage/notify.message.reducer'
 import { createPostReducer, fetchAllPostReducer, fetchPostReducer } from './store/reducer/post/post.reducer'
 import { fetchProfileReducer, updateProfileSocialReducer, updateProfileUserInfoReducer } from './store/reducer/profile/profile.reducer'
+import { searchReducer } from './store/reducer/search/search.reducer'
 import { createSeriesReducer, fetchSeriesReducer } from './store/reducer/series/series.reducer'
 import { uploadReducer } from './store/reducer/upload/upload.reducer'
 const rootReducer = combineReducers({
@@ -37,6 +38,7 @@ const rootReducer = combineReducers({
     createSeries: createSeriesReducer,
     updateProfileSocial: updateProfileSocialReducer,
     updateProfileInfoUser: updateProfileUserInfoReducer,
+    search: searchReducer
 })
 
 export default rootReducer

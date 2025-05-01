@@ -19,7 +19,7 @@ function Header() {
                 <ul className="navbar-nav me-auto">
                     <div className="d-flex">
                         <input className="form-control me-2" type="search" onChange={(e: any) => setQuery(e.target.value)} name="q" placeholder="Tìm kiếm bài viết" />
-                        <Link to={`/search?q=${query}`} className="btn btn-outline-primary"  >🔍</Link>
+                        <Link to={`/search?q=${query}`} state={{q: query}} className="btn btn-outline-primary"  >🔍</Link>
                     </div>
                 </ul>
 
@@ -32,18 +32,18 @@ function Header() {
                 )}
                 {getToken() && (
                     <div className="dropdown">
-                    <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i className="bi bi-person-circle"></i> {getUserLoggined()?.fullName}
-                    </button>
-                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><Link className="dropdown-item" to={`/profile/${getUserLoggined()._id}`}>Thông tin cá nhân</Link></li>
-                        <li><a className="dropdown-item" href="#">Cài đặt</a></li>
-                        <li>
-                            <hr className="dropdown-divider" />
-                        </li>
-                        <li><a className="dropdown-item" href="#">Đăng xuất</a></li>
+                        <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i className="bi bi-person-circle"></i> {getUserLoggined()?.fullName}
+                        </button>
+                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><Link className="dropdown-item" to={`/profile/${getUserLoggined()._id}`}>Thông tin cá nhân</Link></li>
+                            <li><a className="dropdown-item" href="#">Cài đặt</a></li>
+                            <li>
+                                <hr className="dropdown-divider" />
+                            </li>
+                            <li><a className="dropdown-item" href="#">Đăng xuất</a></li>
+                        </div>
                     </div>
-                </div>
                 )}
             </div>
         </nav>

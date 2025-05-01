@@ -7,59 +7,6 @@ import AlertConponent from "../common/AlertComponent";
 import { PageResult } from "../common/model";
 import PagingComponent from "../paging/PagingComponent";
 
-const posts = [
-    {
-        user: "Viblo Announcer",
-        time: "Mar 18th, 8:00 p.m.",
-        readTime: "2 min read",
-        title: "VIBLO MOBILE APP CHÍNH THỨC RA MẮT – TRẢI NGHIỆM NGAY VÀ THAM GIA MINIGAME HẤP DẪN!",
-        pinned: true,
-        type: "Announcement",
-        views: 0,
-        likes: 0,
-        comments: 0,
-    },
-    {
-        user: "EngineerPro",
-        time: "about 1 hour ago",
-        readTime: "9 min read",
-        title: "“MỘT TIN NHẮN BẤT NGỜ, MỘT HÀNH TRÌNH ĐÁNG NHỚ”",
-        tags: ["account facebook", "AI", "android", "angular", "Auto testing"],
-        views: 4,
-        likes: 0,
-        comments: 0,
-    },
-    {
-        user: "CometAPI",
-        time: "about 4 hours ago",
-        readTime: "4 min read",
-        title: "GPT-4o: How Many Images Can You Generate?",
-        tags: ["cometapi"],
-        views: 9,
-        likes: 0,
-        comments: 0,
-    },
-    {
-        user: "CometAPI",
-        time: "about 5 hours ago",
-        readTime: "4 min read",
-        title: "Google A2A vs Anthropic MCP: Competing or Complementary?",
-        tags: ["cometapi"],
-        views: 8,
-        likes: 0,
-        comments: 0,
-    },
-    {
-        user: "Nguyễn Trọng Quân",
-        time: "about 5 hours ago",
-        readTime: "6 min read",
-        title: "Bài 2: Pre-migrate",
-        tags: ["Cloud", "DevOps", "Migrate"],
-        views: 15,
-        likes: 0,
-        comments: 0,
-    },
-];
 export default function HomePost() {
     const dispatch = useDispatch()
     const fetchPostState: {
@@ -80,7 +27,7 @@ export default function HomePost() {
     console.log("fetch post: ", fetchPostState)
     useEffect(() => {
         //@ts-ignore
-        dispatch(fetchAllPostAction({}, location.state.page))
+        dispatch(fetchAllPostAction(`type=${"NORMAL"}`, location.state.page))
     }, [location.state?.page])
 
     if (fetchPostState.loading || fetchPostState.hasError) {

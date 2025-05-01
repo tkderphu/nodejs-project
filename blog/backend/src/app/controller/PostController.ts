@@ -15,25 +15,32 @@ class PostController {
         }).catch(err => next(err))
     }
 
-
+    getListPostByFollowed(req: any, res: any, next: any) {
+        
+    }
 
     getListPost(req: any, res: Response, next: NextFunction) {
         const page = Number.parseInt(req.query.page) || 1
         const limit = Number.parseInt(req.query.limit) || 10
-        const { taggingNames, timeStamps, keyword, userId } = req.body
-        console.log("limit: ", limit)
-        console.log("request: ", req.body)
-        //@ts-ignore
-        PostService.findAll({
-            keyword: keyword,
-            taggingNames: taggingNames,
-            timestamp: timeStamps,
-            userId: userId
-        }, page, limit).then(resp => {
-            res.status(200).send(resp)
-        }).catch(err => {
-            next(err)
-        })
+        const type = req.query.type
+        if(type === "NORMAL") {
+            PostService.findAll(page, limit).then(resp => {
+                res.status(200).send(resp)
+            }).catch(err => {
+                next(err)
+            })
+        } else if(type === "FOLLOWED") {
+            const userId = req.query.userId
+            PostService.findAllByFollowed(userId, page, limit).then(resp => {
+                res.status(200).send(resp)
+            }).catch(err => next(err))
+        } else if(type === "BOOKMARK") {
+            const bookmarkType = req.query.bookmarkType
+            const userId = req.query.userId
+            PostService.findAllByMyBookmark(userId, bookmarkType, page, limit, -1).then(resp => {
+                res.status(200).send(resp)
+            }).catch(err => next(err))
+        }
     }
 
     getPostDetail(req: any, res: any, next: any) {

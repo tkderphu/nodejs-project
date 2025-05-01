@@ -56,26 +56,7 @@ class BookMarkService {
             type: objType
         }).toArray()
 
-        if(result) {
-            if(objType == 'POST') {
-                return result.map((bookmark) => {
-                    return {
-                        userId: userId,
-                        post: PostService.getPostDetail(bookmark.objId),
-                        objType: objType 
-                    }
-                })
-            } else {
-                return result.map((bookmark) => {
-                    return {
-                        userId: userId,
-                        series: "",
-                        objType: objType 
-                    }
-                })
-            }
-        }
-        return []
+        return result;
     }
 
 
