@@ -2,7 +2,7 @@ import { Filter, ObjectId } from "mongodb"
 import { Post, PostBase, PostPageRequest, PostPageUserBookMarkRequest, PostResponseDetail, PostUpdateReq } from "../model/post"
 import CommentService from "./CommentService"
 import LikeService from "./LikeService"
-import { BookMarkRepository, FollowRepository, PostRepository, SeriesRepository } from "../../db/mongo"
+import { BookMarkRepository, FlowerRepository, FollowRepository, PostRepository, SeriesRepository, UnlockPostRepository } from "../../db/mongo"
 import AccessDeniedException from "../exception/AccessDeniedException"
 import { PageResult } from "../framework/common/page"
 import { POST_DOCUMENT, USER_DOCUMENT } from "../../db/document"
@@ -15,6 +15,7 @@ import FollowService from "./FollowService"
 import { Bookmark } from "../model/bookmark"
 import { Series } from "../model/series"
 import { Follow } from "../model/follow"
+import TransactionService from "./TransactionService"
 class PostService {
 
 
@@ -57,10 +58,21 @@ class PostService {
         })
     }
 
-    async getPostDetail(postId: string) {
+    async getPostDetail(postId: string, userId: any) {
         const post: any = await this.findById(postId)
         post.user = await UserService.findById(post.userId)
         post.bookmark = await BookMarkService.countBookmark(post._id.toString(), 'POST')
+
+        if(post.numberFlower && userId) {
+            const unlock: any = await UnlockPostRepository.findOne({
+                postId: postId,
+                userId: userId
+            })
+
+            if(unlock) {
+                post.currentUserUnloked = true
+            }
+        }
         return post
     }
 
@@ -110,7 +122,7 @@ class PostService {
     }
 
     async findAllByFollowed(userId: string, page: number, limit: number) {
-        const followed  = await FollowService.getListFollowed(userId, "USER") as Follow[]
+        const followed = await FollowService.getListFollowed(userId, "USER") as Follow[]
         const followedIds = followed.map(fol => {
             return fol.followObject._id?.toString()
         })
@@ -245,6 +257,43 @@ class PostService {
                 like: up
             }
         })
+    }
+
+
+    async unlockPost(postId: string, userId: string) {
+        const flower: any = await FlowerRepository.findOne({
+            userId: userId
+        })
+
+        const unlockDoc = await UnlockPostRepository.findOne({
+            userId: userId,
+            postId: postId
+        })
+
+        if(unlockDoc) {
+            return;
+        }
+
+        if (flower) {
+            throw new Error("Bạn không đủ hoa để mở khóa")
+        }
+
+        const post: any = await PostRepository.findOne({
+            _id: new ObjectId(postId)
+        })
+
+        if (post.numberFlower) {
+            if (flower.numberFlower < post.numberFlower) {
+                throw new Error("Bạn không đủ hoa để mở khóa")
+            }
+
+            await TransactionService.addFlower("UNLOCK_ARTICLE",post.numberFlower, userId ,post.userId, postId)
+            await UnlockPostRepository.insertOne({
+                postId: postId,
+                userId: userId
+            })
+        }
+
     }
 
 }

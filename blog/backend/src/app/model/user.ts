@@ -27,7 +27,7 @@ export interface UserBase {
         github?: string,
         yoursite?: string
     },
-    nickname?: string
+    nickname?: string,
 }
 
 

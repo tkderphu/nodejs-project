@@ -1,12 +1,7 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const CommentController_1 = __importDefault(require("../app/controller/CommentController"));
-const middleware_1 = require("../middleware/middleware");
-const commentRouter = (0, express_1.Router)();
+import { Router } from "express";
+import CommentController from "../app/controller/CommentController";
+import { authMiddleWare } from "../middleware/middleware";
+const commentRouter = Router();
 /**
  * @swagger
  * /api/comments:
@@ -60,7 +55,7 @@ const commentRouter = (0, express_1.Router)();
  *      500:
  *        description: Server Error
  */
-commentRouter.post('/api/comments', middleware_1.authMiddleWare, CommentController_1.default.createComment);
+commentRouter.post('/api/comments', authMiddleWare, CommentController.createComment);
 /**
  * @swagger
  * /api/comments/post:
@@ -123,11 +118,11 @@ commentRouter.post('/api/comments', middleware_1.authMiddleWare, CommentControll
  *      500:
  *        description: Server Error
  */
-commentRouter.post('/api/comments/post', CommentController_1.default.getAllCommentByPostId);
+commentRouter.get('/api/comments/post/:postId', CommentController.getAllCommentByPostId);
 /**
  * @swagger
  * /api/comments/{id}:
- *  post:
+ *  delete:
  *     tags: [post]
  *     summary: Create comment
  *     parameters:
@@ -143,6 +138,5 @@ commentRouter.post('/api/comments/post', CommentController_1.default.getAllComme
  *      500:
  *        description: Server Error
  */
-commentRouter.delete('/api/comments/:id', middleware_1.authMiddleWare, CommentController_1.default.removeCommentById);
-commentRouter.use(middleware_1.handlerExceptionMiddleWare);
-exports.default = commentRouter;
+commentRouter.delete('/api/comments/:id', authMiddleWare, CommentController.removeCommentById);
+export default commentRouter;

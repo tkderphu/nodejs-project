@@ -1,14 +1,9 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.LikeRepository = exports.AccessTokenRepository = exports.CommentRepository = exports.RefreshTokenRepository = exports.TaggingRepository = exports.PostRepository = exports.UserRepository = void 0;
-const mongodb_1 = require("mongodb");
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
+import { MongoClient } from "mongodb";
+import dotenv from 'dotenv';
+import { ACCESS_TOKEN_DOCUMENT, BOOK_MARK_DOCUMENT, COMMENT_DOCUMENT, FIREBASE_MESSAGE_TOKEN_DOCUMENT, FLOWER_DOCUMENT, FOLLOW_DOCUMENT, GALLERY_DOCUMENT, LIKE_DOCUMENT, NOTIFY_MESSAGE_DOCUMENT, POST_DOCUMENT, REFRESH_TOKEN_DOCUMENT, SERIES_DOCUMENT, TAGGING_DOCUMENT, TRANSACTION_DOCUMENT, UNLOCK_POST_DOCUMENT, USER_DOCUMENT } from "./document";
+dotenv.config();
 const URL_MONGODB = process.env.URL_MONGODB || "";
-let client = new mongodb_1.MongoClient("mongodb://localhost:27017");
+let client = new MongoClient("mongodb://localhost:27017");
 if (process.env.NODE_ENV !== 'test') {
     client.connect().then(c => {
         console.log("ok");
@@ -17,17 +12,20 @@ if (process.env.NODE_ENV !== 'test') {
     });
 }
 let db = client.db("blogs");
-const UserRepository = db.collection('user');
-exports.UserRepository = UserRepository;
-const PostRepository = db.collection('post');
-exports.PostRepository = PostRepository;
-const TaggingRepository = db.collection('tagging');
-exports.TaggingRepository = TaggingRepository;
-const RefreshTokenRepository = db.collection('refreshToken');
-exports.RefreshTokenRepository = RefreshTokenRepository;
-const CommentRepository = db.collection("comment");
-exports.CommentRepository = CommentRepository;
-const AccessTokenRepository = db.collection('accessToken');
-exports.AccessTokenRepository = AccessTokenRepository;
-const LikeRepository = db.collection('like');
-exports.LikeRepository = LikeRepository;
+const UserRepository = db.collection(USER_DOCUMENT);
+const PostRepository = db.collection(POST_DOCUMENT);
+const TaggingRepository = db.collection(TAGGING_DOCUMENT);
+const RefreshTokenRepository = db.collection(REFRESH_TOKEN_DOCUMENT);
+const CommentRepository = db.collection(COMMENT_DOCUMENT);
+const AccessTokenRepository = db.collection(ACCESS_TOKEN_DOCUMENT);
+const LikeRepository = db.collection(LIKE_DOCUMENT);
+const BookMarkRepository = db.collection(BOOK_MARK_DOCUMENT);
+const FollowRepository = db.collection(FOLLOW_DOCUMENT);
+const NotifyMessageRepository = db.collection(NOTIFY_MESSAGE_DOCUMENT);
+const FirebaseMessageTokenRepository = db.collection(FIREBASE_MESSAGE_TOKEN_DOCUMENT);
+const GalleryRepository = db.collection(GALLERY_DOCUMENT);
+const SeriesRepository = db.collection(SERIES_DOCUMENT);
+const FlowerRepository = db.collection(FLOWER_DOCUMENT);
+const UnlockPostRepository = db.collection(UNLOCK_POST_DOCUMENT);
+const TransactionRepository = db.collection(TRANSACTION_DOCUMENT);
+export { UserRepository, SeriesRepository, PostRepository, TaggingRepository, RefreshTokenRepository, CommentRepository, AccessTokenRepository, LikeRepository, BookMarkRepository, FollowRepository, NotifyMessageRepository, FirebaseMessageTokenRepository, GalleryRepository, FlowerRepository, UnlockPostRepository, TransactionRepository };

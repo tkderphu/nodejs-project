@@ -43,9 +43,10 @@ class PostController {
         }
     }
 
-    getPostDetail(req: any, res: any, next: any) {
+    getPostDetail(req: Request, res: any, next: any) {
         const {id} = req.params
-        PostService.getPostDetail(id).then(resp => {
+        const {u} = req.query
+        PostService.getPostDetail(id, u).then(resp => {
             res.status(200).send(resp)
         }).catch(err => {
             next(err)
@@ -61,6 +62,17 @@ class PostController {
             next(err)
         })
     }
+
+
+    unlockPost(req: Request, res: Response, next: NextFunction) {
+        const {id} = req.params;
+        PostService.unlockPost(id, getUserLoggined(req).userId).then(result => {
+            res.status(200).send(result)
+        }).catch(err => {
+            next(err)
+        })
+    }
+
 }
 
 export default new PostController()

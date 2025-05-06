@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,11 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const mongo_1 = require("../../db/mongo");
+import { LikeRepository } from "../../db/mongo";
 class LikeService {
     createLike(like) {
-        return mongo_1.LikeRepository.insertOne(Object.assign({}, like));
+        return LikeRepository.insertOne(Object.assign({}, like));
     }
     deletelikePost(postId, userId) {
         return this.deleteLike({ postId: postId, userLikeId: userId });
@@ -24,12 +22,20 @@ class LikeService {
     }
     deleteAllLikeComment(commentId, userId) {
     }
+    countLikeByPost(postId) {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
+    countLikeByComment(commentId) {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
     deleteLike(obj) {
-        return mongo_1.LikeRepository.deleteOne(Object.assign({}, obj));
+        return LikeRepository.deleteOne(Object.assign({}, obj));
     }
     isUserLikePost(postId, userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield mongo_1.LikeRepository.find({
+            const result = yield LikeRepository.find({
                 postId: postId,
                 userLikeId: userId
             });
@@ -41,7 +47,7 @@ class LikeService {
     }
     isUserLikeComment(commentId, userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield mongo_1.LikeRepository.find({
+            const result = yield LikeRepository.find({
                 commentId: commentId,
                 userLikeId: userId
             });
@@ -52,4 +58,4 @@ class LikeService {
         });
     }
 }
-exports.default = new LikeService();
+export default new LikeService();

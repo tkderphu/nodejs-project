@@ -4,13 +4,19 @@ import { useDispatch, useSelector } from "react-redux"
 import { Form, Link } from "react-router-dom"
 import { countUnreadNotifyMessageAction, fetchNotifyMessageAction } from "../../redux/store/action/notifyMessage/notify.message.acction"
 import { getRefreshToken, getToken, getUserLoggined } from "../../service/AuthenLoginResponse"
+import ThemeToggle from "../common/theme/ThemeToggle"
 import Notification from "../notification/Notification"
 import NotificationDropdown from "../notification/NotificationDropdown"
 import "./Header.css"
 function Header() {
     const [query, setQuery] = useState("")
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light px-4">
+
+        <>
+        <div>
+            <ThemeToggle/>
+        </div>
+        <nav className="navbar navbar-expand-lg   px-4">
             <a className="navbar-brand" href="/">VIOSMASH</a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span className="navbar-toggler-icon"></span>
@@ -47,6 +53,7 @@ function Header() {
                 )}
             </div>
         </nav>
+        </>
     )
 }
 export default Header

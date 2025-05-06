@@ -1,4 +1,5 @@
 
+import { url } from "inspector"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, Outlet } from "react-router-dom"
@@ -21,9 +22,27 @@ function Home(props: {
     return (
         <>
 
-            <div className="container-fluid bg-dark text-white text-center py-4">
-                <button className="btn btn-secondary mx-3"><a className="nav-link" href="/create-post">Viết bài</a></button>
-                <button className="btn btn-secondary mx-3"><a className="nav-link" href="/series/create">Tạo series</a></button>
+            <div className="container-fluid text-white text-center py-4 position-relative" style={{ overflow: 'hidden' }}>
+
+                <div
+                    style={{
+                        backgroundImage: "url('https://www.shutterstock.com/image-vector/blog-content-development-blogging-business-600nw-1763313434.jpg')",
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        opacity: 0.25,
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        zIndex: 0
+                    }}
+                ></div>
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                    <button className="btn btn-secondary mx-3"><a className="nav-link" href="/create-post">Viết bài</a></button>
+                    <button className="btn btn-secondary mx-3"><a className="nav-link" href="/series/create">Tạo series</a></button>
+                </div>
 
             </div>
 

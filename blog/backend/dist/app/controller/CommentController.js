@@ -1,32 +1,23 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const auth_1 = require("../framework/common/auth");
-const CommentService_1 = __importDefault(require("../service/CommentService"));
+import { getUserLoggined } from "../framework/common/auth";
+import CommentService from "../service/CommentService";
 class CommentController {
     createComment(req, res, next) {
         const body = req.body;
-        CommentService_1.default.createComment(body).then(response => {
-            const commentResp = Object.assign(Object.assign({}, body), { id: response.insertedId });
-            res.status(200).send(commentResp);
+        CommentService.createComment(getUserLoggined(req).userId, body).then(response => {
+            res.status(200).send(response);
         }).catch(err => {
             next(err);
         });
     }
     getAllCommentByPostId(req, res, next) {
-        const body = req.body;
-        CommentService_1.default.getPageCommentByPostId(body).then(response => {
-            const resp = response.map(comment => {
-                return Object.assign(Object.assign({}, comment), { id: comment._id.toString() });
-            });
-            res.send(resp);
+        const { postId } = req.params;
+        CommentService.getListCommentByPost(postId).then(response => {
+            res.send(response);
         }).catch(err => next(err));
     }
     removeCommentById(req, res, next) {
-        const commentId = req.params['id'];
-        CommentService_1.default.removeCommentById(commentId, (0, auth_1.getUserLoggined)(req).userId)
+        const { id } = req.params;
+        CommentService.removeCommentById(id, getUserLoggined(req).userId)
             .then(() => {
             res.status(200);
         }).catch(err => {
@@ -34,4 +25,4 @@ class CommentController {
         });
     }
 }
-exports.default = new CommentController();
+export default new CommentController();

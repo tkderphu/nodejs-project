@@ -1,11 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const AuthController_1 = __importDefault(require("../app/controller/AuthController"));
-const authRouter = (0, express_1.Router)();
+import { Router } from "express";
+import AuthController from "../app/controller/AuthController";
+const authRouter = Router();
 /**
  * @swagger
  * /api/auth/login:
@@ -53,7 +48,7 @@ const authRouter = (0, express_1.Router)();
  *      500:
  *        description: Server Error
  */
-authRouter.post('/api/auth/login', AuthController_1.default.login);
+authRouter.post('/api/auth/login', AuthController.login);
 /**
  * @swagger
  * /api/auth/register:
@@ -84,7 +79,7 @@ authRouter.post('/api/auth/login', AuthController_1.default.login);
  *      500:
  *        description: Server Error
  */
-authRouter.post("/api/auth/register", AuthController_1.default.register);
+authRouter.post("/api/auth/register", AuthController.register);
 /**
  * @swagger
  * /api/auth/refresh-token:
@@ -132,7 +127,7 @@ authRouter.post("/api/auth/register", AuthController_1.default.register);
  *      500:
  *        description: Server Error
  */
-authRouter.get("/api/auth/refresh-token", AuthController_1.default.refreshToken);
+authRouter.get("/api/auth/refresh-token", AuthController.refreshToken);
 /**
  * @swagger
  * /api/auth/logout:
@@ -152,7 +147,7 @@ authRouter.get("/api/auth/refresh-token", AuthController_1.default.refreshToken)
  *      500:
  *        description: Server Error
  */
-authRouter.get("/api/auth/logout", AuthController_1.default.logout);
+authRouter.get("/api/auth/logout", AuthController.logout);
 /**
  * @swagger
  * /api/auth/forget-password:
@@ -174,5 +169,5 @@ authRouter.get("/api/auth/logout", AuthController_1.default.logout);
  *      500:
  *        description: Server Error
  */
-authRouter.get("/api/auth/forget-password", AuthController_1.default.forgetPassword);
-exports.default = authRouter;
+authRouter.get("/api/auth/forget-password", AuthController.forgetPassword);
+export default authRouter;

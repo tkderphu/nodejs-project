@@ -1,0 +1,30 @@
+body {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  [data-bs-theme="light"] {
+    background-color: #f8f9fa;
+    color: #212529;
+  }
+  [data-bs-theme="dark"] {
+    background-color: #212529;
+    color: #f8f9fa;
+  }
+  .card {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  [data-bs-theme="light"] .card {
+    background-color: #fff;
+    color: #212529;
+  }
+  [data-bs-theme="dark"] .card {
+    background-color: #343a40;
+    color: #f8f9fa;
+  }
+  .tag {
+    background-color: #e9ecef;
+    color: #495057;
+  }
+  [data-bs-theme="dark"] .tag {
+    background-color: #495057;
+    color: #dee2e6;
+  }

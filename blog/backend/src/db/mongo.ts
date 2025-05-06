@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 import dotenv from 'dotenv'
-import { ACCESS_TOKEN_DOCUMENT, BOOK_MARK_DOCUMENT, COMMENT_DOCUMENT, FIREBASE_MESSAGE_TOKEN_DOCUMENT, FOLLOW_DOCUMENT, GALLERY_DOCUMENT, LIKE_DOCUMENT, NOTIFY_MESSAGE_DOCUMENT, POST_DOCUMENT, REFRESH_TOKEN_DOCUMENT, SERIES_DOCUMENT, TAGGING_DOCUMENT, USER_DOCUMENT } from "./document";
+import { ACCESS_TOKEN_DOCUMENT, BOOK_MARK_DOCUMENT, COMMENT_DOCUMENT, FIREBASE_MESSAGE_TOKEN_DOCUMENT, FLOWER_DOCUMENT, FOLLOW_DOCUMENT, GALLERY_DOCUMENT, LIKE_DOCUMENT, NOTIFY_MESSAGE_DOCUMENT, POST_DOCUMENT, REFRESH_TOKEN_DOCUMENT, SERIES_DOCUMENT, TAGGING_DOCUMENT, TRANSACTION_DOCUMENT, UNLOCK_POST_DOCUMENT, USER_DOCUMENT } from "./document";
 dotenv.config()
 
 
@@ -35,6 +35,9 @@ const NotifyMessageRepository = db.collection(NOTIFY_MESSAGE_DOCUMENT)
 const FirebaseMessageTokenRepository = db.collection(FIREBASE_MESSAGE_TOKEN_DOCUMENT)
 const GalleryRepository = db.collection(GALLERY_DOCUMENT)
 const SeriesRepository = db.collection(SERIES_DOCUMENT)
+const FlowerRepository = db.collection(FLOWER_DOCUMENT)
+const UnlockPostRepository = db.collection(UNLOCK_POST_DOCUMENT)
+const TransactionRepository = db.collection(TRANSACTION_DOCUMENT)
 export {
     UserRepository,
     SeriesRepository,
@@ -48,5 +51,8 @@ export {
     FollowRepository,
     NotifyMessageRepository,
     FirebaseMessageTokenRepository,
-    GalleryRepository
+    GalleryRepository,
+    FlowerRepository,
+    UnlockPostRepository,
+    TransactionRepository
 }

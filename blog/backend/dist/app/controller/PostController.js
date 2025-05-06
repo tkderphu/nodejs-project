@@ -1,46 +1,64 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const auth_1 = require("../framework/common/auth");
-const PostService_1 = __importDefault(require("../service/PostService"));
+import { getUserLoggined } from "../framework/common/auth";
+import PostService from "../service/PostService";
 class PostController {
     createPost(req, res, next) {
         const body = req.body;
-        PostService_1.default.save(body).then(result => {
-            res.status(200).send(result);
+        PostService.save(getUserLoggined(req).userId, body).then(result => {
+            res.status(200).send(true);
         }).catch(err => next(err));
     }
+    getListPostByFollowed(req, res, next) {
+    }
     getListPost(req, res, next) {
-        const any = req.body;
-        PostService_1.default.findAllByCondition(any).then(result => {
-            res.status(200).send(result);
-        }).catch(err => next(err));
+        const page = Number.parseInt(req.query.page) || 1;
+        const limit = Number.parseInt(req.query.limit) || 10;
+        const type = req.query.type;
+        if (type === "NORMAL") {
+            PostService.findAll(page, limit).then(resp => {
+                res.status(200).send(resp);
+            }).catch(err => {
+                next(err);
+            });
+        }
+        else if (type === "FOLLOWED") {
+            const userId = req.query.userId;
+            PostService.findAllByFollowed(userId, page, limit).then(resp => {
+                res.status(200).send(resp);
+            }).catch(err => next(err));
+        }
+        else if (type === "BOOKMARK") {
+            const bookmarkType = req.query.bookmarkType;
+            const userId = req.query.userId;
+            PostService.findAllByMyBookmark(userId, bookmarkType, page, limit, -1).then(resp => {
+                res.status(200).send(resp);
+            }).catch(err => next(err));
+        }
+    }
+    getPostDetail(req, res, next) {
+        const { id } = req.params;
+        const { u } = req.query;
+        PostService.getPostDetail(id, u).then(resp => {
+            res.status(200).send(resp);
+        }).catch(err => {
+            next(err);
+        });
     }
     updatePost(req, res, next) {
         const postId = req.params['postId'];
         const body = req.body;
-        PostService_1.default.update(postId, body).then(result => {
+        PostService.update(postId, body).then(result => {
             res.status(200).send(result);
         }).catch(err => {
             next(err);
         });
     }
-    updatelikePost(req, res, next) {
-        const body = req.body;
-        PostService_1.default.updatelikePost(body.postId, body.userLikeId, (body.up ? 1 : -1)).then(result => {
-            res.send(200);
-        }).catch((err) => next(err));
-    }
-    deletePost(req, res, next) {
-        const postId = req.params["postId"];
-        PostService_1.default.deletePost(postId, (0, auth_1.getUserLoggined)(req).userId)
-            .then(() => {
-            res.send(200);
+    unlockPost(req, res, next) {
+        const { id } = req.params;
+        PostService.unlockPost(id, getUserLoggined(req).userId).then(result => {
+            res.status(200).send(result);
         }).catch(err => {
             next(err);
         });
     }
 }
-exports.default = new PostController();
+export default new PostController();

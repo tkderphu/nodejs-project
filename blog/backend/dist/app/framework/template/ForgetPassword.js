@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ForgetPasswordTemplate = void 0;
-const ForgetPasswordTemplate = (code, expiredMinute) => {
+export const ForgetPasswordTemplate = (code, expiredMinute) => {
     return `<!DOCTYPE html>
     <html>
     <head>
@@ -59,4 +56,3 @@ const ForgetPasswordTemplate = (code, expiredMinute) => {
     </body>
     </html>`;
 };
-exports.ForgetPasswordTemplate = ForgetPasswordTemplate;

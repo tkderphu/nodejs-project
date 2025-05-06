@@ -1,11 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const jsonwebtoken_1 = require("jsonwebtoken");
-const TokenInvalidException_1 = __importDefault(require("../exception/TokenInvalidException"));
-const jwtSecretKey = process.env.JWT_SECRET_KEY || '';
+import { sign, verify } from 'jsonwebtoken';
+import TokenInvalidException from '../exception/TokenInvalidException';
+import dotenv from 'dotenv';
+dotenv.config();
+const jwtSecretKey = process.env.JWT_SECRET_KEY || 'what de hell';
 class JwtService {
     generateAccessToken(refreshToken, userId, roles, userFullName) {
         const tokenTimeAlive = Number.parseInt(process.env.ACCESS_TOKEN_TIME_ALIVE || "0");
@@ -24,11 +21,13 @@ class JwtService {
     tokenIsExpired(token) {
         try {
             const result = this.getPayload(token);
-            if (result) {
-                return result.expiredTime > new Date().getTime();
-            }
+            console.log(result);
+            const ck = result.expiredTime < new Date().getTime();
+            console.log(ck);
+            return ck;
         }
         catch (err) {
+            console.log("vl");
             return true;
         }
     }
@@ -38,17 +37,18 @@ class JwtService {
     }
     getPayload(token) {
         try {
-            const result = (0, jsonwebtoken_1.verify)(token, jwtSecretKey);
+            const result = verify(token, jwtSecretKey);
             return result;
         }
         catch (err) {
-            throw new TokenInvalidException_1.default(`Token: ${token} invalid`);
+            throw new TokenInvalidException(`Token: ${token} invalid`);
         }
     }
     generateToken(tokenTimeAlive, rest) {
-        const data = Object.assign({ expiredTime: new Date().getTime() + tokenTimeAlive }, rest);
-        const token = (0, jsonwebtoken_1.sign)(data, jwtSecretKey);
+        const data = Object.assign({ expiredTime: (new Date().getTime() + tokenTimeAlive) }, rest);
+        console.log("secret key: ", jwtSecretKey);
+        const token = sign(data, jwtSecretKey);
         return token;
     }
 }
-exports.default = new JwtService();
+export default new JwtService();

@@ -18,6 +18,10 @@ import galleryRouter from './routes/GalleryRoute'
 import seriesRoute from './routes/SeriesRoute'
 import seriesRouter from './routes/SeriesRoute'
 import searchRoute from './routes/SearchRoute'
+import textToSpeech from './routes/TextToSpeech'
+import transactionRouter from './routes/TransactionRoute'
+import vnpayRouter from './routes/VNPayRoute'
+import router from './routes/VNPayRoute'
 
 dotenv.config()
 
@@ -47,6 +51,9 @@ app.use(notificationRouter)
 app.use(galleryRouter)
 app.use(seriesRouter)
 app.use(searchRoute)
+app.use(textToSpeech)
+app.use(transactionRouter)
+app.use(router)
 // app.use(taggingRouter)
 
 

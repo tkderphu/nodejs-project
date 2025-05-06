@@ -1,43 +1,12 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const PostController_1 = __importDefault(require("../app/controller/PostController"));
-const postRouter = (0, express_1.Router)();
-/**
- * @swagger
- * /api/posts/like:
- *   put:
- *     tags: [post]
- *     summary: Update like post
- *     requestBody:
- *      required: true
- *      content:
- *        application/json:
- *           schema:
- *            type: object
- *            required:
- *              - postId
- *              - userLikeId
- *              - up
- *            properties:
- *              postId:
- *                type: string
- *              userLikeId:
- *                type: string
- *              up:
- *                type: boolean
- *     responses:
- *      200:
- *        description: Success
- *      500:
- *        description: Server Error
- */
-postRouter.put('/api/posts/like', PostController_1.default.updatelikePost);
-postRouter.put('/api/posts', PostController_1.default.updatePost);
-postRouter.post('/api/posts', PostController_1.default.createPost);
+import { Router } from "express";
+import PostController from "../app/controller/PostController";
+import { authMiddleWare } from "../middleware/middleware";
+const postRouter = Router();
+postRouter.put('/api/posts', PostController.updatePost);
+postRouter.get("/api/posts", PostController.getListPost);
+postRouter.post('/api/posts', authMiddleWare, PostController.createPost);
+postRouter.get("/api/posts/:id", PostController.getPostDetail);
+postRouter.post("/api/posts/:id/unlock", authMiddleWare, PostController.unlockPost);
 /**
  * @swagger
  * /api/posts/{postId}:
@@ -57,7 +26,6 @@ postRouter.post('/api/posts', PostController_1.default.createPost);
  *      500:
  *        description: Server Error
  */
-postRouter.delete('/api/posts/:postId', PostController_1.default.deletePost);
 /**
  * @swagger
  * /api/posts/query:
@@ -146,5 +114,95 @@ postRouter.delete('/api/posts/:postId', PostController_1.default.deletePost);
  *      500:
  *        description: Server Error
  */
-postRouter.get('/api/posts/query', PostController_1.default.getListPost);
-exports.default = postRouter;
+postRouter.get('/api/posts/query', PostController.getListPost);
+/**
+ * @swagger
+ * /api/posts/{postId}:
+ *  get:
+ *     tags: [post]
+ *     summary: Delete post
+ *     parameters:
+ *       - in: path
+ *         name: postId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Post id
+ *     responses:
+ *      200:
+ *        description: Ok
+ *      500:
+ *        description: Server Error
+ */
+/**
+ * @swagger
+ * /api/posts/bookmark:
+ *  get:
+ *     tags: [post]
+ *     summary: Get all post from bookmark of user
+ *     parameters:
+ *       - in: query
+ *         name: userId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: User Id
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: current Page
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: num item in a page
+ *     responses:
+ *      200:
+ *        description: List post.
+ *        content:
+ *          application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                  currentPage:
+ *                      type: integer
+ *                      example: 1
+ *                  totalPage:
+ *                      type: integer
+ *                      example: 1
+ *                  list:
+ *                      type: array
+ *                      items:
+ *                         type: object
+ *                         properties:
+ *                             userFullName:
+ *                                type: string
+ *                             userAvatar:
+ *                                type: string
+ *                             _id:
+ *                                type: string
+ *                             thumbnail:
+ *                                type: string
+ *                             taggingIds:
+ *                                type: array
+ *                                items:
+ *                                   type: string
+ *                                   default: 302534
+ *                             numShareToSocial:
+ *                                type: integer
+ *                             userPostId:
+ *                                type: string
+ *                             createdDate:
+ *                                type: string
+ *                             view:
+ *                                type: integer
+ *                             like:
+ *                                type: integer
+ *      500:
+ *        description: Server Error
+ */
+// postRouter.get('/api/posts/bookmark', PostController.getAllPostByUserBookMark)
+export default postRouter;

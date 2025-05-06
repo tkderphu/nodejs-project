@@ -22,7 +22,8 @@ export interface PostBase {
         createdAt: Date,
         updatedAt: Date
     }
-    seriesId?: string
+    seriesId?: string,
+    numberFlower?: number
 }
 
 
