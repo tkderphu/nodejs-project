@@ -13,6 +13,7 @@ import "./Profile.css"
 import ProfileEmbedded from "./ProfileEmbedded"
 import ProfileInfo from "./ProfifleInfo"
 import ProfileUpdate from "./ProfifleInfo"
+import ProfileFlower from "./ProfileFlower"
 function Profile() {
     const { id } = useParams() || ''
     const state: {
@@ -55,7 +56,7 @@ function Profile() {
                                         {/* <button className="btn btn-sm btn-outline-secondary ms-auto">follower</button> */}
                                     </div>
                                 </div>
-                                
+
                                 {getUserLoggined()._id != id && <div className="d-flex flex-column">
                                     <button className="btn btn-outline-primary edit-btn" onClick={() => {
                                         if (stateFolow.followed) {
@@ -68,8 +69,12 @@ function Profile() {
                                     }} type="button">{stateFolow.followed ? "Hủy theo dõi" : "Theo dõi"}</button>
                                     {stateFolow.hasError && <AlertConponent hasError={stateFolow.hasError} error={state.error} loading={state.loading} />}
                                 </div>}
-                                {(id == getUserLoggined()._id || '') && <ProfileInfo info={state.user} />}
-                                
+
+                                {(id == getUserLoggined()._id || '') && <div className="d-flex">
+                                    <ProfileFlower userId={state.user?._id} />
+                                    <ProfileInfo info={state.user} />
+                                </div>}
+
                             </div>
                             <div className="mb-2 text-start"><span>{state.user?.bio}</span></div>
                             <ul className="nav nav-tabs">

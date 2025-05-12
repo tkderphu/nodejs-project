@@ -21,5 +21,8 @@ export interface Post {
         fullName?: string,
         image_url?: string
     }
+    numberFlower?: number,
+    needUnlock?: boolean,
+    showContentPercent?: number
 
 }

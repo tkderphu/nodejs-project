@@ -23,7 +23,9 @@ export interface PostBase {
         updatedAt: Date
     }
     seriesId?: string,
-    numberFlower?: number
+    numberFlower?: number,
+    needUnlock?: boolean,
+    showContentPercent?: number
 }
 
 
@@ -34,6 +36,10 @@ export interface PostUpdateReq {
     content: string
     taggingNames: string[],
     displayUrl?: string
+    seriesId?: string,
+    numberFlower?: number,
+    needUnlock?: boolean,
+    showContentPercent?: number
 }
 
 

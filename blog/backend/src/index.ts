@@ -22,12 +22,15 @@ import textToSpeech from './routes/TextToSpeech'
 import transactionRouter from './routes/TransactionRoute'
 import vnpayRouter from './routes/VNPayRoute'
 import router from './routes/VNPayRoute'
-
+import { initSocket } from "./third/socket/socket";
+import { registerEvents } from "./third/socket/events";
+import http from 'http'
+import { Server } from 'socket.io'
 dotenv.config()
 
 const app = express()
 const PORT = process.env.PORT || 5000
-
+const server = http.createServer(app);
 const corsOptions = {
   origin: ['http://localhost:5173', "http://localhost:5173/"], // Allow specific frontend URLs
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -57,13 +60,22 @@ app.use(router)
 // app.use(taggingRouter)
 
 
+
+// app.get('/', (_req, res) => {
+//   res.send('Socket.IO server is running');
+// });
+
+const io = initSocket(server);
+
+// Register events
+registerEvents(io);
+
+
+io.listen(5000)
 app.use(handlerExceptionMiddleWare);
 setupSwagger(app)
 app.listen(PORT, () => {
   console.log("Server is listening at PORT: " + PORT)
 })
-
-
-
 
 

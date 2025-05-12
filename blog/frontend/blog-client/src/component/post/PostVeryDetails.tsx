@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { Post } from "../../model/Post";
 import { fetchPostAction } from "../../redux/store/action/post/post.action";
+import { getUserLoggined } from "../../service/AuthenLoginResponse";
 import CommentComponent from "../comment/CommentComponent";
 import AlertConponent from "../common/AlertComponent";
 import "./Post.css"
@@ -21,15 +22,74 @@ export default function PostVeryDetails() {
     useEffect(() => {
         //@ts-ignore
         dispatch(fetchPostAction(id))
-    }, [])
+    }, [id])
 
-    
 
-   document.title = postState.post?.title || ""
+    const [headings, setHeadings] = useState<any>([]);
+
+    document.title = postState.post?.title || ""
 
     // if (postState.loading || postState.hasError) {
     //     return <AlertConponent loading={postState.loading} error={postState.error} hasError={postState.hasError} />
     // }
+
+   
+    useEffect(() => {
+        showTableContent()
+    }, [postState])
+
+    const showContentAll = () => {
+        const rawHtml = showContent() || "";
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(rawHtml, 'text/html');
+      
+        const headers = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        headers.forEach((header, index) => {
+          header.id = `header-${index + 1}`;
+        });
+      
+        return doc.body.innerHTML;
+      }
+
+    const showTableContent = () => {
+        if (!postState.post?.content) return <></>
+        const rawHtml = postState.post?.content || "";
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(rawHtml, 'text/html');
+      
+        const headers = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        headers.forEach((header, index) => {
+          header.id = `header-${index + 1}`;
+        });
+        const collected: any = []
+        headers.forEach((header: any, index: any) => {
+            const text = header.textContent.trim();
+            const id = `header-${index + 1}`;
+            header.id = id;
+            collected.push({
+                id,
+                text,
+                level: parseInt(header.tagName[1]),
+            });
+        });
+
+        setHeadings(collected);
+    }
+
+
+    const showContent = () => {
+        if (postState.post?.user?._id === getUserLoggined()?._id) return postState.post?.content
+        if (postState.post?.needUnlock) {
+            //@ts-ignore
+            return postState.post?.content?.substring(0, Number.parseInt(((postState.post?.showContentPercent / 100) * postState.post?.content.length) + "")) + ".........";
+        }
+        return postState.post?.content;
+    }
+
+
+    const handleAutoSpeak = () => {
+
+    }
 
     return (
         <>
@@ -65,7 +125,7 @@ export default function PostVeryDetails() {
                             />
                             <div className="ms-3 d-flex justify-content-between">
                                 <div>
-                                    <Link to={`/profile/${postState.post?.user?._id}`}  style={{
+                                    <Link to={`/profile/${postState.post?.user?._id}`} style={{
                                         textDecoration: "none"
                                     }}><strong>{postState.post?.user?.fullName}</strong></Link>
                                     <button className="btn btn-sm btn-outline-secondary ms-auto">Follow</button>
@@ -88,6 +148,13 @@ export default function PostVeryDetails() {
 
                         </div>
                         <div>
+                            <button className="btn btn-light" onClick={handleAutoSpeak}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-.214c-2.162-1.241-4.49-1.843-6.912-2.083l.405 2.712A1 1 0 0 1 5.51 15.1h-.548a1 1 0 0 1-.916-.599l-1.85-3.49-.202-.003A2.014 2.014 0 0 1 0 9V7a2.02 2.02 0 0 1 1.992-2.013 75 75 0 0 0 2.483-.075c3.043-.154 6.148-.849 8.525-2.199zm1 0v11a.5.5 0 0 0 1 0v-11a.5.5 0 0 0-1 0m-1 1.35c-2.344 1.205-5.209 1.842-8 2.033v4.233q.27.015.537.036c2.568.189 5.093.744 7.463 1.993zm-9 6.215v-4.13a95 95 0 0 1-1.992.052A1.02 1.02 0 0 0 1 7v2c0 .55.448 1.002 1.006 1.009A61 61 0 0 1 4 10.065m-.657.975 1.609 3.037.01.024h.548l-.002-.014-.443-2.966a68 68 0 0 0-1.722-.082z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div>
                             <div className="text-muted mb-2" style={{ position: "relative", right: 0 }}>
                                 Đã đăng 9h trước - 2 phút đọc
                             </div>
@@ -102,25 +169,27 @@ export default function PostVeryDetails() {
                     </div>
                     <h1 className="fw-bold">{postState.post?.title}</h1>
 
-                    <div dangerouslySetInnerHTML={{
-                        __html: postState.post?.content || ""
-                    }}>
-
+                    <div
+                        id="content"
+                        dangerouslySetInnerHTML={{
+                            __html: showContentAll()
+                        }}>
                     </div>
+                    {postState.post?.needUnlock && postState.post.user?._id !== getUserLoggined()._id && (
+                        <button className="btn btn-light m-3">Mở khóa bài viết cần {postState.post?.numberFlower} hoa</button>
+                    )}
+
                 </div>
 
                 <div className="col-md-3 ">
                     <div className="position-sticky" style={{ top: "20px" }}>
                         <h5 className="text-muted">Bảng nội dung</h5>
                         <ul className="list-unstyled ps-3">
-                            <li><a href="#what-is" className="text-danger">useActionState là gì?</a></li>
-                            <li>Ví dụ 1: Form tăng số đơn giản</li>
-                            <li>Ví dụ 2: Hiển thị thông báo lỗi trong form</li>
-                            <li>Ví dụ 3: Giữ nguyên state form khi chuyển trang</li>
-                            <li>
-                                Khi nào không nên dùng <code className="text-danger">useActionState</code>?
-                            </li>
-                            <li>Tổng kết</li>
+                            {headings.map((h:any, i: any) => (
+                                <li key={i} style={{ marginLeft: `${(h.level - 1) * 10}px` }}>
+                                    <Link style={{textDecoration: "none"}} to={`#${h.id}`}>{h.text}</Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 

@@ -35,6 +35,10 @@ class PostService {
             displayUrl: postReq.displayUrl,
             title: postReq.title,
             bookmark: 0,
+            seriesId: postReq.seriesId,
+            numberFlower: postReq.numberFlower,
+            needUnlock: postReq.needUnlock,
+            showContentPercent: postReq.showContentPercent,
             taggings: (await TaggingService.save(postReq.taggingNames))
         }
         const resp = await PostRepository.insertOne(post)

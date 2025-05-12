@@ -9,6 +9,7 @@ import { createPostReducer, fetchAllPostReducer, fetchPostReducer } from './stor
 import { fetchProfileReducer, updateProfileSocialReducer, updateProfileUserInfoReducer } from './store/reducer/profile/profile.reducer'
 import { searchReducer } from './store/reducer/search/search.reducer'
 import { createSeriesReducer, fetchSeriesReducer } from './store/reducer/series/series.reducer'
+import { createPaymentReducer } from './store/reducer/transaction/transaction.reducer'
 import { uploadReducer } from './store/reducer/upload/upload.reducer'
 const rootReducer = combineReducers({
     createComment: createCommentReducer,
@@ -38,7 +39,8 @@ const rootReducer = combineReducers({
     createSeries: createSeriesReducer,
     updateProfileSocial: updateProfileSocialReducer,
     updateProfileInfoUser: updateProfileUserInfoReducer,
-    search: searchReducer
+    search: searchReducer,
+    createPaymentUrl: createPaymentReducer
 })
 
 export default rootReducer
