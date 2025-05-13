@@ -11,7 +11,11 @@ const router = express.Router();
 
 
 router.get('/vnpay_return', (req: Request, res: Response, next: NextFunction) => {
-    returnUrl(req, res);
+    returnUrl(req, res).then((resp) => {
+        res.status(200).send(resp)
+    }).catch(err => {
+        next(err)
+    })
 })
 
 export default router

@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createPaymentUrlAction } from "../../redux/store/action/transaction/transaction.action";
+import { createPaymentUrlAction, fetchFlowerAction } from "../../redux/store/action/transaction/transaction.action";
+import { getUserLoggined } from "../../service/AuthenLoginResponse";
+import { Flower } from "../../service/flower.service";
+import socket from "../../socket/socket";
 import AlertConponent from "../common/AlertComponent";
 import ModalComponent from "../common/modal/ModalComponent";
 
@@ -13,29 +16,58 @@ export default function ProfileFlower(props: { userId?: string }) {
         dispatch(updateProfileUserInfoAction(getUserLoggined()._id, req))
     };
 
-    const { loading, hasError, error } = useSelector((state: any) => {
-        return state.updateProfileInfoUser
+
+
+    const fetchFlowerState: {
+        loading: boolean,
+        error: any,
+        hasError: boolean,
+        flower: Flower
+    } = useSelector((state: any) => {
+        return state.fetchFlower
     })
 
-    const createPaymentUrlState : {
+    useEffect(() => {
+        if (getUserLoggined()._id) {
+            //@ts-ignore
+            dispatch(fetchFlowerAction())
+            socket.on(`topic_payment_user_${getUserLoggined()._id}`, (data) => {
+               //@ts-ignore
+                dispatch(fetchFlowerAction())
+                setModalPersonalImagesOpen(false)
+            });
+
+            return () => {
+                socket.off(`topic_payment_user_${getUserLoggined()._id}`);
+            };
+        }
+    }, [getUserLoggined()._id])
+
+
+    const createPaymentUrlState: {
         loading: boolean,
         hasError: boolean,
         error: any
     } = useSelector((state: any) => {
         return state.createPaymentUrl
     })
-    
+
     const dispatch = useDispatch()
     const [amount, setAmount] = useState(10000)
-    
+
     const handlePayment = () => {
-        if(amount < 10000) {
+        if (amount < 10000) {
             alert("Số lượng phải lớn hơn 10.000")
             return;
         }
         //@ts-ignore
         dispatch(createPaymentUrlAction(amount))
     }
+
+    if(fetchFlowerState.loading || fetchFlowerState.hasError) {
+        return <AlertConponent error={fetchFlowerState.error} loading={fetchFlowerState.loading} hasError={fetchFlowerState.hasError} />
+    }
+
     return (
         <div className="mx-3">
             <button onClick={() => {
@@ -51,7 +83,7 @@ export default function ProfileFlower(props: { userId?: string }) {
             >
 
                 <div className="form-floating mb-3 text-start">
-                    Số lượng hoa: <strong>{1121}</strong>
+                    Số lượng hoa: <strong>{(fetchFlowerState.flower?.numberFlower || 0).toLocaleString()}</strong>
                 </div>
                 <div className="form-floating mb-3">
                     <button onClick={() => {
@@ -69,7 +101,7 @@ export default function ProfileFlower(props: { userId?: string }) {
                             <input type="number" value={amount} onChange={(e) => {
                                 //@ts-ignore
                                 setAmount(e.target.value)
-                            }} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nhập số lượng hoa cần nạp"/>
+                            }} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nhập số lượng hoa cần nạp" />
                         </div>
                         <AlertConponent loading={createPaymentUrlState.loading} hasError={createPaymentUrlState.hasError} error={createPaymentUrlState.error} />
                         <button type="submit" className="btn btn-primary w-100" disabled={createPaymentUrlState.loading} onClick={() => {

@@ -1,8 +1,32 @@
 import { FlowerRepository, TransactionRepository } from "../../db/mongo"
-import { Transaction } from "../model/flower"
+import { Flower, Transaction } from "../model/flower"
 
 class TransactionService {
     async addFlower(type: "UNLOCK_ARTICLE" | "VNPAY" = "VNPAY", numberFlower: number, fromUserId?: string, toUserId?: string, postId?: string) {
+        if(fromUserId) {
+            const f1 = await FlowerRepository.findOne({
+                userId: fromUserId
+            })
+            if(!f1) {
+                await FlowerRepository.insertOne({
+                    numberFlower: 0,
+                    userId: fromUserId
+                } as Flower)
+            }
+        }
+
+
+        if(toUserId) {
+            const f1 = await FlowerRepository.findOne({
+                userId: toUserId
+            })
+            if(!f1) {
+                await FlowerRepository.insertOne({
+                    numberFlower: 0,
+                    userId: toUserId
+                } as Flower)
+            }
+        }
 
 
         if (type == 'UNLOCK_ARTICLE') {
@@ -24,7 +48,7 @@ class TransactionService {
                 "userId": fromUserId
             }, {
                 $inc: {
-                    "numberFlower": numberFlower
+                    "numberFlower": Number.parseInt(numberFlower + "")
                 }
             })
             await TransactionRepository.insertMany([tran1, trans2])
@@ -34,6 +58,13 @@ class TransactionService {
                 message: "Bạn đã nạp hoa",
                 numberFlower: numberFlower,
                 userId: toUserId
+            })
+            await FlowerRepository.updateOne({
+                "userId": toUserId
+            }, {
+                $inc: {
+                    "numberFlower": numberFlower
+                }
             })
         }
 

@@ -12,3 +12,7 @@
 .btn-active {
     background-color: rgb(168, 67, 199);
 }
+.text-strong {
+    color: #1b1b1b;
+    font-weight:549;
+}

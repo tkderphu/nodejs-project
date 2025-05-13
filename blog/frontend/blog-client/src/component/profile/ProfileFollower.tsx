@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, useParams } from "react-router-dom"
 import { Author } from "../../model/User"
 import { fetchFollowersAction } from "../../redux/store/action/follow/follow.action"
+import { getUserLoggined } from "../../service/AuthenLoginResponse"
+import socket from "../../socket/socket"
 import AlertConponent from "../common/AlertComponent"
 
 export default function ProfileFollower() {
@@ -24,6 +26,8 @@ export default function ProfileFollower() {
         //@ts-ignore
         dispatch(fetchFollowersAction(id, "USER"))
     }, [])
+
+  
 
     console.log("state: ", state)
     if (state.loading || state.hasError) {

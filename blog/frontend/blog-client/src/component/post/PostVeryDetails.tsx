@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { Post } from "../../model/Post";
-import { fetchPostAction } from "../../redux/store/action/post/post.action";
+import { fetchPostAction, fetchUnlockPostAction, unlockPostAction } from "../../redux/store/action/post/post.action";
 import { getUserLoggined } from "../../service/AuthenLoginResponse";
 import CommentComponent from "../comment/CommentComponent";
 import AlertConponent from "../common/AlertComponent";
@@ -24,16 +24,26 @@ export default function PostVeryDetails() {
         dispatch(fetchPostAction(id))
     }, [id])
 
+    const fetchUnlockState: {
+        loading: boolean,
+        unlock: boolean
+    } = useSelector((state: any) => {
+        return state.fetchPostUnlock
+    })
+
+
+    
 
     const [headings, setHeadings] = useState<any>([]);
 
     document.title = postState.post?.title || ""
 
-    // if (postState.loading || postState.hasError) {
-    //     return <AlertConponent loading={postState.loading} error={postState.error} hasError={postState.hasError} />
-    // }
 
-   
+    useEffect(() => {
+        //@ts-ignore
+        dispatch(fetchUnlockPostAction(id))
+    }, [postState])
+
     useEffect(() => {
         showTableContent()
     }, [postState])
@@ -42,24 +52,24 @@ export default function PostVeryDetails() {
         const rawHtml = showContent() || "";
         const parser = new DOMParser();
         const doc = parser.parseFromString(rawHtml, 'text/html');
-      
+
         const headers = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
         headers.forEach((header, index) => {
-          header.id = `header-${index + 1}`;
+            header.id = `header-${index + 1}`;
         });
-      
+
         return doc.body.innerHTML;
-      }
+    }
 
     const showTableContent = () => {
         if (!postState.post?.content) return <></>
         const rawHtml = postState.post?.content || "";
         const parser = new DOMParser();
         const doc = parser.parseFromString(rawHtml, 'text/html');
-      
+
         const headers = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
         headers.forEach((header, index) => {
-          header.id = `header-${index + 1}`;
+            header.id = `header-${index + 1}`;
         });
         const collected: any = []
         headers.forEach((header: any, index: any) => {
@@ -79,13 +89,21 @@ export default function PostVeryDetails() {
 
     const showContent = () => {
         if (postState.post?.user?._id === getUserLoggined()?._id) return postState.post?.content
-        if (postState.post?.needUnlock) {
+        if (postState.post?.needUnlock && !fetchUnlockState?.unlock) {
             //@ts-ignore
             return postState.post?.content?.substring(0, Number.parseInt(((postState.post?.showContentPercent / 100) * postState.post?.content.length) + "")) + ".........";
         }
         return postState.post?.content;
     }
 
+
+    const unlockPostState: {
+        hasError: boolean,
+        loading: boolean,
+        message: any
+    } = useSelector((state: any) => {
+        return state.unlockPost
+    })
 
     const handleAutoSpeak = () => {
 
@@ -175,8 +193,14 @@ export default function PostVeryDetails() {
                             __html: showContentAll()
                         }}>
                     </div>
-                    {postState.post?.needUnlock && postState.post.user?._id !== getUserLoggined()._id && (
-                        <button className="btn btn-light m-3">Mở khóa bài viết cần {postState.post?.numberFlower} hoa</button>
+                    { !fetchUnlockState.unlock &&  postState.post?.needUnlock && postState.post.user?._id !== getUserLoggined()._id && (
+                        <>
+                            <AlertConponent loading={unlockPostState.loading} error={unlockPostState.message} hasError={unlockPostState.hasError} />
+                            <button className="btn btn-primary " onClick={() => {
+                                //@ts-ignore
+                                dispatch(unlockPostAction(id))
+                            }}>Mở khóa bài viết cần {postState.post?.numberFlower} hoa</button>
+                        </>
                     )}
 
                 </div>
@@ -185,9 +209,9 @@ export default function PostVeryDetails() {
                     <div className="position-sticky" style={{ top: "20px" }}>
                         <h5 className="text-muted">Bảng nội dung</h5>
                         <ul className="list-unstyled ps-3">
-                            {headings.map((h:any, i: any) => (
-                                <li key={i} style={{ marginLeft: `${(h.level - 1) * 10}px` }}>
-                                    <Link style={{textDecoration: "none"}} to={`#${h.id}`}>{h.text}</Link>
+                            {headings.map((h: any, i: any) => (
+                                <li key={i} className='text-start' style={{ marginLeft: `${(h.level - 1) * 10}px` }}>
+                                    <Link style={{ textDecoration: "none" }} to={`#${h.id}`}>{h.text}</Link>
                                 </li>
                             ))}
                         </ul>

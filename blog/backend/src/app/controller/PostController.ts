@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { UnlockPostRepository } from "../../db/mongo";
 import { getUserLoggined } from "../framework/common/auth";
 import { PostPageUserBookMarkRequest, PostUpdateLike, PostUpdateReq } from "../model/post";
 import NotificationService from "../service/NotificationService";
@@ -71,6 +72,21 @@ class PostController {
         }).catch(err => {
             next(err)
         })
+    }
+
+
+    
+    async getUnlockPost(req: Request, res: Response, next: NextFunction) {
+        const {id} = req.params;
+        const resp = await UnlockPostRepository.findOne({
+            userId: getUserLoggined(req).userId,
+            postId: id
+        })
+        if(resp) {
+            res.status(200).send(true)
+        } else {
+            res.status(200).send(false)
+        }
     }
 
 }

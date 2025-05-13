@@ -13,5 +13,12 @@ class PostService {
     fetchPost(id: string) {
         return api.get(`/posts/${id}`)
     }
+
+    unlockPost(postId: string) {
+        return api.post(`/posts/${postId}/unlock`)
+    }
+    fetchUnlockPost(postId: string) {
+        return api.get(`/posts/${postId}/unlock`)
+    }
 }
 export default new PostService()

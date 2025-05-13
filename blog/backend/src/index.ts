@@ -26,6 +26,7 @@ import { initSocket } from "./third/socket/socket";
 import { registerEvents } from "./third/socket/events";
 import http from 'http'
 import { Server } from 'socket.io'
+import flowerRouter from './routes/FlowerRoute'
 dotenv.config()
 
 const app = express()
@@ -57,6 +58,7 @@ app.use(searchRoute)
 app.use(textToSpeech)
 app.use(transactionRouter)
 app.use(router)
+app.use(flowerRouter)
 // app.use(taggingRouter)
 
 

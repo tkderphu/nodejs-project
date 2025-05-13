@@ -57,36 +57,46 @@ export default function HomePost() {
                 </button>
             </div>
             {fetchPostState?.pageResult?.list.map((post, idx) => (
-                <div className="card mb-3" key={idx}>
-                    <div className="card-body">
+                <>
+
+                    <div className="row">
+                        <div className="col-1">
+                        <img src={post.user?.image_url} alt="..." className="rounded-circle" width="50" height="50"/>
+                        </div>
+                        <div className="col-11">
+                        <div className="" key={idx}>
                         <div className="d-flex justify-content-between">
-                            <div className="text-primary fw-bold">{post.user?.fullName}</div>
+                            <Link className="text-decoration-none " to={"/profile/" + post.user?._id}>{post.user?.fullName}</Link>
                             <div className="text-muted small">
                                 {post.timestamps?.createdAt} ・ {"6 min read"}
                             </div>
                         </div>
-                        <h6 className="mt-2">
-                            <Link to={`/posts/${post._id}`} className="text-decoration-none">
+                        <div className=" text-start">
+                            <Link to={`/posts/${post._id}`} className="text-decoration-none text-strong">
                                 {post.title}
+                                {post.taggings &&
+                                    post.taggings.map((tag, tagIdx) => {
+                                        return (
+                                            <>
+                                                <Link to={`/search?q=tag:${tag.name}`} state={{ q: "tag:" + tag.name, actualValue: tag.name }}>
+                                                    <span
+                                                        key={tagIdx}
+                                                        className="badge bg-secondary m-1"
+                                                    >
+                                                        @{tag.name}
+                                                    </span>
+                                                </Link>
+
+                                            </>
+                                        )
+                                    })}
                             </Link>
                             {/* {post.pinned && <i className="fas fa-thumbtack text-primary ms-2"></i>} */}
-                        </h6>
-                        {/* {post.type && <span className="badge bg-primary">{post.type}</span>} */}
-                        <div className="mt-2">
-                            {post.taggings &&
-                                post.taggings.map((tag, tagIdx) => {
-                                    return (
-                                        <Link to={`/search?q=tag:${tag.name}`} state={{q: "tag:" + tag.name, actualValue: tag.name}}>
-                                            <span
-                                                key={tagIdx}
-                                                className="badge bg-secondary me-1"
-                                            >
-                                                @{tag.name}
-                                            </span>
-                                        </Link>
-                                    )
-                                })}
                         </div>
+                        {/* {post.type && <span className="badge bg-primary">{post.type}</span>} */}
+                        {/* <div className="mt-2">
+                            
+                        </div> */}
                         {(useMode === "PREVIEW") && (
                             <div className="text-truncate" dangerouslySetInnerHTML={{ __html: post.content }}>
 
@@ -111,7 +121,10 @@ export default function HomePost() {
                             </div>
                         </div>
                     </div>
-                </div>
+                        </div>
+                    </div>
+                    <hr />
+                </>
             ))}
             <div className="d-flex justify-content-center">
                 {fetchPostState.pageResult && <PagingComponent

@@ -277,8 +277,9 @@ class PostService {
         if(unlockDoc) {
             return;
         }
+        console.log("flower: ", flower)
 
-        if (flower) {
+        if (!flower) {
             throw new Error("Bạn không đủ hoa để mở khóa")
         }
 
