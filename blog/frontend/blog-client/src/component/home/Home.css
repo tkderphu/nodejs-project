@@ -6,13 +6,42 @@
         overflow-y: auto;
     }
 }
+
 .active-btn:hover {
     background-color: rgb(168, 67, 199);
 }
+
 .btn-active {
     background-color: rgb(168, 67, 199);
 }
+
 .text-strong {
     color: #1b1b1b;
-    font-weight:549;
+    font-weight: 549;
+}
+
+.author-card {
+    transition: transform 0.3s;
+  }
+  .author-card:hover {
+    transform: translateY(-5px);
+  }
+  .author-stats i {
+    font-size: 1.2rem;
+  }
+  .badge-top-author {
+    background-color: #8e44ad;
+    color: white;
+  }
+
+  .tag {
+    background-color: #eee;
+    color: #555;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-right: 5px;
+    display: inline-block;
+    margin-bottom: 5px;
 }

@@ -26,6 +26,9 @@ import ProfileBookmark from "./profile/ProfileBookmark";
 import SearchPost from "./search/SearchPost";
 import SearchAuthor from "./search/SearchAuthor";
 import ProtectedComponent from "./protected/ProtectedComponent";
+import ViosmashBlog from "../new-ui/Home";
+import Header1 from "./header/Header1";
+import Footer from "./header/Footer";
 
 function Layout() {
   const location = useLocation();
@@ -33,14 +36,17 @@ function Layout() {
 
   return (
     <div>
-      {!hideNavbarRoutes.includes(location.pathname) && <Header />}
+      {!hideNavbarRoutes.includes(location.pathname) && <Header1 />}
       <Routes>
         <Route path="/" element={<Home />}>
           <Route index element={<HomePost />} />
+          <Route path="newest" element={<HomePost />} />
           <Route path="my-followings" element={<HomeFollowing />} />
           <Route path="my-bookmarks" element={<HomeBookmark />} />
           <Route path="series" element={<HomeSeries />} />
         </Route>
+
+        <Route path="new-ui" element={<ViosmashBlog/>}/>
 
         <Route path="/search" element={<Search />} >
 
@@ -65,6 +71,7 @@ function Layout() {
           <Route path="/series/create" element={<SeriesCreate />} />
         </Route>
       </Routes>
+      <Footer/>
     </div>
   );
 }

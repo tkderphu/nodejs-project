@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { Post } from "../../model/Post";
 import { fetchAllPostAction } from "../../redux/store/action/post/post.action";
+import { estimateReadingTime, formatDate, generateTagColors } from "../../utils/utils";
 import AlertConponent from "../common/AlertComponent";
 import { PageResult } from "../common/model";
 import PagingComponent from "../paging/PagingComponent";
@@ -59,68 +60,76 @@ export default function HomePost() {
             {fetchPostState?.pageResult?.list.map((post, idx) => (
                 <>
 
-                    <div className="row">
+                    <div className="row ">
                         <div className="col-1">
-                        <img src={post.user?.image_url} alt="..." className="rounded-circle" width="50" height="50"/>
+                            <img src={post.user?.image_url} alt="..." className="rounded-circle" width="50" height="50" />
                         </div>
                         <div className="col-11">
-                        <div className="" key={idx}>
-                        <div className="d-flex justify-content-between">
-                            <Link className="text-decoration-none " to={"/profile/" + post.user?._id}>{post.user?.fullName}</Link>
-                            <div className="text-muted small">
-                                {post.timestamps?.createdAt} ・ {"6 min read"}
-                            </div>
-                        </div>
-                        <div className=" text-start">
-                            <Link to={`/posts/${post._id}`} className="text-decoration-none text-strong">
-                                {post.title}
-                                {post.taggings &&
-                                    post.taggings.map((tag, tagIdx) => {
-                                        return (
-                                            <>
-                                                <Link to={`/search?q=tag:${tag.name}`} state={{ q: "tag:" + tag.name, actualValue: tag.name }}>
-                                                    <span
-                                                        key={tagIdx}
-                                                        className="badge bg-secondary m-1"
-                                                    >
-                                                        @{tag.name}
-                                                    </span>
-                                                </Link>
+                            <div className="" key={idx}>
+                                <div className="d-flex justify-content-between">
+                                    <Link className="text-decoration-none " to={"/profile/" + post.user?._id}>{post.user?.fullName}</Link>
+                                    <div className="text-muted small">
+                                        {formatDate(post.timestamps?.createdAt)} ・ {`${estimateReadingTime(post.content, 1000)} minutes read`}
+                                    </div>
+                                </div>
+                                <div className=" text-start">
+                                    <Link to={`/posts/${post._id}`} className="text-decoration-none text-strong">
+                                        {post.title}
+                                        <div style={{display: "inline-block"}} className="mx-2">
+                                            {post.taggings &&
+                                                post.taggings.map((tag, tagIdx) => {
+                                                    return (
+                                                        <>
+                                                            <Link to={`/search?q=tag:${tag.name}`} state={{ q: "tag:" + tag.name, actualValue: tag.name }}>
+                                                                {/* <span
+                                                                key={tagIdx}
+                                                                className="badge bg-secondary m-1"
+                                                            >
+                                                                @{tag.name}
+                                                            </span> */}
+                                                                <span
+                                                                    className="badge text-bold m-1 px-3 py-1 text-xs font-medium mr-2 mb-2 inline-block"
+                                                                    style={generateTagColors(tag.name)}
+                                                                >
+                                                                    {tag.name}
+                                                                </span>
+                                                            </Link>
 
-                                            </>
-                                        )
-                                    })}
-                            </Link>
-                            {/* {post.pinned && <i className="fas fa-thumbtack text-primary ms-2"></i>} */}
-                        </div>
-                        {/* {post.type && <span className="badge bg-primary">{post.type}</span>} */}
-                        {/* <div className="mt-2">
+                                                        </>
+                                                    )
+                                                })}
+                                        </div>
+                                    </Link>
+                                    {/* {post.pinned && <i className="fas fa-thumbtack text-primary ms-2"></i>} */}
+                                </div>
+                                {/* {post.type && <span className="badge bg-primary">{post.type}</span>} */}
+                                {/* <div className="mt-2">
                             
                         </div> */}
-                        {(useMode === "PREVIEW") && (
-                            <div className="text-truncate" dangerouslySetInnerHTML={{ __html: post.content }}>
+                                {(useMode === "PREVIEW") && (
+                                    <div className="text-truncate" dangerouslySetInnerHTML={{ __html: post.content }}>
 
+                                    </div>
+                                )}
+                                <div className="mt-2 d-flex align-items-center  text-muted small" >
+                                    <div className="me-3">
+                                        <i className="fas fa-eye me-1"></i>
+                                        {post.view}
+                                    </div>
+                                    <div className="me-3">
+                                        <i className="fas fa-heart me-1"></i>
+                                        {post.like}
+                                    </div>
+                                    <div className="me-3">
+                                        <i className="fas fa-comment me-1"></i>
+                                        {post.comment}
+                                    </div>
+                                    <div>
+                                        <i className="fas fa-bookmark me-1"></i>
+                                        {post.bookmark}
+                                    </div>
+                                </div>
                             </div>
-                        )}
-                        <div className="mt-2 d-flex align-items-center  text-muted small" >
-                            <div className="me-3">
-                                <i className="fas fa-eye me-1"></i>
-                                {post.view}
-                            </div>
-                            <div className="me-3">
-                                <i className="fas fa-heart me-1"></i>
-                                {post.like}
-                            </div>
-                            <div className="me-3">
-                                <i className="fas fa-comment me-1"></i>
-                                {post.comment}
-                            </div>
-                            <div>
-                                <i className="fas fa-bookmark me-1"></i>
-                                {post.bookmark}
-                            </div>
-                        </div>
-                    </div>
                         </div>
                     </div>
                     <hr />

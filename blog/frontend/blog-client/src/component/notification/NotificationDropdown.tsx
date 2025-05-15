@@ -35,7 +35,7 @@ export default function NotificationDropdown() {
     }, [])
 
     return (
-        <div className="dropdown me-3 mx-5" ref={dropdownRef}>
+        <div className="dropdown me-3 " ref={dropdownRef}>
             <button
                 className="btn btn-outline-primary position-relative"
                 onClick={toggleDropdown}
