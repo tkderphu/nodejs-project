@@ -1,3 +1,42 @@
 .hover-item-search:hover {
     background-color: #87CEFA;
 }
+
+.search-tips {
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .search-tips h5 {
+    color: #495057;
+    margin-bottom: 15px;
+  }
+  
+  .search-tip-item {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 8px 15px;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
+  .search-container {
+    margin-bottom: 30px;
+  }
+  
+  .search-input {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 10px 15px;
+  }
+  
+  .search-button {
+    background-color: #5840ff;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+  }
+  

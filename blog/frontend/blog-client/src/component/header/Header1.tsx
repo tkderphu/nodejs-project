@@ -52,7 +52,7 @@ export default function Header1() {
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li><Link className="dropdown-item" to={`/profile/${getUserLoggined()._id}`}>Thông tin cá nhân</Link></li>
-                                    <li><a className="dropdown-item" href="#">Cài đặt</a></li>
+                                    <li><Link className="dropdown-item" to={`/setting/${getUserLoggined()._id}`}>Cài đặt</Link></li>
                                     <li>
                                         <hr className="dropdown-divider" />
                                     </li>

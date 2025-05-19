@@ -27,7 +27,7 @@ export default function ProfileInfo(props: { info: Info }) {
         dispatch(updateProfileUserInfoAction(getUserLoggined()._id, req))
     };
 
-    const {loading, hasError, error} = useSelector((state: any) => {
+    const { loading, hasError, error } = useSelector((state: any) => {
         return state.updateProfileInfoUser
     })
 
@@ -44,7 +44,10 @@ export default function ProfileInfo(props: { info: Info }) {
             <button onClick={() => {
                 setModalOpen(true)
 
-            }} className='btn btn-primary w-100'>Cập nhật thông tin</button>
+            }} className="btn btn-light">
+                <i className="fas fa-edit me-1" />
+                Cập nhật thông tin
+            </button>
 
             <ModalComponent
                 show={modalOpen}
@@ -86,7 +89,7 @@ export default function ProfileInfo(props: { info: Info }) {
                                     ['image_url']: imageUrl
                                 }))
                             }
-                        }/>
+                        } />
                     </ModalComponent>
                 </div>
                 {/* <AlertConponent loading={loading} hasError={hasError} error={error} /> */}

@@ -1,5 +1,8 @@
 import { Request, response, Response } from "express";
+import { CommentRepository, LikeRepository, PostRepository, UserRepository } from "../../db/mongo";
 import { getUserLoggined } from "../framework/common/auth";
+import { User } from "../model/user";
+import FollowService from "../service/FollowService";
 import UserService from "../service/UserService";
 
 
@@ -14,6 +17,8 @@ class UserController {
             next(err)
         })
     }
+
+
 
     updatePassword(req: Request, res: Response, next: any) {
        const {oldPassword, newPassword} = req.body
@@ -43,6 +48,54 @@ class UserController {
         })
         
     }
+
+
+    async getAuthorStats(req: Request, res: Response, next: any) {
+        const users : any= (await UserRepository.find({}).toArray())
+        console.log("user: ", users)
+        const authors: {
+            avatar?: string,
+            fullName?: string
+            countPost: number,
+            countLike: number,
+            countComment: number,
+            countFollower: number,
+            total: number
+        }[] = []
+        
+        for(let user of users) {
+            const countPost = await PostRepository.countDocuments({
+                userId: user._id?.toString()
+            })
+            const countLike = await LikeRepository.countDocuments({
+                userId: user._id?.toString()
+            })
+            const countComment = await CommentRepository.countDocuments({
+                userId: user._id?.toString()
+            })
+            //@ts-ignore
+            const countFollower = (await FollowService.getListFollower(user._id?.toString(), "USER")).length
+
+            authors.push({
+                avatar: user.image_url,
+                fullName: user.fullName,
+                countPost: countPost,
+                countComment: countComment,
+                countFollower: countFollower,
+                countLike: countLike,
+                total: countPost + countLike + countComment + countFollower
+            })
+        }
+
+        const resp = authors.sort((user1, user2) => {
+            return user2.total - user1.total
+        }).slice(0, 5)
+
+        res.status(200).send(resp)
+
+
+    }
+
 
     updateProfileInfo(req: Request, res: Response, next: any) {
         const body = req.body

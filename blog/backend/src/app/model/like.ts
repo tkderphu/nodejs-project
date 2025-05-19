@@ -1,5 +1,5 @@
 export interface Like {
-    userLikeId: string
+    userId: string
     postId?: string
     commentId?: string
 }

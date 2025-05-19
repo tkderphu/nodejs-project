@@ -29,6 +29,9 @@ import ProtectedComponent from "./protected/ProtectedComponent";
 import ViosmashBlog from "../new-ui/Home";
 import Header1 from "./header/Header1";
 import Footer from "./header/Footer";
+import Profile1 from "./profile/Profile1";
+import SettingComponent from "./setting/SettingComponent";
+import Return from "../Return";
 
 function Layout() {
   const location = useLocation();
@@ -46,6 +49,8 @@ function Layout() {
           <Route path="series" element={<HomeSeries />} />
         </Route>
 
+        <Route path="return"  element={<Return/>}/>
+
         <Route path="new-ui" element={<ViosmashBlog/>}/>
 
         <Route path="/search" element={<Search />} >
@@ -55,7 +60,7 @@ function Layout() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgetPassword />} />
-        <Route path="/profile/:id" element={<Profile />}>
+        <Route path="/profile/:id" element={<Profile1 />}>
           <Route path="followings" element={<ProfileFollowing />} />
           <Route index element={<ProfilePost />} />
           <Route path="posts" element={<ProfilePost />} />
@@ -63,6 +68,7 @@ function Layout() {
           <Route path="series" element={<ProfileSeries />} />
           <Route path="bookmarks" element={<ProfileBookmark />} />
         </Route>
+        <Route path="setting/:userId"  element={<SettingComponent/>}/>
         <Route path="/posts/:id" element={<PostVeryDetails />}></Route>
         <Route path="/clone" element={<VibloClone />} />
 

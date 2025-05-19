@@ -1,0 +1,104 @@
+/* body {
+    background-color: #f8f9fa;
+} */
+/* .settings-container {
+    max-width: 950px;
+    margin: 0 auto;
+} */
+.settings-header {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin-top: 40px;
+}
+.settings-body {
+    background: white;
+    border-radius: 0 0 12px 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    margin-bottom: 40px;
+}
+.tab-content {
+    padding: 25px 0;
+}
+.form-label {
+    font-weight: 500;
+}
+.form-check-input:checked {
+    background-color: #2575fc;
+    border-color: #2575fc;
+}
+.custom-switch {
+    padding-left: 0;
+}
+.nav-link {
+    color: #495057;
+    font-weight: 500;
+}
+.nav-link.active {
+    color: #2575fc !important;
+    border-bottom: 2px solid #2575fc !important;
+}
+.btn-primary {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    border: none;
+    padding: 10px 25px;
+}
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5a0cb1 0%, #1a67e6 100%);
+}
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+    padding: 10px 25px;
+}
+.alert-box {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+.alert-box i {
+    font-size: 24px;
+    margin-right: 15px;
+}
+.password-strength {
+    height: 6px;
+    border-radius: 3px;
+    margin-top: 8px;
+    background-color: #e9ecef;
+}
+.password-strength-meter {
+    height: 100%;
+    border-radius: 3px;
+    width: 70%;
+    background: linear-gradient(90deg, #ff4d4d 0%, #ffb700 30%, #9fff5b 70%, #00cc44 100%);
+}
+.toggle-password {
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+}
+.avatar-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #e9ecef;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: #6c757d;
+    margin: 0 auto 15px;
+}

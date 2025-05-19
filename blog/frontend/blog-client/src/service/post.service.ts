@@ -14,6 +14,10 @@ class PostService {
         return api.get(`/posts/${id}`)
     }
 
+    fetchPostByAuthorId(userId: string) {
+        return api.get("/posts/user/" + userId)
+    }
+
     unlockPost(postId: string) {
         return api.post(`/posts/${postId}/unlock`)
     }

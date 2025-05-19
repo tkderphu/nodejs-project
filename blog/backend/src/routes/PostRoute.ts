@@ -16,7 +16,7 @@ postRouter.post('/api/posts',authMiddleWare, PostController.createPost)
 postRouter.get("/api/posts/:id", PostController.getPostDetail)
 postRouter.post("/api/posts/:id/unlock", authMiddleWare, PostController.unlockPost)
 postRouter.get("/api/posts/:id/unlock", authMiddleWare, PostController.getUnlockPost)
-
+postRouter.get("/api/posts/user/:userId", PostController.getListPostByAuthorId)
 /**
  * @swagger
  * /api/posts/{postId}:

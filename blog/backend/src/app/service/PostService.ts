@@ -16,6 +16,7 @@ import { Bookmark } from "../model/bookmark"
 import { Series } from "../model/series"
 import { Follow } from "../model/follow"
 import TransactionService from "./TransactionService"
+import { post } from "jquery"
 class PostService {
 
 
@@ -165,6 +166,20 @@ class PostService {
     }
 
 
+    async findAllByUserId(userId: string) {
+        let posts: any = await PostRepository.find({
+            userId: userId
+        }).sort({ 'timestamps.createdAt': -1 }).toArray()
+
+        for (let i = 0; i < posts?.length; i++) {
+            posts[i].user = await UserService.findById(posts[i].userId)
+            posts[i].bookmark = await BookMarkService.countBookmark(posts[i]._id.toString(), 'POST')
+        }
+
+        return posts;
+    }
+
+
     async findAllByMyBookmark(userId: string, type: "POST" | "SERIES", page: number, limit: number, sortDate: -1 | 1) {
         const bookmarks = (await BookMarkService.getBookmarks(userId, type)) as Bookmark[]
 
@@ -248,7 +263,7 @@ class PostService {
     updatelikePost(postId: string, userLikeId: string, up: number) {
         if (up > 0) {
             LikeService.createLike({
-                userLikeId: userLikeId,
+                userId: userLikeId,
                 postId: postId
             })
         } else {

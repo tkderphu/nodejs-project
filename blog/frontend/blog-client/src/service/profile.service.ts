@@ -11,5 +11,9 @@ class ProfileService {
     updateProfileUserInfo(req: any) {
         return api.put(`${url}`, req)
     }
+
+    getAuthorStats() {
+        return api.get(`/authors/stats`)
+    }
 }
 export default new ProfileService()

@@ -11,11 +11,6 @@ export default function ProfileFlower(props: { userId?: string }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalPersonalImagesOpen, setModalPersonalImagesOpen] = useState(false);
 
-    const handleSave = () => {
-        //@ts-ignore
-        dispatch(updateProfileUserInfoAction(getUserLoggined()._id, req))
-    };
-
 
 
     const fetchFlowerState: {
@@ -64,22 +59,23 @@ export default function ProfileFlower(props: { userId?: string }) {
         dispatch(createPaymentUrlAction(amount))
     }
 
+
     if(fetchFlowerState.loading || fetchFlowerState.hasError) {
         return <AlertConponent error={fetchFlowerState.error} loading={fetchFlowerState.loading} hasError={fetchFlowerState.hasError} />
     }
 
     return (
-        <div className="mx-3">
+        <>
+            
             <button onClick={() => {
                 setModalOpen(true)
 
-            }} className='btn btn-primary w-100'>Hoa</button>
+            }} className="btn btn-secondary">Hoa</button>
 
             <ModalComponent
                 show={modalOpen}
                 title="Hoa"
                 onClose={() => setModalOpen(false)}
-                onSave={handleSave}
             >
 
                 <div className="form-floating mb-3 text-start">
@@ -89,11 +85,11 @@ export default function ProfileFlower(props: { userId?: string }) {
                     <button onClick={() => {
                         setModalPersonalImagesOpen(true)
 
-                    }} className='btn btn-secondary w-100'>Nạp hoa</button>
+                    }} className='btn btn-primary w-100'>Nạp hoa</button>
 
                     <ModalComponent
                         show={modalPersonalImagesOpen}
-                        title="Danh sách ảnh cá nhân"
+                        title="Nạp hoa"
                         onClose={() => setModalPersonalImagesOpen(false)}
                     >
                         <div className="form-group mb-3">
@@ -103,7 +99,7 @@ export default function ProfileFlower(props: { userId?: string }) {
                                 setAmount(e.target.value)
                             }} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nhập số lượng hoa cần nạp" />
                         </div>
-                        <AlertConponent loading={createPaymentUrlState.loading} hasError={createPaymentUrlState.hasError} error={createPaymentUrlState.error} />
+                        <div className="text-center"><AlertConponent loading={createPaymentUrlState.loading} hasError={createPaymentUrlState.hasError} error={createPaymentUrlState.error} /></div>
                         <button type="submit" className="btn btn-primary w-100" disabled={createPaymentUrlState.loading} onClick={() => {
                             handlePayment()
                         }}>Thanh toán</button>
@@ -112,6 +108,6 @@ export default function ProfileFlower(props: { userId?: string }) {
                 {/* <AlertConponent loading={loading} hasError={hasError} error={error} /> */}
 
             </ModalComponent>
-        </div>
+        </>
     )
 }

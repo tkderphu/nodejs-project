@@ -1,0 +1,52 @@
+
+
+.profile-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.author-name {
+    color: #4267B2;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.author-username {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.btn-follow {
+    color: #4267B2;
+    border-color: #4267B2;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 3px 12px;
+}
+
+.btn-follow:hover {
+    background-color: #4267B2;
+    color: white;
+}
+
+.stats {
+    display: flex;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    color: #666;
+}
+
+.stat-item i {
+    color: #999;
+    margin-right: 3px;
+}

@@ -89,6 +89,15 @@ class PostController {
         }
     }
 
+    getListPostByAuthorId(req: Request, res: Response, next: NextFunction) {
+        const {userId} = req.params
+        PostService.findAllByUserId(userId).then(resp => {
+            res.status(200).send(resp)
+        }).catch(err => {
+            next(err)
+        });
+    }
+
 }
 
 export default new PostController()

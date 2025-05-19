@@ -115,11 +115,11 @@ function Search() {
             <div className="container mt-3">
                 <div className="row">
                     <div className="col-md-9">
-                        <div className="d-flex mb-3">
+                        <div className="d-flex mb-3 search-container">
                             <input
                                 type="text"
                                 name='q'
-                                className="form-control me-3"
+                                className="form-control  search-input"
                                 value={query}
                                 onChange={(e: any) => {
                                     setQuery(e.target.value)
@@ -175,21 +175,21 @@ function Search() {
                             )}
                         </div>
                     </div>
-                    <div className="col-md-3 sticky-sidebar">
+                    <div className="col-md-3 sticky-sidebar search-tips text-start">
                         <h6 className="text-uppercase text-muted">Cú pháp tìm kiếm</h6>
-                        <div className="d-flex flex-column align-items-start mb-1">
+                        <div className="d-flex flex-column align-items-start mb-1 search-tip-item">
                             <span className="badge bg-light text-dark border">title:Git</span>
                             <p className="text-muted">Chứa "Git" trong tiêu đề</p>
                         </div>
-                        <div className="d-flex flex-column align-items-start mb-1">
+                        <div className="d-flex flex-column align-items-start mb-1 search-tip-item">
                             <span className="badge bg-light text-dark border">body:Ruby</span>
                             <p className="text-muted">Chứa "Ruby" trong nội dung</p>
                         </div>
-                        <div className="d-flex flex-column align-items-start mb-1">
+                        <div className="d-flex flex-column align-items-start mb-1 search-tip-item">
                             <span className="badge bg-light text-dark border">user:name</span>
                             <span className="text-muted">Tạo bởi người dùng có tên là "name"</span>
                         </div>
-                        <div className="d-flex flex-column align-items-start mb-1">
+                        <div className="d-flex flex-column align-items-start mb-1 search-tip-item">
                             <span className="badge bg-light text-dark border">tag:Rails</span>
                             <span className="text-muted">Có nhãn là "Rails", nếu muốn tìm kiếm nhiều nhãn thì spanhải phân cách dấu ","</span>
                         </div>
