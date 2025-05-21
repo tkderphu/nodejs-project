@@ -27,7 +27,7 @@ function Login() {
 
 
     return (
-        <div className="d-flex align-items-center justify-content-center" style={{ height: "100vh", backgroundColor: "#f8f9fa" }}>
+        <div className="text-start d-flex align-items-center justify-content-center" style={{ height: "100vh", backgroundColor: "#f8f9fa" }}>
             <div className="card p-4 shadow" style={{ width: "350px" }}>
                 <h3 className="text-center mb-3">Đăng Nhập</h3>
                 {hasError && <div className="alert alert-danger" role="alert">

@@ -3,7 +3,7 @@ import { getRefreshToken, getToken, getUserLoggined } from "../../service/Authen
 
 export default function ProtectedComponent() {
     if(!getToken()) {
-        return <Navigate to={"/login"} replace={true} ></Navigate>
+        return <Navigate to={"/login"} ></Navigate>
     }
     return <Outlet/>
 }

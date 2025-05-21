@@ -44,14 +44,16 @@ function Layout() {
         <Route path="/" element={<Home />}>
           <Route index element={<HomePost />} />
           <Route path="newest" element={<HomePost />} />
-          <Route path="my-followings" element={<HomeFollowing />} />
-          <Route path="my-bookmarks" element={<HomeBookmark />} />
+          <Route element={<ProtectedComponent />}>
+            <Route path="my-followings" element={<HomeFollowing />} />
+            <Route path="my-bookmarks" element={<HomeBookmark />} />
+          </Route>
           <Route path="series" element={<HomeSeries />} />
         </Route>
 
-        <Route path="return"  element={<Return/>}/>
+        <Route path="return" element={<Return />} />
 
-        <Route path="new-ui" element={<ViosmashBlog/>}/>
+        <Route path="new-ui" element={<ViosmashBlog />} />
 
         <Route path="/search" element={<Search />} >
 
@@ -68,16 +70,20 @@ function Layout() {
           <Route path="series" element={<ProfileSeries />} />
           <Route path="bookmarks" element={<ProfileBookmark />} />
         </Route>
-        <Route path="setting/:userId"  element={<SettingComponent/>}/>
+        <Route path="setting/:userId" element={<SettingComponent />} />
         <Route path="/posts/:id" element={<PostVeryDetails />}></Route>
         <Route path="/clone" element={<VibloClone />} />
 
         <Route element={<ProtectedComponent />}>
           <Route path='/create-post' element={<PostCreate />}></Route>
-          <Route path="/series/create" element={<SeriesCreate />} />
+          <Route path="/create-series" element={<SeriesCreate />} />
+          <Route />
         </Route>
+
+
+
       </Routes>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

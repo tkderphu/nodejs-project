@@ -1,7 +1,7 @@
 export interface Like {
     userId: string
-    postId?: string
-    commentId?: string
+    typeId: string,
+    type: "COMMENT" | "POST"
 }
 
 export interface LikeDocument extends Like {

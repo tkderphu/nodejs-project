@@ -92,7 +92,7 @@ class TransactionService {
     getListTransaction(userId: string) {
         return TransactionRepository.find({
             "userId": userId
-        }).toArray()
+        }).sort({createdAt: -1}).toArray()
     }
 
 

@@ -54,27 +54,16 @@ function PostCreate() {
 
 
     return (
-        <div className="mt-3">
+        <div className="mt-3 text-start">
             <div className="form-group mb-3">
-                <label htmlFor="exampleInputEmail1">Title</label>
+                <label htmlFor="exampleInputEmail1">Tiêu đề</label>
                 <input type="text" className="form-control" onChange={(e) => {
                     setTile(e.target.value)
                 }} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Title of post" />
             </div>
+          
             <div className="form-group mb-3">
-                <label htmlFor="exampleInputEmail1">Description</label>
-                <input type="text" className="form-control" onChange={(e) => {
-                    setDescription(e.target.value)
-                }} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Description about post" />
-            </div>
-            <div className="form-group mb-3">
-                <label htmlFor="exampleInputEmail1">Display url</label>
-                <input type="text" className="form-control" onChange={(e) => {
-                    setDisplayUrl(e.target.value)
-                }} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Url image" />
-            </div>
-            <div className="form-group mb-3">
-                <label htmlFor="exampleInputEmail1">Tagging name(each tagging seperate by comma)</label>
+                <label htmlFor="exampleInputEmail1">Thể loại(mỗi bài viết phải ít nhất 3 thể loại)</label>
                 <input type="text" className="form-control" onChange={(e) => {
                     setTaggingName(e.target.value)
                 }} id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="java, spring, jwt, websocket" />
@@ -87,8 +76,8 @@ function PostCreate() {
                 <option value="2">Two</option>
                 <option value="3">Three</option>
             </select>
-            <div>
-                <label>Content</label>
+            <div className="form-group mb-3"> 
+                <label>Nội dung</label>
                 <Editor
                     content={content}
                     fn={(value: any) => {

@@ -2,7 +2,7 @@ import { Filter, ObjectId } from "mongodb"
 import { Post, PostBase, PostPageRequest, PostPageUserBookMarkRequest, PostResponseDetail, PostUpdateReq } from "../model/post"
 import CommentService from "./CommentService"
 import LikeService from "./LikeService"
-import { BookMarkRepository, FlowerRepository, FollowRepository, PostRepository, SeriesRepository, UnlockPostRepository } from "../../db/mongo"
+import { BookMarkRepository, FlowerRepository, FollowRepository, LikeRepository, PostRepository, SeriesRepository, UnlockPostRepository } from "../../db/mongo"
 import AccessDeniedException from "../exception/AccessDeniedException"
 import { PageResult } from "../framework/common/page"
 import { POST_DOCUMENT, USER_DOCUMENT } from "../../db/document"
@@ -67,7 +67,10 @@ class PostService {
         const post: any = await this.findById(postId)
         post.user = await UserService.findById(post.userId)
         post.bookmark = await BookMarkService.countBookmark(post._id.toString(), 'POST')
-
+        post.like = await LikeRepository.countDocuments({
+            objId: post._id.toString(),
+            objType: "POST"
+        })
         if(post.numberFlower && userId) {
             const unlock: any = await UnlockPostRepository.findOne({
                 postId: postId,
@@ -261,21 +264,21 @@ class PostService {
 
 
     updatelikePost(postId: string, userLikeId: string, up: number) {
-        if (up > 0) {
-            LikeService.createLike({
-                userId: userLikeId,
-                postId: postId
-            })
-        } else {
-            LikeService.deletelikePost(postId, userLikeId)
-        }
-        return PostRepository.updateOne({
-            _id: new ObjectId(postId)
-        }, {
-            $inc: {
-                like: up
-            }
-        })
+        // if (up > 0) {
+        //     LikeService.createLike({
+        //         userId: userLikeId,
+        //         postId: postId
+        //     })
+        // } else {
+        //     LikeService.deletelikePost(postId, userLikeId)
+        // }
+        // return PostRepository.updateOne({
+        //     _id: new ObjectId(postId)
+        // }, {
+        //     $inc: {
+        //         like: up
+        //     }
+        // })
     }
 
 

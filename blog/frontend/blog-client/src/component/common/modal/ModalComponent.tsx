@@ -8,6 +8,7 @@ interface CustomModalProps {
   onClose: () => void;
   onSave?: () => void;
   closable?: boolean;
+  large?: boolean
 }
 
 const ModalComponent: React.FC<CustomModalProps> = ({
@@ -17,6 +18,7 @@ const ModalComponent: React.FC<CustomModalProps> = ({
   onClose,
   onSave,
   closable = true,
+  large = false
 }) => {
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -35,10 +37,10 @@ const ModalComponent: React.FC<CustomModalProps> = ({
 
   return (
     <div className="custom-modal-backdrop">
-      <div className="custom-modal">
+      <div className="custom-modal" style={{maxWidth: (large ? "800px" : "500px")}}>
         <div className="custom-modal-header">
           <h2>{title}</h2>
-          {closable && (
+          { (
             <button className="custom-modal-close" onClick={onClose}>
               &times;
             </button>
@@ -46,9 +48,11 @@ const ModalComponent: React.FC<CustomModalProps> = ({
         </div>
         <div className="custom-modal-body">{children}</div>
         <div className="custom-modal-footer">
-          <button onClick={onClose} className="custom-button secondary">
+          {closable && (
+            <button onClick={onClose} className="custom-button secondary">
             Đóng
           </button>
+          )}
           {onSave && (
             <button onClick={onSave} className="custom-button primary">
               Lưu thay đổi

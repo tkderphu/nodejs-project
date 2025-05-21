@@ -5,6 +5,7 @@ import { Post } from "../../model/Post"
 import { fetchAllPostAction } from "../../redux/store/action/post/post.action"
 import { getUserLoggined } from "../../service/AuthenLoginResponse"
 import AlertConponent from "../common/AlertComponent"
+import FullScreenLoader from "../common/fullspinner/FullScreenLoader"
 import { PageResult } from "../common/model"
 import PagingComponent from "../paging/PagingComponent"
 import PostSimpleComponent from "../post/PostSimpleComponent"
@@ -31,8 +32,8 @@ export default function HomeFollowing() {
         dispatch(fetchAllPostAction(`type=${"FOLLOWED"}&userId=${getUserLoggined()._id}`, location.state.page))
     }, [location.state?.page])
 
-    if (fetchPostState.loading || fetchPostState.hasError) {
-        return <AlertConponent error={fetchPostState.error} hasError={fetchPostState.hasError} loading={fetchPostState.loading} />
+    if (fetchPostState.loading) {
+        return  <FullScreenLoader/>
     }
     return (
         <>

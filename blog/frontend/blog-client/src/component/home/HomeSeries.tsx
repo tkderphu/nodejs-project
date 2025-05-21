@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { Series } from "../../model/Series"
 import { fetchSereisAction } from "../../redux/store/action/series/series.action"
+import FullScreenLoader from "../common/fullspinner/FullScreenLoader"
 import { PageResult } from "../common/model"
 import PagingComponent from "../paging/PagingComponent"
 
@@ -22,6 +23,9 @@ export default function HomeSeries() {
         //@ts-ignore
         dispatch(fetchSereisAction(-1))
     }, [])
+    if(seriesState.loading) {
+        return <FullScreenLoader/>
+    }
     return (
         <>
             <>

@@ -1,4 +1,11 @@
-export const LIKE_COMMENT_SUCCESS = ""
-export const LIKE_POST_SUCCESS = ""
-export const DISLIKE_COMMENT_SUCCESS = ""
-export const DISLIKE_POST_SUCCESS = ""
+export const LIKE_BEGIN = "LIKE_BEGIN"
+export const LIKE_SUCCESS = "LIKE_SUCCESS"
+export const LIKE_FAILED ="LIKE_FAILED"
+
+export const UNLIKE_BEGIN = "UNLIKE_BEGIN"
+export const UNLIKE_SUCCESS = "UNLIKE_SUCCESS"
+export const UNLIKE_FAILED ="UNLIKE_FAILED"
+
+export const CHECK_LIKE_BEGIN = "CHECK_LIKE_BEGIN"
+export const CHECK_LIKE_SUCCESS = "CHECK_LIKE_SUCCESS"
+export const CHECK_LIKE_FAILED ="CHECK_LIKE_FAILED"

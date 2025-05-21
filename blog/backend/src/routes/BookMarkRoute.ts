@@ -6,7 +6,7 @@ const bookMarkRouter = Router()
 
 bookMarkRouter.post('/api/bookmarks/:objId/:objType', authMiddleWare, BookMarkController.bookmark)
 bookMarkRouter.delete('/api/bookmarks/:objId/:objType', authMiddleWare, BookMarkController.removeBookmark)
-bookMarkRouter.get('/api/bookmarks/:objId/:objType', authMiddleWare, BookMarkController.checkBookmarked)
+bookMarkRouter.get('/api/bookmarks/check/:objId/:objType/:userId', BookMarkController.checkBookmarked)
 bookMarkRouter.get('/api/bookmarks/user/:userId/:objType', BookMarkController.getBookmarks)
 
 export default bookMarkRouter

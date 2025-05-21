@@ -5,7 +5,9 @@ import { getUserLoggined } from "../../service/AuthenLoginResponse";
 import { Flower } from "../../service/flower.service";
 import socket from "../../socket/socket";
 import AlertConponent from "../common/AlertComponent";
+import FullScreenLoader from "../common/fullspinner/FullScreenLoader";
 import ModalComponent from "../common/modal/ModalComponent";
+import Transaction from "./transaction/Transaction";
 
 export default function ProfileFlower(props: { userId?: string }) {
     const [modalOpen, setModalOpen] = useState(false);
@@ -27,7 +29,7 @@ export default function ProfileFlower(props: { userId?: string }) {
             //@ts-ignore
             dispatch(fetchFlowerAction())
             socket.on(`topic_payment_user_${getUserLoggined()._id}`, (data) => {
-               //@ts-ignore
+                //@ts-ignore
                 dispatch(fetchFlowerAction())
                 setModalPersonalImagesOpen(false)
             });
@@ -60,13 +62,12 @@ export default function ProfileFlower(props: { userId?: string }) {
     }
 
 
-    if(fetchFlowerState.loading || fetchFlowerState.hasError) {
-        return <AlertConponent error={fetchFlowerState.error} loading={fetchFlowerState.loading} hasError={fetchFlowerState.hasError} />
-    }
+    const [openHistoryTransaction, setOpenHistoryTransaction] = useState(false)
+
 
     return (
         <>
-            
+            {/* {fetchFlowerState.loading && <FullScreenLoader/>} */}
             <button onClick={() => {
                 setModalOpen(true)
 
@@ -82,14 +83,34 @@ export default function ProfileFlower(props: { userId?: string }) {
                     Số lượng hoa: <strong>{(fetchFlowerState.flower?.numberFlower || 0).toLocaleString()}</strong>
                 </div>
                 <div className="form-floating mb-3">
-                    <button onClick={() => {
-                        setModalPersonalImagesOpen(true)
+                    <div className="d-flex justify-content-between">
+                        <button onClick={() => {
+                            setOpenHistoryTransaction(true)
 
-                    }} className='btn btn-primary w-100'>Nạp hoa</button>
+                        }} className='btn btn-danger '>Lịch sử giao dịch</button>
+                        <button onClick={() => {
+                            setModalPersonalImagesOpen(true)
+
+                        }} className='btn btn-primary '>Nạp hoa</button>
+
+                    </div>
+                    <ModalComponent
+                        show={openHistoryTransaction}
+                        title="Lịch sử giao dịch"
+                        closable={false}
+                        large={true}
+                        onClose={() => setOpenHistoryTransaction(false)}
+                    >
+                        
+                        <Transaction/>
+                        
+                    </ModalComponent>
+
 
                     <ModalComponent
                         show={modalPersonalImagesOpen}
                         title="Nạp hoa"
+                        closable={false}
                         onClose={() => setModalPersonalImagesOpen(false)}
                     >
                         <div className="form-group mb-3">
@@ -99,7 +120,7 @@ export default function ProfileFlower(props: { userId?: string }) {
                                 setAmount(e.target.value)
                             }} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nhập số lượng hoa cần nạp" />
                         </div>
-                        <div className="text-center"><AlertConponent loading={createPaymentUrlState.loading} hasError={createPaymentUrlState.hasError} error={createPaymentUrlState.error} /></div>
+                        {createPaymentUrlState.loading && <FullScreenLoader />}
                         <button type="submit" className="btn btn-primary w-100" disabled={createPaymentUrlState.loading} onClick={() => {
                             handlePayment()
                         }}>Thanh toán</button>

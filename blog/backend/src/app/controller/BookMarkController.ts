@@ -25,6 +25,7 @@ class BookMarkController {
 
     removeBookmark(req: Request, res: Response, next: NextFunction) {
         const {objId, objType} = req.params
+        console.log("remove bookmark------------------------------------------------------------------------------===============")
         BookMarkService.remove(getUserLoggined(req).userId, objId, objType).then(resp => {
             res.status(200).send("remove bookmark ok")
         }).catch(err => {
@@ -33,9 +34,11 @@ class BookMarkController {
     }
 
     checkBookmarked(req: Request, res: Response, next: any) {
-        const {objId, objType} = req.params
+        const {objId, objType, userId} = req.params
+        console.log("cai lz")
         //@ts-ignore
-        BookMarkService.checkBookmarked(getUserLoggined(req).userId, objId, objType).then(resp => {
+        BookMarkService.checkBookmarked(userId, objId, objType).then(resp => {
+            console.log("check book mark: ", resp)
             res.status(200).send(resp)
         }).catch(err => {
             next(err)

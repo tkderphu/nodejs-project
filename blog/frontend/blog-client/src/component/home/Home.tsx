@@ -23,6 +23,7 @@ function Home(props: {
             setAuthorStats(resp.data)
         })
     }, [])
+    
     return (
         <>
 

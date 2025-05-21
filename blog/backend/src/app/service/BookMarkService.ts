@@ -15,7 +15,7 @@ class BookMarkService {
     }
 
     async remove(userId: string, objId: string, objType: string) {
-        const result = await BookMarkRepository.deleteOne({
+        const result = await BookMarkRepository.deleteMany({
             userId: userId,
             objId: objId,
             objType: objType
@@ -53,8 +53,14 @@ class BookMarkService {
     async getBookmarks(userId: string, objType: "POST" | "SERIES") {
          const result = await BookMarkRepository.find({
             userId: userId,
-            type: objType
+            objType: objType
         }).toArray()
+
+        for(let i = 0; i < result.length; i++) {
+            if(objType === "POST") {
+                result[i].post = await PostService.getPostDetail(result[i].objId, userId)
+            }
+        }
 
         return result;
     }
