@@ -10,6 +10,7 @@ import { createPostReducer, fetchAllPostReducer, fetchPostByAuthorIdReducer, fet
 import { fetchProfileReducer, updateProfileSocialReducer, updateProfileUserInfoReducer } from './store/reducer/profile/profile.reducer'
 import { searchReducer } from './store/reducer/search/search.reducer'
 import { createSeriesReducer, fetchSeriesReducer } from './store/reducer/series/series.reducer'
+import { fetchSettingReducer, updateSettingNotifyReducer } from './store/reducer/setting/setting.reducer'
 import { createPaymentReducer, fetchFlowerReducer, fetchTransactionReducer } from './store/reducer/transaction/transaction.reducer'
 import { uploadReducer } from './store/reducer/upload/upload.reducer'
 const rootReducer = combineReducers({
@@ -49,7 +50,9 @@ const rootReducer = combineReducers({
     like: likeReducer,
     unlike: unlikeReducer,
     checkLike: checkLikeReducer,
-    fetchTransaction: fetchTransactionReducer
+    fetchTransaction: fetchTransactionReducer,
+    fetchSetting: fetchSettingReducer,
+    updateSettingNotify: updateSettingNotifyReducer
 })
 
 export default rootReducer

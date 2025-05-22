@@ -28,6 +28,7 @@ import http from 'http'
 import { Server } from 'socket.io'
 import flowerRouter from './routes/FlowerRoute'
 import likeRouter from './routes/LikeRoute'
+import settingRouter from './routes/SettingRoute'
 dotenv.config()
 
 const app = express()
@@ -61,6 +62,7 @@ app.use(transactionRouter)
 app.use(router)
 app.use(flowerRouter)
 app.use(likeRouter)
+app.use(settingRouter)
 // app.use(taggingRouter)
 
 

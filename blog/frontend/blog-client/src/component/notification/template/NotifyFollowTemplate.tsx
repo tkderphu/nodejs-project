@@ -15,7 +15,7 @@ export default function NotifyFollowTemplate(props: {
     return (
         <li onClick={() => {
             navigate(`/profile/${props.params.user._id}`)
-        }}  className={`list-group-item notify-background d-flex align-items-start  ${!props.read ? '' : "text-muted"}`}>
+        }} className={`list-group-item notify-background d-flex align-items-start  ${!props.read ? '' : "text-muted"}`}>
             <img
                 src={props.params.user.avatar}
                 alt="avatar"
@@ -24,10 +24,8 @@ export default function NotifyFollowTemplate(props: {
                 height="40"
             />
             {/* <Link to={"vc"}> */}
-            <div className="flex-grow-1">
-                <div className="mb-1">
-                    <Link to={"dv"} style={{textDecoration: "none", color: "black"}}><strong>{props.params.user.fullname}</strong> đã theo dõi bạn.</Link>
-                </div>
+            <div className="flex-grow-1 text-start">
+                <div className="" style={{ textDecoration: "none", color: "black" }}><strong>{props.params.user.fullname}</strong> đã theo dõi bạn.</div>
                 <small className="text-muted">{props.time}</small>
             </div>
             {/* </Link> */}
