@@ -32,58 +32,87 @@ import Footer from "./header/Footer";
 import Profile1 from "./profile/Profile1";
 import SettingComponent from "./setting/SettingComponent";
 import Return from "../Return";
+import SettingNotifyComponent from "./setting/SettingNotifyComponent";
+import SettingPassword from "./setting/SettingPasword";
+import AdminHome from "./admin/AdminHome";
+import AdminHomeOverview from "./admin/AdminHomeOverview";
+import AdminHomeUserManagement from "./admin/AdminHomeUserManagement";
+import AdminHomeReport from "./admin/AdminHomeReport";
+import AdminHomeReportPost from "./admin/AdminHomeReportPost";
+import AdminLogin from "./admin/AdminLogin";
 
 function Layout() {
   const location = useLocation();
-  const hideNavbarRoutes = ["/login", "/register", "/forgot-password"];
-
+  const hideNavbarRoutes = ["/login", "/register", "/forgot-password", "/admin"];
+  // user-ui
   return (
     <div>
-      {!hideNavbarRoutes.includes(location.pathname) && <Header1 />}
       <Routes>
-        <Route path="/" element={<Home />}>
-          <Route index element={<HomePost />} />
-          <Route path="newest" element={<HomePost />} />
-          <Route element={<ProtectedComponent />}>
-            <Route path="my-followings" element={<HomeFollowing />} />
-            <Route path="my-bookmarks" element={<HomeBookmark />} />
+        <Route path="admin" element={<AdminHome />} >
+          <Route index element={<AdminHomeOverview />} />
+          <Route path="panel" element={<AdminHomeOverview />} />
+          <Route path="users" element={<AdminHomeUserManagement />} />
+          <Route path="reports" element={<AdminHomeReport />} >
+            <Route path="post" element={<AdminHomeReportPost />} />
+            <Route index element={<AdminHomeReportPost />} />
           </Route>
-          <Route path="series" element={<HomeSeries />} />
         </Route>
-
-        <Route path="return" element={<Return />} />
-
-        <Route path="new-ui" element={<ViosmashBlog />} />
-
-        <Route path="/search" element={<Search />} >
-
-        </Route>
-        <Route path="/bookmark/:userId" element={<Bookmark />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgetPassword />} />
-        <Route path="/profile/:id" element={<Profile1 />}>
-          <Route path="followings" element={<ProfileFollowing />} />
-          <Route index element={<ProfilePost />} />
-          <Route path="posts" element={<ProfilePost />} />
-          <Route path="followers" element={<ProfileFollower />} />
-          <Route path="series" element={<ProfileSeries />} />
-          <Route path="bookmarks" element={<ProfileBookmark />} />
-        </Route>
-        <Route path="setting/:userId" element={<SettingComponent />} />
-        <Route path="/posts/:id" element={<PostVeryDetails />}></Route>
-        <Route path="/clone" element={<VibloClone />} />
-
-        <Route element={<ProtectedComponent />}>
-          <Route path='/create-post' element={<PostCreate />}></Route>
-          <Route path="/create-series" element={<SeriesCreate />} />
-          <Route />
-        </Route>
-
-
-
+        <Route path="admin/login" element={<AdminLogin/>} />
       </Routes>
-      <Footer />
+      <div id="user-ui">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgetPassword />} />
+        </Routes>
+        <Routes>
+          {/* <Route path="admin/panel" element={<AdminHome/>} ></Route> */}
+          <Route element={<Header1 />}>
+            <Route path="/" element={<Home />}>
+              <Route index element={<HomePost />} />
+              <Route path="newest" element={<HomePost />} />
+              <Route element={<ProtectedComponent />}>
+                <Route path="my-followings" element={<HomeFollowing />} />
+                <Route path="my-bookmarks" element={<HomeBookmark />} />
+              </Route>
+              <Route path="series" element={<HomeSeries />} />
+            </Route>
+
+            <Route path="return" element={<Return />} />
+
+            <Route path="new-ui" element={<ViosmashBlog />} />
+
+            <Route path="/search" element={<Search />} >
+
+            </Route>
+            <Route path="/bookmark/:userId" element={<Bookmark />} />
+
+            <Route path="/profile/:id" element={<Profile1 />}>
+              <Route path="followings" element={<ProfileFollowing />} />
+              <Route index element={<ProfilePost />} />
+              <Route path="posts" element={<ProfilePost />} />
+              <Route path="followers" element={<ProfileFollower />} />
+              <Route path="series" element={<ProfileSeries />} />
+              <Route path="bookmarks" element={<ProfileBookmark />} />
+            </Route>
+            <Route path="setting/:userId" element={<SettingComponent />}>
+              <Route index element={<SettingNotifyComponent />} />
+              <Route path="notification" element={<SettingNotifyComponent />} />
+              <Route path="password" element={<SettingPassword />} />
+            </Route>
+            <Route path="/posts/:id" element={<PostVeryDetails />}></Route>
+            <Route path="/clone" element={<VibloClone />} />
+
+            <Route element={<ProtectedComponent />}>
+              <Route path='/create-post' element={<PostCreate />}></Route>
+              <Route path="/create-series" element={<SeriesCreate />} />
+              <Route />
+            </Route>
+
+          </Route>
+        </Routes>
+      </div>
+      {/* <Footer /> */}
     </div>
   );
 }

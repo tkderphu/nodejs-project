@@ -58,7 +58,7 @@ export default function ProfileEmbedded(props: {
                     setModalOpen(true)
                     console.log("props: ", props.socialPlatform)
 
-                }} className='btn btn-primary w-100 mb-3'>Nhúng trang cá nhân</button>
+                }} className='btn btn-primary w-100 mb-0'>Nhúng trang cá nhân</button>
 
                 <ModalComponent
                     show={modalOpen}
@@ -84,9 +84,8 @@ export default function ProfileEmbedded(props: {
                     </div>
                     <div className="form-floating mb-3">
                         <input type="text" className="form-control" id="yourwebsite" name="yoursite" value={req.yoursite} onChange={onChange} placeholder="https://yourwebsite/..." />
-                        <label htmlFor="yourwebsite">Your website</label>
+                        <label htmlFor="yourwebsite">Website của bạn</label>
                     </div>
-                    <AlertConponent loading={loading} hasError={hasError} error={error} />
 
                 </ModalComponent>
             </div>

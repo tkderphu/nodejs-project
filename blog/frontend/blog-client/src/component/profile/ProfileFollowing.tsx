@@ -41,7 +41,7 @@ export default function ProfileFollowing() {
                             width="50"
                             height="50"
                         />
-                        <div className="ms-3 d-flex justify-content-between">
+                        <div className=" d-flex justify-content-between" style={{marginRight: "10px"}}>
                             <div>
                                 <strong>{follow.followObject.fullName}</strong>
                                 {/* <button className="btn btn-sm btn-outline-secondary ms-auto">Follow</button> */}

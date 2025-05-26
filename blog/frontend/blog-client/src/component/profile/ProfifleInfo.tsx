@@ -67,9 +67,15 @@ export default function ProfileInfo(props: { info: Info }) {
                     <input type="text" className="form-control" id="bioInfo" name='bio' value={req?.bio} onChange={onChange} placeholder="https://twitter.com/..." />
                     <label htmlFor="twitterId">Tiểu sử</label>
                 </div>
-                <div className="form-floating mb-3">
+                <div className=" mb-3 d-flex align-items-center">
                     <label htmlFor="linkedln">Ảnh đại diện</label>
-                    <img src={req.image_url} />
+                    <img
+                        src={req.image_url}
+                        alt="Avatar"
+                        className="rounded-circle mx-3"
+                        width="100"
+                        height="100"
+                    />
                 </div>
                 <div className="form-floating mb-3">
                     <button onClick={() => {

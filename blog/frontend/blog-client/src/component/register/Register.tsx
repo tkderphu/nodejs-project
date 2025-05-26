@@ -24,9 +24,9 @@ function Register() {
     }
 
     return (
-        <div className="d-flex align-items-center justify-content-center" style={{ height: "100vh", backgroundColor: "#f8f9fa" }}>
+        <div className="text-start d-flex align-items-center justify-content-center" style={{ height: "100vh", backgroundColor: "#f8f9fa" }}>
             <div className="card p-4 shadow" style={{ width: "350px" }}>
-                <h3 className="text-center mb-3">Đăng ký</h3>
+                <h3 className="text-center mb-1">Đăng ký</h3>
 
                 {hasError && (<div className="alert alert-danger">
                     {message}

@@ -8,6 +8,7 @@ import { getUserLoggined } from "../../service/AuthenLoginResponse"
 import AlertConponent from "../common/AlertComponent"
 import ProfileInfo from "./ProfifleInfo"
 import "./Profile.css"
+import ProfileEmbedded from "./ProfileEmbedded"
 import ProfileFlower from "./ProfileFlower"
 const NAV = [
     {
@@ -115,7 +116,8 @@ export default function Profile1() {
                     {/* Social Links Card */}
                     <div className="card stats-card mb-3">
                         <div className="card-header bg-white">
-                            <h5 className="mb-0">Liên kết</h5>
+                            <h5 className="mb-2">Liên kết</h5>
+                            {(id == getUserLoggined()._id || '') && <ProfileEmbedded socialPlatform={state.user?.socialNetworkPlatform} />}
                         </div>
                         <div className="card-body social-links">
                             {state.user?.socialNetworkPlatform?.github && (

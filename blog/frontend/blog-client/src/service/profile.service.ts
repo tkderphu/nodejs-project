@@ -15,5 +15,8 @@ class ProfileService {
     getAuthorStats() {
         return api.get(`/authors/stats`)
     }
+    updatePassword(req: any) {
+        return api.put(`${url}/change-password`, req)
+    }
 }
 export default new ProfileService()

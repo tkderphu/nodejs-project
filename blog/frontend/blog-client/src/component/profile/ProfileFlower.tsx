@@ -123,7 +123,7 @@ export default function ProfileFlower(props: { userId?: string }) {
                         {createPaymentUrlState.loading && <FullScreenLoader />}
                         <button type="submit" className="btn btn-primary w-100" disabled={createPaymentUrlState.loading} onClick={() => {
                             handlePayment()
-                        }}>Thanh toán</button>
+                        }}>Nạp</button>
                     </ModalComponent>
                 </div>
                 {/* <AlertConponent loading={loading} hasError={hasError} error={error} /> */}

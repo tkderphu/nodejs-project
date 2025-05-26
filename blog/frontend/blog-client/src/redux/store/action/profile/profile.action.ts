@@ -1,6 +1,6 @@
 import profileService from "../../../../service/profile.service"
 import { FETCH_ALL_COMMENT_FAILED } from "../comment/comment.action.type"
-import { FETCH_PROFILE_USER_BEGIN, FETCH_PROFILE_USER_FAILED, FETCH_PROFILE_USER_SUCCESS, UPDATE_PROFILE_INFO_USER_BEGIN, UPDATE_PROFILE_INFO_USER_FAILED, UPDATE_PROFILE_INFO_USER_SUCCESS, UPDATE_PROFILE_SOCIAL_PLATFORM_BEGIN, UPDATE_PROFILE_SOCIAL_PLATFORM_FAILED, UPDATE_PROFILE_SOCIAL_PLATFORM_SUCCESS } from "./profile.action.type"
+import { FETCH_PROFILE_USER_BEGIN, FETCH_PROFILE_USER_FAILED, FETCH_PROFILE_USER_SUCCESS, UPDATE_PASSWORD_BEGIN, UPDATE_PASSWORD_FAILED, UPDATE_PASSWORD_SUCCESS, UPDATE_PROFILE_INFO_USER_BEGIN, UPDATE_PROFILE_INFO_USER_FAILED, UPDATE_PROFILE_INFO_USER_SUCCESS, UPDATE_PROFILE_SOCIAL_PLATFORM_BEGIN, UPDATE_PROFILE_SOCIAL_PLATFORM_FAILED, UPDATE_PROFILE_SOCIAL_PLATFORM_SUCCESS } from "./profile.action.type"
 
 export const fetchProfileAction = (userId: string) => {
     return (dispatch: any) => {
@@ -19,6 +19,24 @@ export const fetchProfileAction = (userId: string) => {
             })
         })
     } 
+}
+
+export const updatePasswordAction = (req: any) => {
+    return (dispatch: any) => {
+        dispatch({
+            type: UPDATE_PASSWORD_BEGIN
+        })
+        profileService.updatePassword(req).then(resp => {
+            dispatch({
+                type: UPDATE_PASSWORD_SUCCESS
+            })
+        }).catch(err => {
+            dispatch({
+                type: UPDATE_PASSWORD_FAILED,
+                payload: err
+            })
+        })
+    }
 }
 
 export const updateProfileSocialAction = (userId: string, req: any) => {

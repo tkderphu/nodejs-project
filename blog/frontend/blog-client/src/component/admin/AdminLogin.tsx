@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 import { authLoginAction } from "../../redux/store/action/auth/auth.action"
 import ReCAPTCHA from "react-google-recaptcha"
-function Login() {
+export default function AdminLogin() {
     const { loading, hasError, error, message } = useSelector((state: any) => {
         return {
             loading: state.authLogin.loading,
@@ -81,11 +81,8 @@ function Login() {
                         submitLogin()
                     }}>Đăng Nhập</button>
                 </form>
-                <div className="text-center mt-3">
-                    <p>Chưa có tài khoản? <Link to={'/register'} className="text-decoration-none">Đăng ký ngay</Link></p>
-                </div>
+                
             </div>
         </div>
     )
 }
-export default Login

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import TokenInvalidException from "../app/exception/TokenInvalidException";
+import axios from "axios";
 import JwtService from "../app/service/JwtService";
 import TokenService from "../app/service/TokenService";
 import multer from 'multer';
@@ -38,6 +39,29 @@ export const handlerExceptionMiddleWare = (err: any, req: Request, res: Response
 }
 
 
-export const parseFileMiddleWare =  multer({ 
+export const parseFileMiddleWare = multer({
     storage: multer.memoryStorage()
- });
+});
+
+export const verifyCapcha = async (req: Request, res: Response, next: any) => {
+    const { captcha } = req.body;
+    if (!captcha) {
+        return res.status(400).json({ message: 'Please complete the CAPTCHA' });
+    }
+    const secretKey = process.env.CAPTCHA_SECRET_KEY;
+
+    try {
+        console.log("url: ", `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`)
+        const response = await axios.post(
+            `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captcha}`
+        );
+        console.log("middle ware capcha: ", response.data)
+        if (response.data.success) {
+            next();
+        } else {
+            return res.status(400).json({ message: 'CAPTCHA verification failed' });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: 'CAPTCHA verification error' });
+    }
+}

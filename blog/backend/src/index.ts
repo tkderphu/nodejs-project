@@ -29,6 +29,7 @@ import { Server } from 'socket.io'
 import flowerRouter from './routes/FlowerRoute'
 import likeRouter from './routes/LikeRoute'
 import settingRouter from './routes/SettingRoute'
+import reportRouter from './routes/ReportRoute'
 dotenv.config()
 
 const app = express()
@@ -63,6 +64,7 @@ app.use(router)
 app.use(flowerRouter)
 app.use(likeRouter)
 app.use(settingRouter)
+app.use(reportRouter)
 // app.use(taggingRouter)
 
 

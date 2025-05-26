@@ -33,8 +33,9 @@ class UserService {
         if(isEqual) {
             const newHashPassword = await hashPassword(newPassword)
             await this.updateById(userId, {password: newHashPassword})
+            return;
         }
-        throw new UsernameOrPasswordNotMatchException("Your old password invalid");
+        throw new UsernameOrPasswordNotMatchException("Mật khẩu của bạn không hợp lệ");
     }
 
     updateProfileById(userId: string, profile: {fullName: string, bio: string}) {

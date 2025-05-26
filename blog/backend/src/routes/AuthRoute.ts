@@ -1,5 +1,6 @@
 import { Router } from "express";
 import AuthController from "../app/controller/AuthController";
+import { verifyCapcha } from "../middleware/middleware";
 const authRouter = Router()
 
 
@@ -50,7 +51,7 @@ const authRouter = Router()
  *      500:
  *        description: Server Error
  */
-authRouter.post('/api/auth/login', AuthController.login)
+authRouter.post('/api/auth/login',verifyCapcha, AuthController.login)
 
 
 

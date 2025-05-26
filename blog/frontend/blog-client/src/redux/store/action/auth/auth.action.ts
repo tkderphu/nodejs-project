@@ -25,10 +25,10 @@ export const authLoginFailed = (err: any) => {
     }
 }
 
-export const authLoginAction = (email: string, password: string) => {
+export const authLoginAction = (formData: any) => {
     return (dispatch: any) => {
         dispatch(authLoginBegin())
-        authService.login({email, password}).then(result => {
+        authService.login(formData).then(result => {
             storeToken(JSON.stringify(result.data))
             dispatch(authLoginSuccess(result))
             location.href = '/'

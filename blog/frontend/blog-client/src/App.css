@@ -1,7 +1,8 @@
-#root {
+#user-ui {
   max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 5px auto;
+  /* margin-top: 10px; */
+  padding: 10px;
   text-align: center;
 }
 
