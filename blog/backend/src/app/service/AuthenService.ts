@@ -70,7 +70,8 @@ class AuthenService {
             user: {
                _id: user._id,
                fullName: user.fullName,
-               image_url: user.image_url
+               image_url: user.image_url,
+               role: user.role
             },
             accessToken: accessToken,
             refreshToken: refreshToken,

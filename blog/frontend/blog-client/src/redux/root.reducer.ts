@@ -8,6 +8,7 @@ import { checkLikeReducer, likeReducer, unlikeReducer } from './store/reducer/li
 import { countUnreadNotifyMessageReducer, fetchAllNotifyMessageReducer } from './store/reducer/notifyMessage/notify.message.reducer'
 import { createPostReducer, fetchAllPostReducer, fetchPostByAuthorIdReducer, fetchPostReducer, fetchUnlockPostReducer, unlockPostReducer } from './store/reducer/post/post.reducer'
 import { fetchProfileReducer, updatePasswordReducer, updateProfileSocialReducer, updateProfileUserInfoReducer } from './store/reducer/profile/profile.reducer'
+import { fetchListReportReducer, reportReducer } from './store/reducer/report/reprot.reducer'
 import { searchReducer } from './store/reducer/search/search.reducer'
 import { createSeriesReducer, fetchSeriesReducer } from './store/reducer/series/series.reducer'
 import { fetchSettingReducer, updateSettingNotifyReducer } from './store/reducer/setting/setting.reducer'
@@ -53,7 +54,9 @@ const rootReducer = combineReducers({
     fetchTransaction: fetchTransactionReducer,
     fetchSetting: fetchSettingReducer,
     updateSettingNotify: updateSettingNotifyReducer,
-    updatePassword: updatePasswordReducer
+    updatePassword: updatePasswordReducer,
+    report: reportReducer,
+    fetchListReport: fetchListReportReducer
 })
 
 export default rootReducer

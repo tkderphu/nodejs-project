@@ -40,6 +40,7 @@ import AdminHomeUserManagement from "./admin/AdminHomeUserManagement";
 import AdminHomeReport from "./admin/AdminHomeReport";
 import AdminHomeReportPost from "./admin/AdminHomeReportPost";
 import AdminLogin from "./admin/AdminLogin";
+import AdminHomeReportComment from "./admin/AdminHomeReportComment";
 
 function Layout() {
   const location = useLocation();
@@ -48,16 +49,19 @@ function Layout() {
   return (
     <div>
       <Routes>
-        <Route path="admin" element={<AdminHome />} >
-          <Route index element={<AdminHomeOverview />} />
-          <Route path="panel" element={<AdminHomeOverview />} />
-          <Route path="users" element={<AdminHomeUserManagement />} />
-          <Route path="reports" element={<AdminHomeReport />} >
-            <Route path="post" element={<AdminHomeReportPost />} />
-            <Route index element={<AdminHomeReportPost />} />
+        <Route element={<ProtectedComponent  role={"admin"}/>}>
+          <Route path="admin" element={<AdminHome />} >
+            <Route index element={<AdminHomeOverview />} />
+            <Route path="panel" element={<AdminHomeOverview />} />
+            <Route path="users" element={<AdminHomeUserManagement />} />
+            <Route path="reports" element={<AdminHomeReport />} >
+              <Route path="post" element={<AdminHomeReportPost />} />
+              <Route index element={<AdminHomeReportPost />} />
+              <Route path="comment" element={<AdminHomeReportComment />} />
+            </Route>
           </Route>
         </Route>
-        <Route path="admin/login" element={<AdminLogin/>} />
+        <Route path="admin/login" element={<AdminLogin />} />
       </Routes>
       <div id="user-ui">
         <Routes>

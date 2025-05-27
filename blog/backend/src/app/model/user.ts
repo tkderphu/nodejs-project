@@ -10,7 +10,8 @@ export interface User extends UserBase{
 export interface UserSimple {
     _id?: ObjectId,
     fullName?: string
-    image_url?: string
+    image_url?: string,
+    role?: string
 }
 
 export interface UserBase {

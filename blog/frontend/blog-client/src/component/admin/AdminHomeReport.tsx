@@ -14,6 +14,7 @@ const NAV = [
 ]
 export default function AdminHomeReport() {
     const [useNav, setUseNav] = useState<"post" | "comment">("post")
+    
     return (
         <div
             id="reports-section"

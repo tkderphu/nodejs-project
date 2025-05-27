@@ -5,8 +5,10 @@ import { Post } from "../../model/Post";
 import { checkBookmarkedAction, popPostFromBookmarkedAction, pushPostToBookmarkedAction } from "../../redux/store/action/bookmark/bookmark.action";
 import { checkLikeAction, likeAction, unlikeAction } from "../../redux/store/action/like/like.action";
 import { fetchPostAction, fetchUnlockPostAction, unlockPostAction } from "../../redux/store/action/post/post.action";
+import { reportAction } from "../../redux/store/action/report/report.action";
 import { getUserLoggined } from "../../service/AuthenLoginResponse";
 import likeService from "../../service/like.service";
+import { ReportReq } from "../../service/report.service";
 import { estimateReadingTime, formatDate } from "../../utils/utils";
 import CommentComponent1 from "../comment/CommentComponent1";
 import AlertConponent from "../common/AlertComponent";
@@ -173,6 +175,18 @@ export default function PostVeryDetails() {
     //for reporting
     const [openModal, setOpenModal] = useState(false)
     const [reasonReport, setReasonReport] = useState<string>("")
+    const reportState: {
+        loading: boolean
+    } = useSelector((state: any) => {
+        return state.report
+    })
+
+    useEffect(() => {
+        if(reportState.loading) {
+            setOpenModal(false)
+        }
+    }, [reportState])
+
     return (
         <>
             {(statePushBookmark.loading || fetchUnlockState.loading || postState.loading || statePopBookmark.loading) && (
@@ -309,15 +323,16 @@ export default function PostVeryDetails() {
                 title={"Tố cáo"}
                 onClose={() => setOpenModal(false)}
                 onSave={() => {
-                    const obj = {
+                    const obj: ReportReq = {
                         type: "POST",
                         typeId: id,
                         reason: reasonReport
                     }
-
-                    console.log("obj:", obj)
+                    //@ts-ignore
+                    dispatch(reportAction(obj))
                 }}
             >
+                {reportState.loading && (<FullScreenLoader/>)}
                 <div className="form-group text-start">
                     <label htmlFor="exampleFormControlInput1">Lý do tố cáo tố cáo</label>
                     <textarea className="form-control mt-2" value={reasonReport} onChange={(e: any) => {

@@ -6,7 +6,7 @@ import { ReportResp } from "../../service/report.service"
 import { formatDate } from "../../utils/utils"
 import { showConfirm } from "../common/ConfirmDialog"
 
-export default function AdminHomeReportPost() {
+export default function AdminHomeReportComment() {
     const fetchListReportState: {
         loading: boolean,
         reports: ReportResp[]
@@ -18,10 +18,10 @@ export default function AdminHomeReportPost() {
     useEffect(() => {
         if (filter === 'ALL') {
             //@ts-ignore
-            dispatch(fetchListReportAction("POST"))
+            dispatch(fetchListReportAction("COMMENT"))
         } else {
             //@ts-ignore
-            dispatch(fetchListReportAction("POST", filter))
+            dispatch(fetchListReportAction("COMMENT", filter))
         }
     }, [filter])
     console.log("report list: ", fetchListReportState.reports)
@@ -36,7 +36,7 @@ export default function AdminHomeReportPost() {
                         <div className="col-md-6">
                             <h5 className="mb-0">
                                 <i className="fas fa-file-alt me-2" />
-                                Bài viết bị tố cáo
+                                Bình luận bị tố cáo
                             </h5>
                         </div>
                         <div className="col-md-6 text-end">
@@ -61,7 +61,7 @@ export default function AdminHomeReportPost() {
                                     <thead className="text-start">
                                         <tr className="">
                                             <th>Id</th>
-                                            <th>Tiêu đề bài viết</th>
+                                            <th>Nội dung</th>
                                             <th>Tác giả</th>
                                             <th>Tố cáo bởi</th>
                                             <th>Lý do</th>
@@ -75,8 +75,8 @@ export default function AdminHomeReportPost() {
                                             return (
                                                 <tr >
                                                     <td>{report._id}</td>
-                                                    <td><Link to={"/posts/" + report.post?._id} className="text-decoration-none">{report.post?.title}</Link></td>
-                                                    <td><Link to={"/profile/" + report.post?.user?._id} className="text-decoration-none">{report.post?.user?.fullName}</Link></td>
+                                                    <td><Link to={"/posts/" + report.post?._id} className="text-decoration-none">{report.comment?.content || "null"}</Link></td>
+                                                    <td><Link to={"/profile/" + report.comment?.user?._id} className="text-decoration-none">{report.comment?.user?.fullName}</Link></td>
                                                     <td><Link to={"/profile/" + report.user?._id} className="text-decoration-none">{report?.user?.fullName}</Link></td>
                                                     <td>
                                                         <span style={{ color: "red" }}>

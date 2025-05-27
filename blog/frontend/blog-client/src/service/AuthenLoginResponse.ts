@@ -9,7 +9,7 @@ export const getRefreshToken = () => {
     return jwt.refreshToken
 }
 
-export const getUserLoggined = (): {_id: string, fullName: string} => {
+export const getUserLoggined = (): {_id: string, fullName: string, role: "admin" | "user"} => {
     return jwt.user || {};
 }
 
